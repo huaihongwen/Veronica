@@ -1,0 +1,320 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="win_console">
+      <UniqueIdentifier>{5dd7ec23-965a-4f64-bba1-45f271f731cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders">
+      <UniqueIdentifier>{594e888e-f4ef-401d-81bb-3748dfc3775b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vee">
+      <UniqueIdentifier>{f1d825b0-d4bc-48f9-9cd9-4cd6525e9cdd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vee\voxel">
+      <UniqueIdentifier>{8a620ba7-9b3d-4c32-881a-2c552cfdae01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vee\mesh">
+      <UniqueIdentifier>{9540e191-8506-46e4-b9b0-90a2b399f078}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vee\math">
+      <UniqueIdentifier>{bffb5dc0-f31c-405e-ba68-5642fc5bccc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vee\others">
+      <UniqueIdentifier>{63b6c17a-5e4d-43e8-80ef-c68c0d2d2081}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="veed">
+      <UniqueIdentifier>{976625b2-c6a7-40eb-872f-ad27c0c4b959}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="veed\editor">
+      <UniqueIdentifier>{79c511cd-5d67-4db9-837b-c6a612d037c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vee\shader">
+      <UniqueIdentifier>{2c7f9769-b495-4db4-8d7b-57bd23e77253}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vee\ui">
+      <UniqueIdentifier>{8e005b10-6dd5-45e3-871b-6400d0de09b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vee\TODO">
+      <UniqueIdentifier>{f17de1d1-efda-4fab-b17e-6c9fd9cccd65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vee\console">
+      <UniqueIdentifier>{6f25d2e5-b0e2-4af1-9850-229691baebf3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vee\render">
+      <UniqueIdentifier>{8ca1093c-2912-4b04-a561-a58c17ff7ac7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="veed\history">
+      <UniqueIdentifier>{c877e594-ef00-425d-b53d-623579b01383}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vee\skeleton">
+      <UniqueIdentifier>{e946ff40-f931-4459-947e-53ae6349edd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="veed\editor\model factory">
+      <UniqueIdentifier>{ddc7b2cb-0ef8-4ada-ab89-3bff49e7032a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="veed\editor\skeleton factory">
+      <UniqueIdentifier>{00a48db5-ea22-46e0-a6dd-645ad081e512}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="veed\editor\scene factory">
+      <UniqueIdentifier>{56b26ac2-0614-437a-9b66-f38b9c77474a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>win_console</Filter>
+    </ClCompile>
+    <ClCompile Include="veVector3.cpp">
+      <Filter>vee\math</Filter>
+    </ClCompile>
+    <ClCompile Include="veTransform.cpp">
+      <Filter>vee\math</Filter>
+    </ClCompile>
+    <ClCompile Include="veMatrix3x3.cpp">
+      <Filter>vee\math</Filter>
+    </ClCompile>
+    <ClCompile Include="veMesh.cpp">
+      <Filter>vee\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="veedEditor.cpp">
+      <Filter>veed\editor</Filter>
+    </ClCompile>
+    <ClCompile Include="veOctree.cpp">
+      <Filter>vee\others</Filter>
+    </ClCompile>
+    <ClCompile Include="veRay.cpp">
+      <Filter>vee\others</Filter>
+    </ClCompile>
+    <ClCompile Include="veGLSLManager.cpp">
+      <Filter>vee\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="veShaderProgram.cpp">
+      <Filter>vee\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="veShader.cpp">
+      <Filter>vee\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="veUIComponent.cpp">
+      <Filter>vee\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="veTGALoader.cpp">
+      <Filter>vee\others</Filter>
+    </ClCompile>
+    <ClCompile Include="veTextureManager.cpp">
+      <Filter>vee\render</Filter>
+    </ClCompile>
+    <ClCompile Include="veRenderSystem.cpp">
+      <Filter>vee\render</Filter>
+    </ClCompile>
+    <ClCompile Include="veRenderer.cpp">
+      <Filter>vee\render</Filter>
+    </ClCompile>
+    <ClCompile Include="veFBOManager.cpp">
+      <Filter>vee\render</Filter>
+    </ClCompile>
+    <ClCompile Include="veRenderPass.cpp">
+      <Filter>vee\render</Filter>
+    </ClCompile>
+    <ClCompile Include="veConsole.cpp">
+      <Filter>vee\console</Filter>
+    </ClCompile>
+    <ClCompile Include="veFontSystem.cpp">
+      <Filter>vee\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="veVoxelModel.cpp">
+      <Filter>vee\voxel</Filter>
+    </ClCompile>
+    <ClCompile Include="veEngine.cpp">
+      <Filter>vee</Filter>
+    </ClCompile>
+    <ClCompile Include="veedFactoryHistory.cpp">
+      <Filter>veed\history</Filter>
+    </ClCompile>
+    <ClCompile Include="veQuaternion.cpp">
+      <Filter>vee\math</Filter>
+    </ClCompile>
+    <ClCompile Include="veTransformController.cpp">
+      <Filter>vee\skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="veedSkeletonFactory.cpp">
+      <Filter>veed\editor\skeleton factory</Filter>
+    </ClCompile>
+    <ClCompile Include="veedModelFactory.cpp">
+      <Filter>veed\editor\model factory</Filter>
+    </ClCompile>
+    <ClCompile Include="veedUIColorPanel.cpp">
+      <Filter>veed\editor\model factory</Filter>
+    </ClCompile>
+    <ClCompile Include="veSkeleton.cpp">
+      <Filter>vee\skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="veVoxel.cpp">
+      <Filter>vee\voxel</Filter>
+    </ClCompile>
+    <ClCompile Include="veChunkSerializer.cpp">
+      <Filter>vee\voxel</Filter>
+    </ClCompile>
+    <ClCompile Include="veScene.cpp">
+      <Filter>vee\voxel</Filter>
+    </ClCompile>
+    <ClCompile Include="veedSceneFactory.cpp">
+      <Filter>veed\editor\scene factory</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="veMath.h">
+      <Filter>vee\math</Filter>
+    </ClInclude>
+    <ClInclude Include="vePrerequisites.h">
+      <Filter>vee</Filter>
+    </ClInclude>
+    <ClInclude Include="veVector3.h">
+      <Filter>vee\math</Filter>
+    </ClInclude>
+    <ClInclude Include="veTransform.h">
+      <Filter>vee\math</Filter>
+    </ClInclude>
+    <ClInclude Include="veMatrix3x3.h">
+      <Filter>vee\math</Filter>
+    </ClInclude>
+    <ClInclude Include="veMesh.h">
+      <Filter>vee\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="veedPrerequisites.h">
+      <Filter>veed</Filter>
+    </ClInclude>
+    <ClInclude Include="veRay.h">
+      <Filter>vee\others</Filter>
+    </ClInclude>
+    <ClInclude Include="veOctree.h">
+      <Filter>vee\others</Filter>
+    </ClInclude>
+    <ClInclude Include="veBoundingBox.h">
+      <Filter>vee\others</Filter>
+    </ClInclude>
+    <ClInclude Include="veedEditor.h">
+      <Filter>veed\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="veGLSLManager.h">
+      <Filter>vee\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="veShader.h">
+      <Filter>vee\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="veShaderProgram.h">
+      <Filter>vee\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="veFramebufferObject.h">
+      <Filter>vee\render</Filter>
+    </ClInclude>
+    <ClInclude Include="veSingleton.h">
+      <Filter>vee</Filter>
+    </ClInclude>
+    <ClInclude Include="veedSingleton.h">
+      <Filter>veed</Filter>
+    </ClInclude>
+    <ClInclude Include="veUIComponent.h">
+      <Filter>vee\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="veUIManager.h">
+      <Filter>vee\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="veTGALoader.h">
+      <Filter>vee\others</Filter>
+    </ClInclude>
+    <ClInclude Include="veTextureManager.h">
+      <Filter>vee\render</Filter>
+    </ClInclude>
+    <ClInclude Include="veRenderSystem.h">
+      <Filter>vee\render</Filter>
+    </ClInclude>
+    <ClInclude Include="veRenderer.h">
+      <Filter>vee\render</Filter>
+    </ClInclude>
+    <ClInclude Include="veFBOManager.h">
+      <Filter>vee\render</Filter>
+    </ClInclude>
+    <ClInclude Include="veRenderPass.h">
+      <Filter>vee\render</Filter>
+    </ClInclude>
+    <ClInclude Include="veTimer.h">
+      <Filter>vee\others</Filter>
+    </ClInclude>
+    <ClInclude Include="veTexture.h">
+      <Filter>vee\render</Filter>
+    </ClInclude>
+    <ClInclude Include="veVoxel.h">
+      <Filter>vee\voxel</Filter>
+    </ClInclude>
+    <ClInclude Include="veConsole.h">
+      <Filter>vee\console</Filter>
+    </ClInclude>
+    <ClInclude Include="veSphericalCamera.h">
+      <Filter>vee\TODO</Filter>
+    </ClInclude>
+    <ClInclude Include="veFontSystem.h">
+      <Filter>vee\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="veVoxelModel.h">
+      <Filter>vee\voxel</Filter>
+    </ClInclude>
+    <ClInclude Include="veEngine.h">
+      <Filter>vee</Filter>
+    </ClInclude>
+    <ClInclude Include="veedFactoryHistory.h">
+      <Filter>veed\history</Filter>
+    </ClInclude>
+    <ClInclude Include="veQuaternion.h">
+      <Filter>vee\math</Filter>
+    </ClInclude>
+    <ClInclude Include="veTransformController.h">
+      <Filter>vee\skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="veedSkeletonFactory.h">
+      <Filter>veed\editor\skeleton factory</Filter>
+    </ClInclude>
+    <ClInclude Include="veedModelFactory.h">
+      <Filter>veed\editor\model factory</Filter>
+    </ClInclude>
+    <ClInclude Include="veedUIColorPanel.h">
+      <Filter>veed\editor\model factory</Filter>
+    </ClInclude>
+    <ClInclude Include="veSkeleton.h">
+      <Filter>vee\skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="veChunkSerializer.h">
+      <Filter>vee\voxel</Filter>
+    </ClInclude>
+    <ClInclude Include="veScene.h">
+      <Filter>vee\voxel</Filter>
+    </ClInclude>
+    <ClInclude Include="veUtils.h">
+      <Filter>vee</Filter>
+    </ClInclude>
+    <ClInclude Include="veedSceneFactory.h">
+      <Filter>veed\editor\scene factory</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\SSAO_1VS.txt">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\SSAO_1VS.txt">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\SSAO_2FS.txt">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\SSAO_2VS.txt">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\SSAO_1FS.txt">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\DirectionalLightingFS.txt">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\DirectionalLightingVS.txt">
+      <Filter>shaders</Filter>
+    </None>
+  </ItemGroup>
+</Project>
