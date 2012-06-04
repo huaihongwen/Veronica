@@ -15,6 +15,16 @@ namespace vee {
 	}
 
 	//---------------------------------------------------------------
+	Voxel::Voxel(Voxel& v) {
+
+		// Color
+		mColor[0] = v.mColor[0];
+		mColor[1] = v.mColor[1];
+		mColor[2] = v.mColor[2];
+		mColor[3] = v.mColor[3];
+	}
+
+	//---------------------------------------------------------------
 	Voxel::~Voxel() {
 	}
 

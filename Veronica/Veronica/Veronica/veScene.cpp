@@ -70,19 +70,32 @@ namespace vee {
 		}
 	}
 
+
 	//---------------------------------------------------------------
 	/**
-	 * Get voxel
+	 * Test world space coordinate inside or not.
+	 */
+	bool Scene::testInside(int i, int j, int k) {
+
+		return mVolume.contain(i, j, k);
+	}
+
+
+	//---------------------------------------------------------------
+	/**
+	 * Convert world space coordinate to chunk local space coordinate.
 	 * @i {int} world space x coordinate.
 	 * @j {int} world space y coordinate.
 	 * @k {int} world space z coordinate.
+	 * @cc {int*} result chunk space coordinate: i, j, k, chunkIndex.
+	 * @return {bool} succeed or not.
 	 */
-	Voxel* Scene::getVoxel(int i, int j, int k) {
+	bool Scene::worldCoordToChunkCoord(int i, int j, int k, int* cc) {
 
-		if (!mVolume.contain(i, j, k)) {
+		if (!testInside(i, j, k)) {
 
-			// Outside of world
-			return NULL;
+			// Invalid world space coordinate
+			return false;
 		} else {
 
 			// Chunk coordinate
@@ -90,18 +103,68 @@ namespace vee {
 			int cj = (int)(j / SCENECHUNK_Y);
 			int ck = (int)(k / SCENECHUNK_Z);
 
+			// Chunk index
+			cc[3] = Utils::toArrayIndex(ci, cj, ck, mCVSize[1], mCVSize[2]);
+
 			// Chunk space coordinate
-			int csi = i % SCENECHUNK_X;
-			int csj = j % SCENECHUNK_Y;
-			int csk = k % SCENECHUNK_Z;
+			cc[0] = i % SCENECHUNK_X;
+			cc[1] = j % SCENECHUNK_Y;
+			cc[2] = k % SCENECHUNK_Z;
 
-			// Chunk
-			Chunk* c = mChunkArray[Utils::toArrayIndex(ci, cj, ck,
-				mCVSize[1], mCVSize[2])];
-
-			return c->getVoxel(csi, csj, csk);
+			return true;
 		}
 	}
+
+
+	//---------------------------------------------------------------
+	/**
+	 * Get voxel
+	 * @i {int} world space x coordinate.
+	 * @j {int} world space y coordinate.
+	 * @k {int} world space z coordinate.
+	 * @r {Voxel*} result voxel pointer.
+	 * @return {bool} voxel inside world or not.
+	 */
+	bool Scene::getVoxel(int i, int j, int k, Voxel*& r) {
+
+		// Chunk local space coordinate
+		int cc[4];
+
+		// Convert world space coordinate to chunk local space coordinate
+		if (!worldCoordToChunkCoord(i, j, k, cc)) {
+			
+			return false;
+		} else {
+
+			r = mChunkArray[(uint)cc[3]]->getVoxel(cc[0], cc[1], cc[2]);
+
+			return true;
+		}
+	}
+
+	//---------------------------------------------------------------
+	/**
+	 * Set voxel
+	 * @i {int} world space x coordinate.
+	 * @j {int} world space y coordinate.
+	 * @k {int} world space z coordinate.
+	 * @v {Voxel*} voxel data.
+	 */
+	void Scene::setVoxel(int i, int j, int k, Voxel* v) {
+
+		// Chunk local space coordinate
+		int cc[4];
+
+		// Convert world space coordinate to chunk local space coordinate
+		if (!worldCoordToChunkCoord(i, j, k, cc)) {
+
+			return;
+		} else {
+
+			mChunkArray[(uint)cc[3]]->setVoxel(cc[0], cc[1], cc[2], v);
+		}
+	}
+
 
 	//---------------------------------------------------------------
 	/**

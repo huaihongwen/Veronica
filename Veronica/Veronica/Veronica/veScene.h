@@ -15,9 +15,9 @@ namespace vee {
 	/**
 	 * Scene chunk size
 	 */
-	#define SCENECHUNK_X 16
-	#define SCENECHUNK_Y 16
-	#define SCENECHUNK_Z 16
+	#define SCENECHUNK_X 2
+	#define SCENECHUNK_Y 2
+	#define SCENECHUNK_Z 2
 
 
 
@@ -43,9 +43,24 @@ namespace vee {
 
 	public:
 		/**
+		 * Convert world space coordinate to chunk local space coordinate.
+		 */
+		bool worldCoordToChunkCoord(int i, int j, int k, int* cc);
+
+		/**
+		 * Test world space coordinate inside or not.
+		 */
+		bool testInside(int i, int j, int k);
+
+		/**
 		 * Get voxel
 		 */
-		Voxel* getVoxel(int i, int j, int k);
+		bool getVoxel(int i, int j, int k, Voxel*& r);
+
+		/**
+		 * Set voxel
+		 */
+		void setVoxel(int i, int j, int k, Voxel* v);
 
 		/**
 		 * Get chunk array

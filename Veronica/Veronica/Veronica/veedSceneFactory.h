@@ -15,9 +15,26 @@
 // Chunk serializer
 #include "veChunkSerializer.h"
 
+// Factory history
+#include "veedFactoryHistory.h"
+
 #include <vector>
 
 namespace veed {
+
+	/**
+	 * Scene factory mode
+	 */
+	typedef enum SceneFactoryMode {
+
+		// Add voxel
+		SFM_ADD,
+
+		// Remove voxel
+		SFM_REMOVE
+
+	} SceneFactoryMode;
+
 
 	/**
 	 * Scene factory
@@ -42,22 +59,59 @@ namespace veed {
 		 */
 		void handleMouseClick(int wx, int wy);
 
+		/**
+		 * Handle key pressed
+		 */
+		void handleKeyPressed(WPARAM key);
+
 
 	protected:
 		/**
 		 * Edit voxel
 		 */
-		void _editVoxel(int* selectedVoxelInfo);
+		void _editVoxel(int* iInfo);
 
 		/**
-		 * Refresh mesh
+		 * Target voxel info
 		 */
-		void _refreshMesh(uint index);
+		void _targetVoxelInfo(int* iInfo, int* tInfo);
+
+
+		/**
+		 * Refresh meshes
+		 */
+		void _refreshMeshes(int i, int j, int k);
+
+		/**
+		 * Refresh chunk mesh
+		 */
+		void _refreshChunkMesh(uint i);
+
+
+		/**
+		 * Undo
+		 */
+		void _undo();
+
+		/**
+		 * Redo
+		 */
+		void _redo();
 
 
 	protected:
 		// Scene
 		Scene mScene;
+
+		// Factory history
+		FactoryHistory mHistory;
+
+
+		// Edit related logic
+
+		// Scene factory mode
+		SceneFactoryMode mMode;
+
 
 
 		// Meshes
@@ -67,9 +121,6 @@ namespace veed {
 
 		// Scene meshes array
 		vector<Mesh*> mSceneMeshesArray;
-
-
-		// Edit related logic
 	};
 };
 

@@ -18,14 +18,13 @@
 
 namespace veed {
 
-	// Voxel snapshot
+	/**
+	 * Voxel snapshot
+	 */
 	typedef struct VoxelSnapshot {
 
-		// Group name
-		string mGroup;
-
-		// Idx
-		int mIdx[3];
+		// World space coordinate
+		int mCoord[3];
 
 		// Copied voxel data
 		Voxel* mData;
@@ -36,15 +35,12 @@ namespace veed {
 		}
 
 		//---------------------------------------------------------------
-		VoxelSnapshot(const string& group, int i, int j, int k, Voxel* data) {
-		
-			// Group name
-			mGroup = group;
+		VoxelSnapshot(int i, int j, int k, Voxel* data) {
 
-			// Idx
-			mIdx[0] = i;
-			mIdx[1] = j;
-			mIdx[2] = k;
+			// World space coordinate
+			mCoord[0] = i;
+			mCoord[1] = j;
+			mCoord[2] = k;
 
 			// Copied voxel data
 			if (data) {
@@ -56,20 +52,23 @@ namespace veed {
 
 		//---------------------------------------------------------------
 		~VoxelSnapshot() {
-			
+
 			// Delete copied voxel data
 			if (mData) {
 				delete mData;
 			}
 		}
+
 	} VoxelSnapshot;
 
 
-	// Operation snapshot
+	/**
+	 * Operation snapshot
+	 */
 	typedef struct OperationSnapshot {
 
-		// VoxelSnapshot list
-		vector<VoxelSnapshot*> mList;
+		// VoxelSnapshot array
+		vector<VoxelSnapshot*> mVSArray;
 
 		//---------------------------------------------------------------
 		OperationSnapshot() {
@@ -78,15 +77,17 @@ namespace veed {
 		//---------------------------------------------------------------
 		~OperationSnapshot() {
 
-			// Clear all VoxelSnapshot
-			for (uint i = 0; i < mList.size(); i++) {
+			// Loop each VoxelSnapshot
+			for (uint i = 0; i < mVSArray.size(); i++) {
 
 				// Delete VoxelSnapshot
-				delete mList.at(i);
+				delete mVSArray[i];
 			}
+
+			// Clear
+			mVSArray.clear();
 		}
 	} OperationSnapshot;
-
 
 
 
@@ -121,7 +122,7 @@ namespace veed {
 
 
 	protected:
-		// Max operation snapshot number
+		// Max OperationSnapshot number
 		uint mMaxNum;
 
 

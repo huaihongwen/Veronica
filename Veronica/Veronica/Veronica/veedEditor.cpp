@@ -251,7 +251,7 @@ namespace veed {
 		// Dispatch key pressed event
 
 		// Skeleton factory
-		//mSkeletonFactory->handleKeyPressed(key);
+		mSceneFactory->handleKeyPressed(key);
 	}
 
 

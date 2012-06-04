@@ -51,6 +51,8 @@ namespace vee {
 		// Converted world space coordinate
 		int wCoord[3];
 
+		// Voxel
+		Voxel* v = NULL;
 
 		// Loop each coordinate
 		for (int i = 0; i < sx; i++) {
@@ -62,7 +64,7 @@ namespace vee {
 					wCoord[1] = j + py;
 					wCoord[2] = k + pz;
 
-					if (!mScene->getVoxel(wCoord[0], wCoord[1], wCoord[2])) {
+					if (!mScene->getVoxel(wCoord[0], wCoord[1], wCoord[2], v) || !v) {
 
 						// Empty voxel
 						continue;
@@ -71,32 +73,32 @@ namespace vee {
 						// Check 6 neighbor voxels
 
 						// Neighbor 0
-						if (!mScene->getVoxel(wCoord[0], wCoord[1], wCoord[2]-1)) {
+						if (!mScene->getVoxel(wCoord[0], wCoord[1], wCoord[2]-1, v) || !v) {
 							_serializeVoxelFace(i, j, k, chunk, 0, m);
 						}
 
 						// Neighbor 2
-						if (!mScene->getVoxel(wCoord[0], wCoord[1], wCoord[2]+1)) {
+						if (!mScene->getVoxel(wCoord[0], wCoord[1], wCoord[2]+1, v) || !v) {
 							_serializeVoxelFace(i, j, k, chunk, 2, m);
 						}
 
 						// Neighbor 1
-						if (!mScene->getVoxel(wCoord[0]-1, wCoord[1], wCoord[2])) {
+						if (!mScene->getVoxel(wCoord[0]-1, wCoord[1], wCoord[2], v) || !v) {
 							_serializeVoxelFace(i, j, k, chunk, 1, m);
 						}
 
 						// Neighbor 3
-						if (!mScene->getVoxel(wCoord[0]+1, wCoord[1], wCoord[2])) {
+						if (!mScene->getVoxel(wCoord[0]+1, wCoord[1], wCoord[2], v) || !v) {
 							_serializeVoxelFace(i, j, k, chunk, 3, m);
 						}
 
 						// Neighbor 4
-						if (!mScene->getVoxel(wCoord[0], wCoord[1]-1, wCoord[2])) {
+						if (!mScene->getVoxel(wCoord[0], wCoord[1]-1, wCoord[2], v) || !v) {
 							_serializeVoxelFace(i, j, k, chunk, 4, m);
 						}
 
 						// Neighbor 5
-						if (!mScene->getVoxel(wCoord[0], wCoord[1]+1, wCoord[2])) {
+						if (!mScene->getVoxel(wCoord[0], wCoord[1]+1, wCoord[2], v) || !v) {
 							_serializeVoxelFace(i, j, k, chunk, 5, m);
 						}
 					}
@@ -134,6 +136,8 @@ namespace vee {
 		// Converted world space coordinate
 		int wCoord[3];
 
+		// Voxel
+		Voxel* v = NULL;
 
 		// Loop each coordinate
 		for (int i = 0; i < sx; i++) {
@@ -145,7 +149,7 @@ namespace vee {
 					wCoord[1] = j + py;
 					wCoord[2] = k + pz;
 
-					if (!mScene->getVoxel(wCoord[0], wCoord[1], wCoord[2])) {
+					if (!mScene->getVoxel(wCoord[0], wCoord[1], wCoord[2], v) || !v) {
 
 						// Empty voxel
 						continue;
@@ -154,32 +158,32 @@ namespace vee {
 						// Check 6 neighbor voxels
 
 						// Neighbor 0
-						if (!mScene->getVoxel(wCoord[0], wCoord[1], wCoord[2]-1)) {
+						if (!mScene->getVoxel(wCoord[0], wCoord[1], wCoord[2]-1, v) || !v) {
 							vertNum += 6;
 						}
 
 						// Neighbor 2
-						if (!mScene->getVoxel(wCoord[0], wCoord[1], wCoord[2]+1)) {
+						if (!mScene->getVoxel(wCoord[0], wCoord[1], wCoord[2]+1, v) || !v) {
 							vertNum += 6;
 						}
 
 						// Neighbor 1
-						if (!mScene->getVoxel(wCoord[0]-1, wCoord[1], wCoord[2])) {
+						if (!mScene->getVoxel(wCoord[0]-1, wCoord[1], wCoord[2], v) || !v) {
 							vertNum += 6;
 						}
 
 						// Neighbor 3
-						if (!mScene->getVoxel(wCoord[0]+1, wCoord[1], wCoord[2])) {
+						if (!mScene->getVoxel(wCoord[0]+1, wCoord[1], wCoord[2], v) || !v) {
 							vertNum += 6;
 						}
 
 						// Neighbor 4
-						if (!mScene->getVoxel(wCoord[0], wCoord[1]-1, wCoord[2])) {
+						if (!mScene->getVoxel(wCoord[0], wCoord[1]-1, wCoord[2], v) || !v) {
 							vertNum += 6;
 						}
 
 						// Neighbor 5
-						if (!mScene->getVoxel(wCoord[0], wCoord[1]+1, wCoord[2])) {
+						if (!mScene->getVoxel(wCoord[0], wCoord[1]+1, wCoord[2], v) || !v) {
 							vertNum += 6;
 						}
 					}

@@ -6,7 +6,7 @@ namespace veed {
 	//---------------------------------------------------------------
 	FactoryHistory::FactoryHistory(uint num) {
 
-		// Max operation snapshot number
+		// Max OperationSnapshot number
 		mMaxNum = num;
 	}
 
@@ -25,10 +25,10 @@ namespace veed {
 	// Clear undo stack
 	void FactoryHistory::clearUndo() {
 
-		// Loop each operation snapshot
+		// Loop each OperationSnapshot
 		for (uint i = 0; i < mUndoStack.size(); i++) {
 
-			// Delete operation snapshot
+			// Delete OperationSnapshot
 			delete mUndoStack.at(i);
 		}
 
@@ -40,10 +40,10 @@ namespace veed {
 	// Clear redo stack
 	void FactoryHistory::clearRedo() {
 
-		// Loop each operation snapshot
+		// Loop each OperationSnapshot
 		for (uint i = 0; i < mRedoStack.size(); i++) {
 
-			// Delete operation snapshot
+			// Delete OperationSnapshot
 			delete mRedoStack.at(i);
 		}
 
@@ -54,20 +54,20 @@ namespace veed {
 
 	//---------------------------------------------------------------
 	// Push undo snapshot
-	void FactoryHistory::pushUndoSnapshot(OperationSnapshot* ss) {
+	void FactoryHistory::pushUndoSnapshot(OperationSnapshot* os) {
 
 		// Reach max number
 		if (mUndoStack.size() == mMaxNum) {
 
 			// Delete oldest snapshot
-			delete mUndoStack.at(0);
+			delete mUndoStack[0];
 
 			mUndoStack.pop_front();
 		}
 
 
 		// Push snapshot to undo stack
-		mUndoStack.push_back(ss);
+		mUndoStack.push_back(os);
 
 
 		// Debug
@@ -78,10 +78,10 @@ namespace veed {
 	
 	//---------------------------------------------------------------
 	// Push redo snapshot
-	void FactoryHistory::pushRedoSnapshot(OperationSnapshot* ss) {
+	void FactoryHistory::pushRedoSnapshot(OperationSnapshot* os) {
 
 		// Push snapshot to redo stack
-		mRedoStack.push_back(ss);
+		mRedoStack.push_back(os);
 
 
 		// Debug
@@ -105,7 +105,7 @@ namespace veed {
 
 
 		// Operation snapshot
-		OperationSnapshot* ss = mUndoStack.at(size-1);
+		OperationSnapshot* os = mUndoStack[size-1];
 
 		// Pop snapshot
 		mUndoStack.pop_back();
@@ -117,7 +117,7 @@ namespace veed {
 		}
 
 
-		return ss;
+		return os;
 	}
 
 	//---------------------------------------------------------------
@@ -133,7 +133,7 @@ namespace veed {
 		}
 
 		// Operation snapshot
-		OperationSnapshot* ss = mRedoStack.at(size-1);
+		OperationSnapshot* os = mRedoStack[size-1];
 
 		// Pop snapshot
 		mRedoStack.pop_back();
@@ -145,6 +145,6 @@ namespace veed {
 		}
 
 
-		return ss;
+		return os;
 	}
 };

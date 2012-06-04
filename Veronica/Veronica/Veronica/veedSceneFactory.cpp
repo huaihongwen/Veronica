@@ -4,6 +4,9 @@ namespace veed {
 
 	//---------------------------------------------------------------
 	SceneFactory::SceneFactory() {
+
+		// Scene factory mode
+		mMode = SFM_REMOVE;
 	}
 
 	//---------------------------------------------------------------
@@ -15,7 +18,7 @@ namespace veed {
 	void SceneFactory::initScene() {
 
 		// Init scene
-		mScene.init(32, 16, 16);
+		mScene.init(4, 2, 2);
 
 
 		// Set scene to chunk serializer
@@ -78,7 +81,7 @@ namespace veed {
 		// Flag
 		bool first = true, succeed = false;
 
-		// Result: (i, j, k, faceIndex, chunkIndex)
+		// Result: world space i, j, k, faceIndex
 		int result[5];
 
 
@@ -165,11 +168,10 @@ namespace veed {
 										min = curNear;
 
 										// Result
-										result[0] = i;
-										result[1] = j;
-										result[2] = k;
+										result[0] = px + i;
+										result[1] = py + j;
+										result[2] = pz + k;
 										result[3] = faceIndex;
-										result[4] = (int)c;
 									}
 								}
 							}
@@ -184,7 +186,7 @@ namespace veed {
 		if (succeed) {
 			
 			if (VEED_DEBUG) {
-				cout<<"[SceneFactory]<<: Intersect with chunk: "<<result[4]<<" voxel: "
+				cout<<"[SceneFactory]<<: Intersect with: "<<" voxel: "
 					<<result[0]<<" "<<result[1]<<" "<<result[2]<<" face: "<<result[3]<<endl;
 			}
 
@@ -195,48 +197,273 @@ namespace veed {
 		} else {
 
 			if (VEED_DEBUG) {
-				cout<<"[SceneFactory]<<: No chunk intersected."<<endl;
+				cout<<"[SceneFactory]<<: No voxel intersected."<<endl;
 			}
+		}
+	}
+
+
+	//---------------------------------------------------------------
+	/**
+	 * Handle key pressed
+	 * @key {WPARAM} input key.
+	 */
+	void SceneFactory::handleKeyPressed(WPARAM key) {
+
+		switch (key) {
+
+		// Undo
+		case 'z':
+			_undo();
+			break;
+
+		// Redo
+		case 'y':
+			_redo();
+			break;
+
+		default:
+			break;
+		}
+	}
+
+
+	//---------------------------------------------------------------
+	/**
+	 * Edit voxel
+	 * @iInfo {int*} intersection voxel info: world space i, j, k, faceIndex.
+	 */
+	void SceneFactory::_editVoxel(int* iInfo) {
+
+		// Target voxel info
+		int tInfo[3];
+		_targetVoxelInfo(iInfo, tInfo);
+
+		// Target voxel
+		Voxel* v = NULL;
+
+
+		// Try to get target voxel
+		if (!mScene.getVoxel(tInfo[0], tInfo[1], tInfo[2], v)) {
+
+			// Invalid target voxel
+			return;
+		}
+
+
+		// Handle history
+		// Clear redo
+		mHistory.clearRedo();
+
+		// Current OperationSnapshot
+		OperationSnapshot* os = new OperationSnapshot();
+
+		// Push VoxelSnaphot
+		os->mVSArray.push_back(new VoxelSnapshot(tInfo[0], tInfo[1], tInfo[2], v));
+
+		// Push OperationSnapshot to undo stack
+		mHistory.pushUndoSnapshot(os);
+
+
+		// Perform action
+		// Mode
+		switch (mMode) {
+
+		// Remove voxel
+		case SFM_REMOVE:
+			mScene.setVoxel(tInfo[0], tInfo[1], tInfo[2], NULL);
+			break;
+
+		// Add voxel
+		case SFM_ADD:
+			mScene.setVoxel(tInfo[0], tInfo[1], tInfo[2], new Voxel());
+			break;
+
+		default:
+			break;
+		}
+
+
+		// Refresh meshes
+		_refreshMeshes(tInfo[0], tInfo[1], tInfo[2]);
+	}
+
+
+	//---------------------------------------------------------------
+	/**
+	 * Target voxel info
+	 * Base on intersection voxel info and mode, find out target voxel info.
+	 * @iInfo {int*} intersection voxel info: i, j, k, faceIndex.
+	 * @tInfo {int*} target voxel info: i, j, k.
+	 */
+	void SceneFactory::_targetVoxelInfo(int* iInfo, int* tInfo) {
+
+		// Target voxel info
+		tInfo[0] = iInfo[0];
+		tInfo[1] = iInfo[1];
+		tInfo[2] = iInfo[2];
+
+		// Mode
+		if (mMode == SFM_ADD) {
+
+			// Face index
+			switch (iInfo[3]) {
+
+			case 0:
+				tInfo[0] -= 1;
+				break;
+
+			case 1:
+				tInfo[0] += 1;
+				break;
+
+			case 2:
+				tInfo[1] -= 1;
+				break;
+
+			case 3:
+				tInfo[1] += 1;
+				break;
+
+			case 4:
+				tInfo[2] -= 1;
+				break;
+
+			case 5:
+				tInfo[2] += 1;
+				break;
+
+			default:
+				return;
+			}			
 		}
 	}
 
 	//---------------------------------------------------------------
 	/**
-	 * Edit voxel
-	 * @selectedVoxelInfo {int*} selected voxel info (i, j, k, faceIndex, chunkIndex).
+	 * Refresh mesh
+	 * @i {int} world space x coordinate.
+	 * @j {int} world space y coordinate.
+	 * @k {int} world space z coordinate.
 	 */
-	void SceneFactory::_editVoxel(int* selectedVoxelInfo) {
+	void SceneFactory::_refreshMeshes(int i, int j, int k) {
 
-		// Chunk space coordinate
-		int i = selectedVoxelInfo[0];
-		int j = selectedVoxelInfo[1];
-		int k = selectedVoxelInfo[2];
+		// Chunk coordinate
+		int cc[4];
 
-		// Face index
-		int faceIndex = selectedVoxelInfo[3];
-
-		// Chunk index
-		uint chunkIndex = selectedVoxelInfo[4];
+		// Neighbor chunk coordinate
+		int ncc[4];
 
 
+		// Chunk coordinate
+		mScene.worldCoordToChunkCoord(i, j, k, cc);
 
+		// Refresh chunk mesh
+		_refreshChunkMesh((uint)cc[3]);
+
+
+		// Check 6 neighbors
+
+		// -x
+		if (mScene.worldCoordToChunkCoord(i-1, j, k, ncc) && (cc[3] != ncc[3])) {
+			// Refresh neighbor
+			_refreshChunkMesh((uint)ncc[3]);
+		}
+
+		// -x
+		if (mScene.worldCoordToChunkCoord(i+1, j, k, ncc) && (cc[3] != ncc[3])) {
+			// Refresh neighbor
+			_refreshChunkMesh((uint)ncc[3]);
+		}
+
+		// -y
+		if (mScene.worldCoordToChunkCoord(i, j-1, k, ncc) && (cc[3] != ncc[3])) {
+			// Refresh neighbor
+			_refreshChunkMesh((uint)ncc[3]);
+		}
+
+		// y
+		if (mScene.worldCoordToChunkCoord(i, j+1, k, ncc) && (cc[3] != ncc[3])) {
+			// Refresh neighbor
+			_refreshChunkMesh((uint)ncc[3]);
+		}
+
+		// -z
+		if (mScene.worldCoordToChunkCoord(i, j, k-1, ncc) && (cc[3] != ncc[3])) {
+			// Refresh neighbor
+			_refreshChunkMesh((uint)ncc[3]);
+		}
+
+		// z
+		if (mScene.worldCoordToChunkCoord(i, j, k+1, ncc) && (cc[3] != ncc[3])) {
+			// Refresh neighbor
+			_refreshChunkMesh((uint)ncc[3]);
+		}
 	}
 
 	//---------------------------------------------------------------
 	/**
-	 * Refresh mesh
-	 * @index {uint} mesh index.
+	 * Refresh chunk mesh
 	 */
-	void SceneFactory::_refreshMesh(uint index) {
+	void SceneFactory::_refreshChunkMesh(uint i) {
 
-		// Chunk array
-		vector<Chunk*>& chunkArray = *mScene.getChunkArray();
+		// Delete old mesh
+		delete mSceneMeshesArray[i];
+
+		// Refresh chunk mesh
+		mSceneMeshesArray[i] = mChunkSerializer.serialize((*mScene.getChunkArray())[i]);
+	}
 
 
-		// Delete the old mesh
-		delete mSceneMeshesArray[index];
+	//---------------------------------------------------------------
+	/**
+	 * Undo
+	 */
+	void SceneFactory::_undo() {
 
-		// Serialize chunk
-		mChunkSerializer.serialize(chunkArray[index]);
+		/*
+		// Pop undo OperationSnapshot from history
+		OperationSnapshot* undoOS = mHistory.popUndoSnapshot();
+
+		// No undo OperationSnapshot
+		if (!undoOS) {
+			return;
+		}
+
+		// Take current OperationSnapshot and restore from old OperationSnapshot
+		OperationSnapshot* redoOS = _takeOSAndRestore(undoOS);
+
+		// Delete undo OperationSnapshot
+		delete undoOS;
+
+		// Push redo OperationSnapshot to history
+		mHistory.pushRedoSnapshot(redoOS);
+		*/
+	}
+
+	//---------------------------------------------------------------
+	/**
+	 * Redo
+	 */
+	void SceneFactory::_redo() {
+
+		/*
+		// Pop redo OperationSnapshot from history
+		OperationSnapshot* redoOS = mHistory.popRedoSnapshot();
+
+		// No redo OperationSnapshot
+		if (!redoOS) {
+			return;
+		}
+
+		// Take current OperationSnapshot and restore from old OperationSnapshot
+		OperationSnapshot* undoOS = _takeOSAndRestore(redoOS);
+
+		// Delete redo OperationSnapshot
+		delete redoOS;
+
+		// Push undo OperationSnapshot to history
+		mHistory.pushUndoSnapshot(undoOS);
+		*/
 	}
 };
