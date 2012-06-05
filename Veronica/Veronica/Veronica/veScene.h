@@ -15,9 +15,9 @@ namespace vee {
 	/**
 	 * Scene chunk size
 	 */
-	#define SCENECHUNK_X 2
-	#define SCENECHUNK_Y 2
-	#define SCENECHUNK_Z 2
+	#define SCENECHUNK_X 16
+	#define SCENECHUNK_Y 16
+	#define SCENECHUNK_Z 16
 
 
 

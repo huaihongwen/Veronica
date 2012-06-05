@@ -30,9 +30,9 @@ namespace vee {
 		// Vertex number
 		int vertNum = _vertNum(chunk);
 
-		if (DEBUGMODE) {
-			cout<<"[ChunkSerializer]:<<  Vertex Number: "<<vertNum<<endl;
-		}
+		//if (DEBUGMODE) {
+		//	cout<<"[ChunkSerializer]:<<  Vertex Number: "<<vertNum<<endl;
+		//}
 
 		// Mesh
 		Mesh* m = new Mesh(vertNum);

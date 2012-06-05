@@ -18,7 +18,7 @@ namespace veed {
 	void SceneFactory::initScene() {
 
 		// Init scene
-		mScene.init(4, 2, 2);
+		mScene.init(32, 16, 16);
 
 
 		// Set scene to chunk serializer
@@ -185,10 +185,10 @@ namespace veed {
 		// Test succeed
 		if (succeed) {
 			
-			if (VEED_DEBUG) {
-				cout<<"[SceneFactory]<<: Intersect with: "<<" voxel: "
-					<<result[0]<<" "<<result[1]<<" "<<result[2]<<" face: "<<result[3]<<endl;
-			}
+			//if (VEED_DEBUG) {
+			//	cout<<"[SceneFactory]<<: Intersect with: "<<" voxel: "
+			//		<<result[0]<<" "<<result[1]<<" "<<result[2]<<" face: "<<result[3]<<endl;
+			//}
 
 
 			// Edit voxel
@@ -196,9 +196,9 @@ namespace veed {
 
 		} else {
 
-			if (VEED_DEBUG) {
-				cout<<"[SceneFactory]<<: No voxel intersected."<<endl;
-			}
+			//if (VEED_DEBUG) {
+			//	cout<<"[SceneFactory]<<: No voxel intersected."<<endl;
+			//}
 		}
 	}
 
@@ -421,7 +421,7 @@ namespace veed {
 	 */
 	void SceneFactory::_undo() {
 
-		/*
+		
 		// Pop undo OperationSnapshot from history
 		OperationSnapshot* undoOS = mHistory.popUndoSnapshot();
 
@@ -431,14 +431,14 @@ namespace veed {
 		}
 
 		// Take current OperationSnapshot and restore from old OperationSnapshot
-		OperationSnapshot* redoOS = _takeOSAndRestore(undoOS);
+		OperationSnapshot* redoOS = _restore(undoOS);
 
 		// Delete undo OperationSnapshot
 		delete undoOS;
 
 		// Push redo OperationSnapshot to history
 		mHistory.pushRedoSnapshot(redoOS);
-		*/
+		
 	}
 
 	//---------------------------------------------------------------
@@ -447,7 +447,6 @@ namespace veed {
 	 */
 	void SceneFactory::_redo() {
 
-		/*
 		// Pop redo OperationSnapshot from history
 		OperationSnapshot* redoOS = mHistory.popRedoSnapshot();
 
@@ -457,13 +456,79 @@ namespace veed {
 		}
 
 		// Take current OperationSnapshot and restore from old OperationSnapshot
-		OperationSnapshot* undoOS = _takeOSAndRestore(redoOS);
+		OperationSnapshot* undoOS = _restore(redoOS);
 
 		// Delete redo OperationSnapshot
 		delete redoOS;
 
 		// Push undo OperationSnapshot to history
 		mHistory.pushUndoSnapshot(undoOS);
-		*/
 	}
+
+	//---------------------------------------------------------------
+	/**
+	 * Restore
+	 * Create current OperationSnapshot and restore from old OperationSnapshot.
+	 * @oldOS {OperationSnapshot*} old OperationSnapshot.
+	 * @return {OperationSnapshot*} current OperationSnapshot.
+	 */
+	OperationSnapshot* SceneFactory::_restore(OperationSnapshot* oldOS) {
+
+		// Old VoxelSnapshot
+		VoxelSnapshot* oldVS;
+
+		// Current OperationSnapshot
+		OperationSnapshot* curOS = new OperationSnapshot();
+
+		// Current VoxelSnapshot
+		VoxelSnapshot* curVS;
+
+
+		// World space coordinate
+		int i, j, k;
+
+		// Old voxel data
+		Voxel* oldData;
+
+		// Current voxel data
+		Voxel* curData;
+
+
+		// Loop each old VoxelSnapshot
+		for (uint a = 0; a < oldOS->mVSArray.size(); a++) {
+		
+			// Old VoxelSnapshot
+			oldVS = oldOS->mVSArray[a];
+
+			// World space coordinate
+			i = oldVS->mCoord[0];
+			j = oldVS->mCoord[1];
+			k = oldVS->mCoord[2];
+
+			// Old voxel data
+			oldData = oldVS->mData;
+
+
+			// Current voxel data
+			mScene.getVoxel(i, j, k, curData);
+
+			// Current VoxelSnapshot
+			curVS = new VoxelSnapshot(i, j, k, curData);
+
+			// Push current VoxelSnapshot to current OperationSnapshot
+			curOS->mVSArray.push_back(curVS);
+
+
+			// Perform action
+			// Set voxel
+			mScene.setVoxel(i, j, k, oldData ? new Voxel(*oldData) : NULL);
+
+			// Refresh mesh
+			_refreshMeshes(i, j, k);
+		}
+
+
+		return curOS;
+	}
+
 };

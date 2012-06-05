@@ -98,6 +98,11 @@ namespace veed {
 		 */
 		void _redo();
 
+		/**
+		 * Restore
+		 */
+		OperationSnapshot* _restore(OperationSnapshot* oldOS);
+
 
 	protected:
 		// Scene

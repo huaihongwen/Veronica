@@ -254,9 +254,6 @@
     <ClInclude Include="veFontSystem.h">
       <Filter>vee\ui</Filter>
     </ClInclude>
-    <ClInclude Include="veVoxelModel.h">
-      <Filter>vee\voxel</Filter>
-    </ClInclude>
     <ClInclude Include="veEngine.h">
       <Filter>vee</Filter>
     </ClInclude>
@@ -292,6 +289,9 @@
     </ClInclude>
     <ClInclude Include="veedSceneFactory.h">
       <Filter>veed\editor\scene factory</Filter>
+    </ClInclude>
+    <ClInclude Include="veVoxelModel.h">
+      <Filter>vee\voxel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
