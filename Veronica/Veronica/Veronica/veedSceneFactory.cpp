@@ -18,11 +18,12 @@ namespace veed {
 	void SceneFactory::initScene() {
 
 		// Init scene
-		mScene.init(32, 16, 16);
+		mScene.init(16, 16, 16);
 
 
 		// Set scene to chunk serializer
 		mChunkSerializer.setScene(&mScene);
+
 
 		// Chunk array
 		vector<Chunk*>& chunkArray = *mScene.getChunkArray();
@@ -61,7 +62,9 @@ namespace veed {
 		}
 
 		// Ray from np to fp in world space
-		Ray r = Ray(Vector3(np[0], np[1], np[2]), Vector3(fp[0]-np[0], fp[1]-np[1], fp[2]-np[2]));
+		Ray r;
+		r.setOrigin(np[0], np[1], np[2]);
+		r.setDirection(fp[0]-np[0], fp[1]-np[1], fp[2]-np[2]);
 
 
 		// Chunk array
@@ -220,6 +223,15 @@ namespace veed {
 		// Redo
 		case 'y':
 			_redo();
+			break;
+
+		// Remove mode
+		case '1':
+			mMode = SFM_REMOVE;
+			break;
+
+		case '2':
+			mMode = SFM_ADD;
 			break;
 
 		default:

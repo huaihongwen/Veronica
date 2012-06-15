@@ -63,9 +63,21 @@ namespace vee {
 		}
 
 		//---------------------------------------------------------------
+		// Set origin
+		void setOrigin(float x, float y, float z) {
+			mOri.setValue(x, y, z);
+		}
+
+		//---------------------------------------------------------------
 		// Set direction
 		void setDirection(Vector3& dir) {
 			mDir = dir;
+		}
+
+		//---------------------------------------------------------------
+		// Set direction
+		void setDirection(float x, float y, float z) {
+			mDir.setValue(x, y, z);
 		}
 
 

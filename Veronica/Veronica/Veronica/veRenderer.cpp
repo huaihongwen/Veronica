@@ -150,38 +150,58 @@ namespace vee {
 
 		// GLSL manager
 		GLSLManager& glslManager = GLSLManager::getSingleton();
-		rs.useProgram(glslManager["Test"]);
+
+		// Shader program
+		ShaderProgram* p = glslManager["Test"];
+		rs.useProgram(p);
+
+
+		// Vertex attribute
+		GLint aoPos = glGetAttribLocation(p->getId(), "ao");
+
+
+		// Texture
+		rs.bindTexture2D(mTestTexture.getId(), 0);
+
+		// Unifrom
+		p->setUniform1i("tex", 0);
+
 
 		// Loop each mesh
 		for (uint i = 0; i < mTestMeshes->size(); i++) {
 
 			rs.setModelView(vMat * mTestMeshes->at(i)->getTransform());
 
-			glColor3ub(255, 0, 0);
-			//glEnable(GL_TEXTURE_2D);
-			//glBindTexture(GL_TEXTURE_2D, mTestTexture.getId());
 
 			glEnableClientState(GL_VERTEX_ARRAY);
 			glEnableClientState(GL_NORMAL_ARRAY);
-			//glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 			//glEnableClientState(GL_COLOR_ARRAY);
+
+			glEnableVertexAttribArray(aoPos);
 
 
 			glVertexPointer(3, GL_FLOAT, sizeof(Vertex), mTestMeshes->at(i)->getData());
 			glNormalPointer(GL_FLOAT, sizeof(Vertex), mTestMeshes->at(i)->getData()+12);
-			//glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), mTestMesh->getData()+24);
+			glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), mTestMeshes->at(i)->getData()+24);
 			//glColorPointer(3, GL_UNSIGNED_BYTE, sizeof(Vertex), mTestMesh->getData()+32);
+
+			// Ambient occlusion
+			glVertexAttribPointer(aoPos, 1, GL_FLOAT, GL_FALSE, sizeof(Vertex), mTestMeshes->at(i)->getData()+36);
+			
 			glDrawArrays(GL_TRIANGLES, 0, mTestMeshes->at(i)->getVertNum());
 
 
-			glDisableClientState(GL_COLOR_ARRAY);
-			//glDisableClientState(GL_VERTEX_ARRAY);
-			//glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+			glDisableClientState(GL_VERTEX_ARRAY);
 			glDisableClientState(GL_NORMAL_ARRAY);
+			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+			//glDisableClientState(GL_COLOR_ARRAY);
 
-			//glDisable(GL_TEXTURE_2D);
+			glDisableVertexAttribArray(aoPos);
 		}
 		rs.useProgram(NULL);
+
+		rs.bindTexture2D(0, 0);
 	}
 
 

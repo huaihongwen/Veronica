@@ -77,6 +77,8 @@ namespace vee {
 	class RenderSystem;
 	class Renderer;
 
+	class Utils;
+
 
 	// Others
 

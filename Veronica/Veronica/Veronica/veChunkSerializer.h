@@ -6,9 +6,12 @@
  */
 
 #include "vePrerequisites.h"
+#include "veRay.h"
 #include "veScene.h"
 #include "veMesh.h"
 #include "veUtils.h"
+
+#include <vector>
 
 namespace vee {
 
@@ -57,9 +60,23 @@ namespace vee {
 		void _faceNormal(int faceIndex,
 			Vertex& v0, Vertex& v1, Vertex& v2, Vertex& v3);
 
+		/**
+		 *
+		 */
+
+
 	protected:
 		// Pointer to scene
 		Scene* mScene;
+
+
+
+	// TODO: Lighting system
+	protected:
+		/**
+		 * Face ambient occlusion
+		 */
+		void _faceAmbientOcclusion(int i, int j, int k, int faceIndex, Mesh* m);
 	};
 };
 

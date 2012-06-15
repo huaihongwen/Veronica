@@ -1,23 +1,13 @@
+attribute float ao;
+
 varying vec3 diffuse;
+varying float vao;
+varying vec2 texcoord;
 
 void main() {
 	gl_Position = ftransform();
 
-	// Eye space normal
-	vec3 eyeNormal = normalize(gl_NormalMatrix * gl_Normal);
-	
-	// Light in model space
-	vec3 lEyePos = gl_NormalMatrix * vec3(50.0, 150.0, 100.0);
+	vao = ao;
 
-	// Eye space light direction
-	vec3 lDir = normalize(lEyePos);
-
-	// Cosine
-	float NdotL = max(dot(eyeNormal, lDir), 0.0);
-
-	// Diffuse term
-	diffuse = vec3(1.0, 1.0, 1.0) * gl_Color * NdotL + gl_Color * vec3(0.3, 0.3, 0.3);
-
-	//diffuse = (gl_Normal + 1.0) * 0.5;
-	//diffuse = gl_Color;
+	texcoord = gl_MultiTexCoord0.xy;
 }

@@ -8,8 +8,11 @@ namespace vee {
 		// Vertex number
 		mVertNum = vertNum;
 
-		// Current vertex number
-		mCurVertNum = 0;
+		// Current geometry number
+		mCurGeometryNum = 0;
+
+		// Current lighting number
+		mCurLightingNum = 0;
 
 
 		if (!vertNum) {
@@ -36,15 +39,28 @@ namespace vee {
 
 	//---------------------------------------------------------------
 	/**
-	 * Push vertex
+	 * Push vertex geometry
 	 * @v {Vertex*} input vertex.
 	 */
-	void Mesh::pushVertex(Vertex* v) {
+	void Mesh::pushVertexGeometry(Vertex* v) {
 
 		// Copy data
-		memcpy(mData + mCurVertNum*sizeof(Vertex), v, sizeof(Vertex));
+		memcpy(mData + mCurGeometryNum*sizeof(Vertex), v, sizeof(Vertex));
 
-		mCurVertNum++;
+		mCurGeometryNum++;
+	}
+
+	//---------------------------------------------------------------
+	/**
+	 * Push vertex lighting
+	 * @ao {float} vertex ambient occlusion.
+	 */
+	void Mesh::pushVertexLighting(float ao) {
+
+		uchar* p = mData + mCurLightingNum*sizeof(Vertex);
+		((Vertex*)p)->mAO = ao;
+
+		mCurLightingNum++;
 	}
 
 

@@ -6,6 +6,7 @@
  */
 
 #include "vePrerequisites.h"
+#include "veMath.h"
 #include "veRenderer.h"
 #include "veRenderSystem.h"
 
@@ -31,6 +32,246 @@ namespace vee {
 		static int toArrayIndex(int i, int j, int k, int sy, int sz) {
 			return i * (sy * sz) + j * sz + k;
 		}
+
+
+		//---------------------------------------------------------------
+		/**
+		 * Evenly distribute rays on a sphere
+		 * @num {int} number of rays need to be generated.
+		 * @result {vector<float>&} result array of rays.
+		 */
+		static void pointsOnSphere(int num, vector<float>& result) {
+
+			// Inc
+			float inc = MATH_PI * (3.0f - sqrt(5.0f));
+
+			// Off
+			float off = 2.0f / float(num);
+
+
+			float y, r, phi;
+
+			// Loop each ray
+			for (int i = 0; i < num; i++) {
+
+				// Y
+				y = i*off - 1.0f + off*0.5f;
+
+				// R
+				r = sqrt(1.0f - y*y);
+
+				// Phi
+				phi = i*inc;
+
+
+				// Push ray to result array
+				result.push_back(cos(phi) * r);
+				result.push_back(y);
+				result.push_back(sin(phi) * r);
+			}
+		}
+
+
+		//---------------------------------------------------------------
+		/**
+		 * Voxel traversal
+		 * Traverse voxels by a 3d line segment and find out coordinates for
+		 * intersected voxels.
+		 * @x0 {float} start point x coordinate.
+		 * @y0 {float} start point y coordinate.
+		 * @z0 {float} start point z coordinate.
+		 * @x1 {float} end point x coordinate.
+		 * @y1 {float} end point y coordinate.
+		 * @z1 {float} end point z coordinate.
+		 * @r {vector<int>&} result array of voxel coordinates.
+		 */
+		static void voxelTraversal(float x0, float y0, float z0,
+			float x1, float y1, float z1,
+			vector<int>& r) {
+
+			// Length
+			float dx = abs(x1 - x0);
+			float dy = abs(y1 - y0);
+			float dz = abs(z1 - z0);
+
+
+			// Start voxel coordinate
+			int x = int(floor(x0));
+			int y = int(floor(y0));
+			int z = int(floor(z0));
+
+
+			// We probably have division by zero here but IEEE 754
+			// floating-point works fine.
+
+			// Time for traversing unit length
+			float dt_dx = 1.0f / dx;
+			float dt_dy = 1.0f / dy;
+			float dt_dz = 1.0f / dz;
+
+
+			// Current time
+			float t = 0.0f;
+
+
+			// Number of voxel intersected
+			int num = 1;
+
+
+			// Increment direction
+			int xInc, yInc, zInc;
+
+
+			// Next intersection time x, y, z
+			float xNext, yNext, zNext;
+
+
+			// X direction
+			if (dx == 0.0f) {
+
+				// No increment
+				xInc = 0;
+
+				// Infinity next intersection time
+				xNext = dt_dx;
+
+			} else if (x1 > x0) {
+
+				// Positive increment
+				xInc = 1;
+
+				// Number of intersection in x direction
+				num += int(floor(x1)) - x;
+
+				// Next intersection time
+				xNext = (floor(x0) + 1.0f - x0) * dt_dx;
+			
+			} else {
+
+				// Negative increment
+				xInc = -1;
+
+				// Number of intersection in x direction
+				num += x - int(floor(x1));
+
+				// Next intersection time
+				xNext = (x0 - floor(x0)) * dt_dx;
+			}
+
+
+			// Y direction
+			if (dy == 0.0f) {
+
+				// No increment
+				yInc = 0;
+
+				// Infinity next intersection time
+				yNext = dt_dy;
+
+			} else if (y1 > y0) {
+
+				// Positive increment
+				yInc = 1;
+
+				// Number of intersection in y direction
+				num += int(floor(y1)) - y;
+
+				// Next intersection time
+				yNext = (floor(y0) + 1.0f - y0) * dt_dy;
+
+			} else {
+
+				// Negative increment
+				yInc = -1;
+
+				// Number of intersection in y direction
+				num += y - int(floor(y1));
+
+				// Next intersection time
+				yNext = (y0 - floor(y0)) * dt_dy;
+			}
+
+
+			// Z direction
+			if (dz == 0.0f) {
+
+				// No increment
+				zInc = 0;
+
+				// Infinity next intersection time
+				zNext = dt_dz;
+
+			} else if (z1 > z0) {
+
+				// Positive increment
+				zInc = 1;
+
+				// Number of intersection in z direction
+				num += int(floor(z1)) - z;
+
+				// Next intersection time
+				zNext = (floor(z0) + 1.0f - z0) * dt_dz;
+
+			} else {
+
+				// Negative increment
+				zInc = -1;
+
+				// Number of intersection in z direction
+				num += z - int(floor(z1));
+
+				// Next intersection time
+				zNext = (z0 - floor(z0)) * dt_dz;
+			}
+
+
+
+			// Loop each intersection
+			for (; num > 0; --num) {
+
+				// Mark currecnt intersection coordinate
+				r.push_back(x);
+				r.push_back(y);
+				r.push_back(z);
+
+
+				// Find the smallest next intersection time
+				if (xNext < yNext && xNext < zNext) {
+
+					// Step x
+					x += xInc;
+
+					// Current time
+					t = xNext;
+
+					// Next intersection x
+					xNext += dt_dx;
+
+				} else if (yNext < zNext) {
+
+					// Step y
+					y += yInc;
+
+					// Current time
+					t = yNext;
+
+					// Next intersection y
+					yNext += dt_dy;
+
+				} else {
+
+					// Step z
+					z += zInc;
+
+					// Current time
+					t = zNext;
+
+					// Next intersection z
+					zNext += dt_dz;
+				}
+			}
+		}
+
 
 
 		//---------------------------------------------------------------

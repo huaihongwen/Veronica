@@ -15,6 +15,7 @@ namespace vee {
 	 */
 	typedef struct Vertex {
 
+		// Geometry information
 		// Position
 		float mPos[3];
 
@@ -28,6 +29,9 @@ namespace vee {
 		// Color
 		uchar mColor[4];
 
+
+
+		// Lighting information
 		// Ambient occlusion
 		float mAO;
 
@@ -48,9 +52,15 @@ namespace vee {
 
 	public:
 		/**
-		 * Push vertex
+		 * Push vertex geometry
 		 */
-		void pushVertex(Vertex* v);
+		void pushVertexGeometry(Vertex* v);
+
+		/**
+		 * Push vertex lighting
+		 */
+		void pushVertexLighting(float ao);
+
 
 		/**
 		 * Get data
@@ -61,6 +71,7 @@ namespace vee {
 		 * Get vertex number
 		 */
 		int getVertNum();
+
 
 		/**
 		 * Set transform matrix
@@ -76,8 +87,12 @@ namespace vee {
 		// Vertex number
 		int mVertNum;
 
-		// Current vertex number
-		int mCurVertNum;
+		// Current geometry number
+		int mCurGeometryNum;
+
+		// Current lighting number
+		int mCurLightingNum;
+
 
 		// Vertex data
 		uchar* mData;

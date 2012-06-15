@@ -1,4 +1,5 @@
 #include "veChunkSerializer.h"
+#include "veRay.h"
 
 namespace vee {
 
@@ -74,32 +75,62 @@ namespace vee {
 
 						// Neighbor 0
 						if (!mScene->getVoxel(wCoord[0], wCoord[1], wCoord[2]-1, v) || !v) {
+							
+							// Face geometry
 							_serializeVoxelFace(i, j, k, chunk, 0, m);
+
+							// Face ambient occlusion
+							_faceAmbientOcclusion(wCoord[0], wCoord[1], wCoord[2], 0, m);
 						}
 
 						// Neighbor 2
 						if (!mScene->getVoxel(wCoord[0], wCoord[1], wCoord[2]+1, v) || !v) {
+							
+							// Face geometry
 							_serializeVoxelFace(i, j, k, chunk, 2, m);
+
+							// Face ambient occlusion
+							_faceAmbientOcclusion(wCoord[0], wCoord[1], wCoord[2], 2, m);
 						}
 
 						// Neighbor 1
 						if (!mScene->getVoxel(wCoord[0]-1, wCoord[1], wCoord[2], v) || !v) {
+							
+							// Face geometry
 							_serializeVoxelFace(i, j, k, chunk, 1, m);
+
+							// Face ambient occlusion
+							_faceAmbientOcclusion(wCoord[0], wCoord[1], wCoord[2], 1, m);
 						}
 
 						// Neighbor 3
 						if (!mScene->getVoxel(wCoord[0]+1, wCoord[1], wCoord[2], v) || !v) {
+							
+							// Face geometry
 							_serializeVoxelFace(i, j, k, chunk, 3, m);
+
+							// Face ambient occlusion
+							_faceAmbientOcclusion(wCoord[0], wCoord[1], wCoord[2], 3, m);
 						}
 
 						// Neighbor 4
 						if (!mScene->getVoxel(wCoord[0], wCoord[1]-1, wCoord[2], v) || !v) {
+							
+							// Face geometry
 							_serializeVoxelFace(i, j, k, chunk, 4, m);
+
+							// Face ambient occlusion
+							_faceAmbientOcclusion(wCoord[0], wCoord[1], wCoord[2], 4, m);
 						}
 
 						// Neighbor 5
 						if (!mScene->getVoxel(wCoord[0], wCoord[1]+1, wCoord[2], v) || !v) {
+							
+							// Face geometry
 							_serializeVoxelFace(i, j, k, chunk, 5, m);
+
+							// Face ambient occlusion
+							_faceAmbientOcclusion(wCoord[0], wCoord[1], wCoord[2], 5, m);
 						}
 					}
 				}
@@ -218,13 +249,39 @@ namespace vee {
 		_faceNormal(faceIndex, v0, v1, v2, v3);
 
 
+
+
+		float step = 1.0f / 16.0f;
+
+		int uIdx = 2;
+		int vIdx = 6;
+
+
+		float x = uIdx * step;
+		float y = vIdx * step;
+
+
+		// Face texcoord
+		v0.mTexcoord[0] = x;
+		v0.mTexcoord[1] = y + step;
+		v1.mTexcoord[0] = x;
+		v1.mTexcoord[1] = y;
+		v2.mTexcoord[0] = x + step;
+		v2.mTexcoord[1] = y;
+		v3.mTexcoord[0] = x + step;
+		v3.mTexcoord[1] = y + step;
+
+
+
+
+
 		// Push vertices
-		m->pushVertex(&v0);
-		m->pushVertex(&v1);
-		m->pushVertex(&v2);
-		m->pushVertex(&v0);
-		m->pushVertex(&v2);
-		m->pushVertex(&v3);
+		m->pushVertexGeometry(&v0);
+		m->pushVertexGeometry(&v1);
+		m->pushVertexGeometry(&v2);
+		m->pushVertexGeometry(&v0);
+		m->pushVertexGeometry(&v2);
+		m->pushVertexGeometry(&v3);
 	}
 
 	//---------------------------------------------------------------
@@ -366,7 +423,7 @@ namespace vee {
 
 		default:
 			n[0] = 0.0f; n[1] = 0.0f; n[2] = 1.0f;
-			break;;
+			break;
 		}
 
 		// Copy normal
@@ -374,5 +431,428 @@ namespace vee {
 		v1.mNormal[0] = n[0]; v1.mNormal[1] = n[1]; v1.mNormal[2] = n[2];
 		v2.mNormal[0] = n[0]; v2.mNormal[1] = n[1]; v2.mNormal[2] = n[2];
 		v3.mNormal[0] = n[0]; v3.mNormal[1] = n[1]; v3.mNormal[2] = n[2];
+	}
+
+
+	//---------------------------------------------------------------
+	/**
+	 * Face ambient occlusion
+	 * @i {int} world space x coordinate.
+	 * @j {int} world space y coordinate.
+	 * @k {int} world space z coordinate.
+	 * @faceIndex {int} face index.
+	 * @m {Mesh*} input mesh.
+	 */
+	void ChunkSerializer::_faceAmbientOcclusion(int i, int j, int k, int faceIndex, Mesh* m) {
+
+		// Vertices' ambient occlusion
+		float ao0, ao1, ao2, ao3;
+		ao0 = ao1 = ao2 = ao3 = 0.0f;
+
+		// Ambient occlusion step
+		float step = 0.25f;
+
+
+		// Voxel
+		Voxel* v;
+
+		if (i == 1 && k == 1 && j == 1 && faceIndex == 4) {
+			int aa = 0;
+		}
+
+
+
+		// Face index
+		switch (faceIndex) {
+
+		case 0:
+			{
+				// Vertex 0
+				if (!mScene->getVoxel(i+1, j+1, k-1, v) || !v) {
+					ao0 += step;
+				}
+				if (!mScene->getVoxel(i+1, j, k-1, v) || !v) {
+					ao0 += step;
+				}
+				if (!mScene->getVoxel(i, j, k-1, v) || !v) {
+					ao0 += step;
+				}
+				if (!mScene->getVoxel(i, j+1, k-1, v) || !v) {
+					ao0 += step;
+				}
+
+
+				// Vertex 1
+				if (!mScene->getVoxel(i+1, j, k-1, v) || !v) {
+					ao1 += step;
+				}
+				if (!mScene->getVoxel(i+1, j-1, k-1, v) || !v) {
+					ao1 += step;
+				}
+				if (!mScene->getVoxel(i, j-1, k-1, v) || !v) {
+					ao1 += step;
+				}
+				if (!mScene->getVoxel(i, j, k-1, v) || !v) {
+					ao1 += step;
+				}
+
+
+				// Vertex 2
+				if (!mScene->getVoxel(i, j, k-1, v) || !v) {
+					ao2 += step;
+				}
+				if (!mScene->getVoxel(i, j-1, k-1, v) || !v) {
+					ao2 += step;
+				}
+				if (!mScene->getVoxel(i-1, j-1, k-1, v) || !v) {
+					ao2 += step;
+				}
+				if (!mScene->getVoxel(i-1, j, k-1, v) || !v) {
+					ao2 += step;
+				}
+
+
+				// Vertex 3
+				if (!mScene->getVoxel(i, j+1, k-1, v) || !v) {
+					ao3 += step;
+				}
+				if (!mScene->getVoxel(i, j, k-1, v) || !v) {
+					ao3 += step;
+				}
+				if (!mScene->getVoxel(i-1, j, k-1, v) || !v) {
+					ao3 += step;
+				}
+				if (!mScene->getVoxel(i-1, j+1, k-1, v) || !v) {
+					ao3 += step;
+				}
+			}
+			break;
+
+		case 1:
+			{
+				// Vertex 0
+				if (!mScene->getVoxel(i-1, j+1, k-1, v) || !v) {
+					ao0 += step;
+				}
+				if (!mScene->getVoxel(i-1, j, k-1, v) || !v) {
+					ao0 += step;
+				}
+				if (!mScene->getVoxel(i-1, j, k, v) || !v) {
+					ao0 += step;
+				}
+				if (!mScene->getVoxel(i-1, j+1, k, v) || !v) {
+					ao0 += step;
+				}
+
+
+				// Vertex 1
+				if (!mScene->getVoxel(i-1, j, k-1, v) || !v) {
+					ao1 += step;
+				}
+				if (!mScene->getVoxel(i-1, j-1, k-1, v) || !v) {
+					ao1 += step;
+				}
+				if (!mScene->getVoxel(i-1, j-1, k, v) || !v) {
+					ao1 += step;
+				}
+				if (!mScene->getVoxel(i-1, j, k, v) || !v) {
+					ao1 += step;
+				}
+
+
+				// Vertex 2
+				if (!mScene->getVoxel(i-1, j, k, v) || !v) {
+					ao2 += step;
+				}
+				if (!mScene->getVoxel(i-1, j-1, k, v) || !v) {
+					ao2 += step;
+				}
+				if (!mScene->getVoxel(i-1, j-1, k+1, v) || !v) {
+					ao2 += step;
+				}
+				if (!mScene->getVoxel(i-1, j, k+1, v) || !v) {
+					ao2 += step;
+				}
+
+
+				// Vertex 3
+				if (!mScene->getVoxel(i-1, j+1, k, v) || !v) {
+					ao3 += step;
+				}
+				if (!mScene->getVoxel(i-1, j, k, v) || !v) {
+					ao3 += step;
+				}
+				if (!mScene->getVoxel(i-1, j, k+1, v) || !v) {
+					ao3 += step;
+				}
+				if (!mScene->getVoxel(i-1, j+1, k+1, v) || !v) {
+					ao3 += step;
+				}
+			}
+			break;
+
+		case 2:
+			{
+				// Vertex 0
+				if (!mScene->getVoxel(i-1, j+1, k+1, v) || !v) {
+					ao0 += step;
+				}
+				if (!mScene->getVoxel(i-1, j, k+1, v) || !v) {
+					ao0 += step;
+				}
+				if (!mScene->getVoxel(i, j, k+1, v) || !v) {
+					ao0 += step;
+				}
+				if (!mScene->getVoxel(i, j+1, k+1, v) || !v) {
+					ao0 += step;
+				}
+
+
+				// Vertex 1
+				if (!mScene->getVoxel(i-1, j, k+1, v) || !v) {
+					ao1 += step;
+				}
+				if (!mScene->getVoxel(i-1, j-1, k+1, v) || !v) {
+					ao1 += step;
+				}
+				if (!mScene->getVoxel(i, j-1, k+1, v) || !v) {
+					ao1 += step;
+				}
+				if (!mScene->getVoxel(i, j, k+1, v) || !v) {
+					ao1 += step;
+				}
+
+
+				// Vertex 2
+				if (!mScene->getVoxel(i, j, k+1, v) || !v) {
+					ao2 += step;
+				}
+				if (!mScene->getVoxel(i, j-1, k+1, v) || !v) {
+					ao2 += step;
+				}
+				if (!mScene->getVoxel(i+1, j-1, k+1, v) || !v) {
+					ao2 += step;
+				}
+				if (!mScene->getVoxel(i+1, j, k+1, v) || !v) {
+					ao2 += step;
+				}
+
+
+				// Vertex 3
+				if (!mScene->getVoxel(i, j+1, k+1, v) || !v) {
+					ao3 += step;
+				}
+				if (!mScene->getVoxel(i, j, k+1, v) || !v) {
+					ao3 += step;
+				}
+				if (!mScene->getVoxel(i+1, j, k+1, v) || !v) {
+					ao3 += step;
+				}
+				if (!mScene->getVoxel(i+1, j+1, k+1, v) || !v) {
+					ao3 += step;
+				}
+			}
+			break;
+
+		case 3:
+			{
+				// Vertex 0
+				if (!mScene->getVoxel(i+1, j+1, k+1, v) || !v) {
+					ao0 += step;
+				}
+				if (!mScene->getVoxel(i+1, j, k+1, v) || !v) {
+					ao0 += step;
+				}
+				if (!mScene->getVoxel(i+1, j, k, v) || !v) {
+					ao0 += step;
+				}
+				if (!mScene->getVoxel(i+1, j+1, k, v) || !v) {
+					ao0 += step;
+				}
+
+
+				// Vertex 1
+				if (!mScene->getVoxel(i+1, j, k+1, v) || !v) {
+					ao1 += step;
+				}
+				if (!mScene->getVoxel(i+1, j-1, k+1, v) || !v) {
+					ao1 += step;
+				}
+				if (!mScene->getVoxel(i+1, j-1, k, v) || !v) {
+					ao1 += step;
+				}
+				if (!mScene->getVoxel(i+1, j, k, v) || !v) {
+					ao1 += step;
+				}
+
+
+				// Vertex 2
+				if (!mScene->getVoxel(i+1, j, k, v) || !v) {
+					ao2 += step;
+				}
+				if (!mScene->getVoxel(i+1, j-1, k, v) || !v) {
+					ao2 += step;
+				}
+				if (!mScene->getVoxel(i+1, j-1, k-1, v) || !v) {
+					ao2 += step;
+				}
+				if (!mScene->getVoxel(i+1, j, k-1, v) || !v) {
+					ao2 += step;
+				}
+
+
+				// Vertex 3
+				if (!mScene->getVoxel(i+1, j+1, k, v) || !v) {
+					ao3 += step;
+				}
+				if (!mScene->getVoxel(i+1, j, k, v) || !v) {
+					ao3 += step;
+				}
+				if (!mScene->getVoxel(i+1, j, k-1, v) || !v) {
+					ao3 += step;
+				}
+				if (!mScene->getVoxel(i+1, j+1, k-1, v) || !v) {
+					ao3 += step;
+				}
+			}
+			break;
+
+		case 4:
+			{
+				// Vertex 0
+				if (!mScene->getVoxel(i-1, j-1, k+1, v) || !v) {
+					ao0 += step;
+				}
+				if (!mScene->getVoxel(i-1, j-1, k, v) || !v) {
+					ao0 += step;
+				}
+				if (!mScene->getVoxel(i, j-1, k, v) || !v) {
+					ao0 += step;
+				}
+				if (!mScene->getVoxel(i, j-1, k+1, v) || !v) {
+					ao0 += step;
+				}
+
+
+				// Vertex 1
+				if (!mScene->getVoxel(i-1, j-1, k, v) || !v) {
+					ao1 += step;
+				}
+				if (!mScene->getVoxel(i-1, j-1, k-1, v) || !v) {
+					ao1 += step;
+				}
+				if (!mScene->getVoxel(i, j-1, k-1, v) || !v) {
+					ao1 += step;
+				}
+				if (!mScene->getVoxel(i, j-1, k, v) || !v) {
+					ao1 += step;
+				}
+
+
+				// Vertex 2
+				if (!mScene->getVoxel(i, j-1, k, v) || !v) {
+					ao2 += step;
+				}
+				if (!mScene->getVoxel(i, j-1, k-1, v) || !v) {
+					ao2 += step;
+				}
+				if (!mScene->getVoxel(i+1, j-1, k-1, v) || !v) {
+					ao2 += step;
+				}
+				if (!mScene->getVoxel(i+1, j-1, k, v) || !v) {
+					ao2 += step;
+				}
+
+
+				// Vertex 3
+				if (!mScene->getVoxel(i, j-1, k+1, v) || !v) {
+					ao3 += step;
+				}
+				if (!mScene->getVoxel(i, j-1, k, v) || !v) {
+					ao3 += step;
+				}
+				if (!mScene->getVoxel(i+1, j-1, k, v) || !v) {
+					ao3 += step;
+				}
+				if (!mScene->getVoxel(i+1, j-1, k+1, v) || !v) {
+					ao3 += step;
+				}
+			}
+			break;
+
+		case 5:
+			{
+				// Vertex 0
+				if (!mScene->getVoxel(i-1, j+1, k-1, v) || !v) {
+					ao0 += step;
+				}
+				if (!mScene->getVoxel(i-1, j+1, k, v) || !v) {
+					ao0 += step;
+				}
+				if (!mScene->getVoxel(i, j+1, k, v) || !v) {
+					ao0 += step;
+				}
+				if (!mScene->getVoxel(i, j+1, k-1, v) || !v) {
+					ao0 += step;
+				}
+
+
+				// Vertex 1
+				if (!mScene->getVoxel(i-1, j+1, k, v) || !v) {
+					ao1 += step;
+				}
+				if (!mScene->getVoxel(i-1, j+1, k+1, v) || !v) {
+					ao1 += step;
+				}
+				if (!mScene->getVoxel(i, j+1, k+1, v) || !v) {
+					ao1 += step;
+				}
+				if (!mScene->getVoxel(i, j+1, k, v) || !v) {
+					ao1 += step;
+				}
+
+
+				// Vertex 2
+				if (!mScene->getVoxel(i, j+1, k, v) || !v) {
+					ao2 += step;
+				}
+				if (!mScene->getVoxel(i, j+1, k+1, v) || !v) {
+					ao2 += step;
+				}
+				if (!mScene->getVoxel(i+1, j+1, k+1, v) || !v) {
+					ao2 += step;
+				}
+				if (!mScene->getVoxel(i+1, j+1, k, v) || !v) {
+					ao2 += step;
+				}
+
+
+				// Vertex 3
+				if (!mScene->getVoxel(i, j+1, k-1, v) || !v) {
+					ao3 += step;
+				}
+				if (!mScene->getVoxel(i, j+1, k, v) || !v) {
+					ao3 += step;
+				}
+				if (!mScene->getVoxel(i+1, j+1, k, v) || !v) {
+					ao3 += step;
+				}
+				if (!mScene->getVoxel(i+1, j+1, k-1, v) || !v) {
+					ao3 += step;
+				}
+			}
+			break;
+
+		default:
+			break;
+		}
+
+
+		m->pushVertexLighting(ao0);
+		m->pushVertexLighting(ao1);
+		m->pushVertexLighting(ao2);
+		m->pushVertexLighting(ao0);
+		m->pushVertexLighting(ao2);
+		m->pushVertexLighting(ao3);
 	}
 };
