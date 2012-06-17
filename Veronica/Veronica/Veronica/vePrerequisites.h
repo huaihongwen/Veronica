@@ -44,12 +44,11 @@ namespace vee {
 	class VoxelTableSerializer;
 
 
-	// UI
-	class Rect;
-	// UI component
-	class UIComponent;
-	// UI manager
-	class UIManager;
+	// GUI
+	// GUI element
+	class GUIElement;
+	// GUI manager
+	class GUIManager;
 
 
 	// Rendering

@@ -8,8 +8,6 @@
 #include "veedPrerequisites.h"
 // Scene factory
 #include "veedSceneFactory.h"
-// Color panel
-#include "veedUIColorPanel.h"
 
 // Engine
 // Timer
@@ -21,25 +19,11 @@
 #include "veRenderer.h"
 // GLSL manager
 #include "veGLSLManager.h"
+// GUI Manager
+#include "veGUIManager.h"
 
 
 namespace veed {
-
-	// UI index
-	typedef enum UIIndex {
-
-		// None
-		UII_NONE,
-
-		// Edit view
-		UII_EDITVIEW,
-
-		// Color panel
-		UII_COLORPANEL
-
-	} UIIndex;
-
-
 
 	// Editor
 	class Editor {
@@ -103,11 +87,6 @@ namespace veed {
 
 
 	protected:
-		// UI components hit test
-		int _hitTest(int px, int py);
-
-
-	protected:
 		// Mouse left button area idx
 		int mLeftButton;
 
@@ -131,13 +110,8 @@ namespace veed {
 		Renderer* mRenderer;
 		// GLSL manager
 		GLSLManager* mGLSLManager;
-
-
-		// UI components
-		// Window
-		UIComponent* mUIWindow;
-		// Edit view
-		UIComponent* mUIEditView;
+		// GUI manager
+		GUIManager* mGUIManager;
 
 
 		// Scene factory

@@ -4,6 +4,7 @@
 
 namespace veed {
 
+	/*
 	//---------------------------------------------------------------
 	UIColorPanel::UIColorPanel() : UIComponent() {
 	}
@@ -329,4 +330,5 @@ namespace veed {
 		mCurrentColor[1] = rc[1] - rc[1]*cp;
 		mCurrentColor[2] = rc[2] - rc[2]*cp;
 	}
+	*/
 };

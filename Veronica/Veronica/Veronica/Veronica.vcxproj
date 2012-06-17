@@ -25,6 +25,7 @@
     <ClCompile Include="veEngine.cpp" />
     <ClCompile Include="veFBOManager.cpp" />
     <ClCompile Include="veFontSystem.cpp" />
+    <ClCompile Include="veGUIManager.cpp" />
     <ClCompile Include="veQuaternion.cpp" />
     <ClCompile Include="veRenderer.cpp" />
     <ClCompile Include="veRenderPass.cpp" />
@@ -45,7 +46,7 @@
     <ClCompile Include="veTransformController.cpp" />
     <ClCompile Include="veTextureManager.cpp" />
     <ClCompile Include="veTGALoader.cpp" />
-    <ClCompile Include="veUIComponent.cpp" />
+    <ClCompile Include="veGUIElement.cpp" />
     <ClCompile Include="veTransform.cpp" />
     <ClCompile Include="veVector3.cpp" />
     <ClCompile Include="veVoxel.cpp" />
@@ -90,8 +91,8 @@
     <ClInclude Include="veTGALoader.h" />
     <ClInclude Include="veTimer.h" />
     <ClInclude Include="veTransform.h" />
-    <ClInclude Include="veUIComponent.h" />
-    <ClInclude Include="veUIManager.h" />
+    <ClInclude Include="veGUIElement.h" />
+    <ClInclude Include="veGUIManager.h" />
     <ClInclude Include="veUtils.h" />
     <ClInclude Include="veVector3.h" />
     <ClInclude Include="veVoxel.h" />

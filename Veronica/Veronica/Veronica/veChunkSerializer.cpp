@@ -253,8 +253,8 @@ namespace vee {
 
 		float step = 1.0f / 16.0f;
 
-		int uIdx = 2;
-		int vIdx = 6;
+		int uIdx = 1;
+		int vIdx = 1;
 
 
 		float x = uIdx * step;

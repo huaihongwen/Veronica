@@ -6,11 +6,10 @@
  */
 #include "veedPrerequisites.h"
 
-// Engine stuffs
-#include "veUIComponent.h"
 
 namespace veed {
 
+	/*
 	// Color panel
 	class UIColorPanel : public UIComponent {
 
@@ -65,6 +64,7 @@ namespace veed {
 		// Current cube color indicator pos y
 		int mCubeIndicatorY;
 	};
+	*/
 };
 
 #endif

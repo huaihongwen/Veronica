@@ -12,11 +12,8 @@ namespace veed {
 		mRenderer = NULL;
 		// GLSL manager
 		mGLSLManager = NULL;
-
-
-		// UI components
-		mUIWindow = NULL;
-		mUIEditView = NULL;
+		// GUI manager
+		mGUIManager = NULL;
 
 
 		// Scene factory
@@ -77,13 +74,8 @@ namespace veed {
 		// Clear buffer
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
-		// Render UI components
-		// Window
-		mUIWindow->render();
-		// Edit view
-		mUIEditView->render();
-
+		// GUI render
+		mGUIManager->render();
 
 		// Renderer render
 		mRenderer->render();
@@ -124,15 +116,9 @@ namespace veed {
 		mRenderer->init();
 
 
-		// UI components
-		// Window
-		mUIWindow = new UIComponent("UI_Window", Rect(0, 0, EDITWINDOWWIDTH, EDITWINDOTHEIGHT));
-		mUIWindow->setBackgroundColor(0.4f, 0.4f, 0.4f);
-
-		// Edit view
-		mUIEditView = new UIComponent("UI_EditView",
-			Rect(EDITVIEWPORTX, EDITWINDOTHEIGHT-EDITVIEWPORTHEIGHT, EDITVIEWPORTWIDTH, EDITVIEWPORTHEIGHT));
-		mUIEditView->setBackgroundColor(0.5f, 0.5f, 0.5f);
+		// GUI manager
+		mGUIManager = new GUIManager();
+		mGUIManager->init();
 	}
 
 	//---------------------------------------------------------------
@@ -151,16 +137,9 @@ namespace veed {
 		if (mRenderer) {
 			delete mRenderer;
 		}
-
-
-		// UI components
-		// Window
-		if (mUIWindow) {
-			delete mUIWindow;
-		}
-		// Edit view
-		if (mUIEditView) {
-			delete mUIEditView;
+		// Delete GUI manager
+		if (mGUIManager) {
+			delete mGUIManager;
 		}
 	}
 
@@ -172,6 +151,7 @@ namespace veed {
 	// Mouse down
 	void Editor::mouseDown(POINT& pos) {
 
+		/*
 		// Do hit test with UI components
 		mLeftButton = _hitTest(pos.x, pos.y);
 		
@@ -183,6 +163,7 @@ namespace veed {
 			// Scene factory
 			mSceneFactory->handleMouseClick(pos.x, pos.y);
 		}
+		*/
 	}
 
 	//---------------------------------------------------------------
@@ -190,7 +171,7 @@ namespace veed {
 	void Editor::mouseUp() {
 		
 		// Reset UI index
-		mLeftButton = UII_NONE;
+		//mLeftButton = UII_NONE;
 	}
 
 	//---------------------------------------------------------------
@@ -215,12 +196,12 @@ namespace veed {
 
 
 		// Rotate camera
-		if (mLeftButton == UII_EDITVIEW && !mKeys[16]) {
+		//if (mLeftButton == UII_EDITVIEW && !mKeys[16]) {
 
-			mRenderer->getCamera().onCameraRotate(dy, -dx);
+		//	mRenderer->getCamera().onCameraRotate(dy, -dx);
 
-			return;
-		}
+		//	return;
+		//}
 
 
 		// Dispatch mouse move event
@@ -256,6 +237,7 @@ namespace veed {
 
 
 	//---------------------------------------------------------------
+	/*
 	// UI components hit test
 	int Editor::_hitTest(int px, int py) {
 
@@ -268,5 +250,6 @@ namespace veed {
 		// Hit nothing
 		return UII_NONE;
 	}
+	*/
 	//===============================================================
 };
