@@ -65,6 +65,11 @@ namespace vee {
 		virtual void render();
 
 		/**
+		 * Init
+		 */
+		virtual void init();
+
+		/**
 		 * Destroy
 		 */
 		virtual void destroy();

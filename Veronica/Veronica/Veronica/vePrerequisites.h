@@ -31,6 +31,7 @@ namespace vee {
 	class Matrix3x3;
 	class Transform;
 
+
 	// Console
 	class Console;
 

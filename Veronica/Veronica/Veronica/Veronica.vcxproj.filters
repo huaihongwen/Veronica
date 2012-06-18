@@ -58,6 +58,9 @@
     <Filter Include="vee\gui">
       <UniqueIdentifier>{8e005b10-6dd5-45e3-871b-6400d0de09b0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="vee\event">
+      <UniqueIdentifier>{f662b11d-fa43-4237-b0f7-e5fa39b40701}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -161,6 +164,9 @@
     </ClCompile>
     <ClCompile Include="veGUIManager.cpp">
       <Filter>vee\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="veEvent.cpp">
+      <Filter>vee\event</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -295,6 +301,9 @@
     </ClInclude>
     <ClInclude Include="veGUIManager.h">
       <Filter>vee\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="veEvent.h">
+      <Filter>vee\event</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -19,12 +19,10 @@ namespace vee {
 	// Initialize the static member
 	template<> GUIManager* SingletonVee<GUIManager>::ms_Singleton = 0;
 	GUIManager& GUIManager::getSingleton(void) {
-
 		return *ms_Singleton;
 	}
 	//---------------------------------------------------------------
 	GUIManager* GUIManager::getSingletonPtr(void) {
-
 		return ms_Singleton;
 	}
 
@@ -84,16 +82,19 @@ namespace vee {
 	 */
 	void GUIManager::init() {
 
+		/*
 		// Test GUI
 		GUIElement* t = new GUIElement();
-		
+
 		// Rect
-		t->setRect(Rect(0, 0, 1024, 768));
-		
+		t->setRect(Rect(0, 0, 1024, 200));
+
 		// Color
-		t->setColor(128 ,128, 128, 128);
+		t->setColor(64 ,64, 64, 255);
+
 
 		mGUIElements.push_back(t);
+		*/
 	}
 
 	//---------------------------------------------------------------

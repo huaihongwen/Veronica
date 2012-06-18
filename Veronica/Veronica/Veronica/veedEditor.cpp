@@ -38,9 +38,6 @@ namespace veed {
 
 		// Engine
 		_initEngine();
-		
-		// Timer
-		mTimer.init();
 
 
 		// Scene factory
@@ -99,6 +96,9 @@ namespace veed {
 	// Initialize engine
 	void Editor::_initEngine() {
 
+		// Timer
+		mTimer.init();
+
 		// GLSL manager
 		mGLSLManager = new GLSLManager();
 
@@ -114,7 +114,6 @@ namespace veed {
 		mRenderer->setProjection(Transform::getPerspective(45.0f, (float)EDITVIEWPORTWIDTH/(float)EDITVIEWPORTHEIGHT,
 			0.1f, 1000.0f));
 		mRenderer->init();
-
 
 		// GUI manager
 		mGUIManager = new GUIManager();

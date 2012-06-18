@@ -39,10 +39,10 @@ namespace vee {
 		float y1 = y0 + mRect.h;
 
 
-		// Render a single quad
 		// Colr
 		glColor3ubv(mColor);
 
+		// Render a single quad
 		glBegin(GL_QUADS);
 			glVertex3f(x0, y0, 0.0f);
 			glVertex3f(x0, y1, 0.0f);
@@ -51,7 +51,19 @@ namespace vee {
 		glEnd();
 	}
 
+
 	//---------------------------------------------------------------
+	/**
+	 * Init
+	 */
+	void GUIElement::init() {
+
+	}
+
+	//---------------------------------------------------------------
+	/**
+	 * Destroy
+	 */
 	void GUIElement::destroy() {
 
 	}

@@ -23,6 +23,10 @@
 #include "veGUIManager.h"
 
 
+// Event
+#include "veEvent.h"
+
+
 namespace veed {
 
 	// Editor

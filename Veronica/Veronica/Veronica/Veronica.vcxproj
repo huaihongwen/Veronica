@@ -23,6 +23,7 @@
     <ClCompile Include="veedFactoryHistory.cpp" />
     <ClCompile Include="veedUIColorPanel.cpp" />
     <ClCompile Include="veEngine.cpp" />
+    <ClCompile Include="veEvent.cpp" />
     <ClCompile Include="veFBOManager.cpp" />
     <ClCompile Include="veFontSystem.cpp" />
     <ClCompile Include="veGUIManager.cpp" />
@@ -62,6 +63,7 @@
     <ClInclude Include="veedEditor.h" />
     <ClInclude Include="veedPrerequisites.h" />
     <ClInclude Include="veedSingleton.h" />
+    <ClInclude Include="veEvent.h" />
     <ClInclude Include="veFBOManager.h" />
     <ClInclude Include="veFontSystem.h" />
     <ClInclude Include="veFramebufferObject.h" />
