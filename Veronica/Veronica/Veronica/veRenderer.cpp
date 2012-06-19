@@ -139,7 +139,7 @@ namespace vee {
 
 
 		// Render background stage
-		_renderStage();
+		//_renderStage();
 
 
 		/*

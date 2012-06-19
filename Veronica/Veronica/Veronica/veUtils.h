@@ -361,6 +361,25 @@ namespace vee {
 
 			return false;
 		}
+
+
+		//---------------------------------------------------------------
+		/**
+		 * Point in rect
+		 * @r {Rect&} rect.
+		 * @x {int} x coordinate.
+		 * @y {int} y coordinate.
+		 * @return {bool} point inside rect or not.
+		 */
+		static bool pointInRect(Rect& r, int x, int y) {
+
+			if ( x >= r.x && x <= (r.x+r.w) && y >= r.y && y <= (r.y+r.h)) {
+
+				return true;
+			}
+
+			return false;
+		}
 	};
 };
 

@@ -12,8 +12,8 @@ namespace veed {
 		mRenderer = NULL;
 		// GLSL manager
 		mGLSLManager = NULL;
-		// GUI manager
-		mGUIManager = NULL;
+		// GUI
+		mGUI = NULL;
 
 
 		// Scene factory
@@ -72,7 +72,7 @@ namespace veed {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// GUI render
-		mGUIManager->render();
+		mGUI->render();
 
 		// Renderer render
 		mRenderer->render();
@@ -115,9 +115,9 @@ namespace veed {
 			0.1f, 1000.0f));
 		mRenderer->init();
 
-		// GUI manager
-		mGUIManager = new GUIManager();
-		mGUIManager->init();
+		// GUI
+		mGUI = new GUI();
+		mGUI->init();
 	}
 
 	//---------------------------------------------------------------
@@ -136,9 +136,9 @@ namespace veed {
 		if (mRenderer) {
 			delete mRenderer;
 		}
-		// Delete GUI manager
-		if (mGUIManager) {
-			delete mGUIManager;
+		// Delete GUI
+		if (mGUI) {
+			delete mGUI;
 		}
 	}
 

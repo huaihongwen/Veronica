@@ -48,8 +48,10 @@ namespace vee {
 	// GUI
 	// GUI element
 	class GUIElement;
-	// GUI manager
-	class GUIManager;
+	// GUI
+	class GUI;
+	// GUI utility
+	class GUIUtility;
 
 
 	// Rendering

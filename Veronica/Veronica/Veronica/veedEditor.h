@@ -19,8 +19,8 @@
 #include "veRenderer.h"
 // GLSL manager
 #include "veGLSLManager.h"
-// GUI Manager
-#include "veGUIManager.h"
+// GUI
+#include "veGUI.h"
 
 
 // Event
@@ -114,8 +114,8 @@ namespace veed {
 		Renderer* mRenderer;
 		// GLSL manager
 		GLSLManager* mGLSLManager;
-		// GUI manager
-		GUIManager* mGUIManager;
+		// GUI
+		GUI* mGUI;
 
 
 		// Scene factory

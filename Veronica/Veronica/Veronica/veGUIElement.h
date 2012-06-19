@@ -7,20 +7,42 @@
 
 #include "vePrerequisites.h"
 
+#include <vector>
+
 namespace vee {
+
+	typedef struct Point {
+
+		// X coordinate
+		int x;
+
+		// Y coordinate
+		int y;
+
+
+		//---------------------------------------------------------------
+		Point() {}
+		~Point() {}
+
+
+		// =
+		void operator = (const Point& p) {
+			
+			x = p.x;
+			y = p.y;
+		}
+
+	} Point;
 
 	// Rect
 	typedef struct Rect {
 
 		// X coordinate
 		int x;
-		
 		// Y coordinate
 		int y;
-
 		// Width
 		int w;
-
 		// Height
 		int h;
 
@@ -50,12 +72,32 @@ namespace vee {
 
 
 
+	// GUI type
+	typedef enum GUIType {
+
+		// Default
+		GUI_DEFAULT,
+
+		// Static
+		GUI_STATIC
+
+	} GUIType;
+
+
+
 	// GUIElement
 	class GUIElement {
 
 	public:
 		GUIElement();
 		virtual ~GUIElement();
+
+
+	public:
+		/**
+		 * Mouse left button down
+		 */
+		virtual int mouseLDown(int x, int y);
 
 
 	public:
@@ -77,18 +119,16 @@ namespace vee {
 
 	public:
 		/**
-		 * Set color
+		 * Add child
 		 */
-		void setColor(uchar* color);
+		void addChild(GUIElement* child);
+
+
+	public:
 		/**
 		 * Set color
 		 */
 		void setColor(uchar r, uchar g, uchar b, uchar a);
-
-		/**
-		 * Get rect
-		 */
-		Rect& getRect();
 
 		/**
 		 * Set rect
@@ -97,11 +137,23 @@ namespace vee {
 
 
 	protected:
+		// GUI type
+		GUIType mType;
+
+
 		// Rect
 		Rect mRect;
 
+
 		// Color
 		uchar mColor[4];
+
+
+		// Parent GUI element
+		GUIElement* mParent;
+
+		// Children GUI elements
+		vector<GUIElement*> mChildren;
 	};
 };
 

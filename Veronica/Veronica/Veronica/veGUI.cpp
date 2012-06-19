@@ -1,14 +1,17 @@
-#include "veGUIManager.h"
+#include "veGUI.h"
 #include "veRenderSystem.h"
 
 namespace vee {
 
 	//---------------------------------------------------------------
-	GUIManager::GUIManager() {
+	GUI::GUI() {
+
+		// Root GUI element
+		mRoot = NULL;
 	}
 
 	//---------------------------------------------------------------
-	GUIManager::~GUIManager() {
+	GUI::~GUI() {
 
 		// Destroy
 		destroy();
@@ -17,21 +20,23 @@ namespace vee {
 
 	//---------------------------------------------------------------
 	// Initialize the static member
-	template<> GUIManager* SingletonVee<GUIManager>::ms_Singleton = 0;
-	GUIManager& GUIManager::getSingleton(void) {
+	template<> GUI* SingletonVee<GUI>::ms_Singleton = 0;
+	GUI& GUI::getSingleton(void) {
+
 		return *ms_Singleton;
 	}
 	//---------------------------------------------------------------
-	GUIManager* GUIManager::getSingletonPtr(void) {
+	GUI* GUI::getSingletonPtr(void) {
+
 		return ms_Singleton;
 	}
 
 
 	//---------------------------------------------------------------
 	/**
-	 * Render GUI elements
+	 * Render
 	 */
-	void GUIManager::render() {
+	void GUI::render() {
 
 		// Render system
 		RenderSystem& rs = RenderSystem::getSingleton();
@@ -55,11 +60,9 @@ namespace vee {
 		rs.clearBuffers(GL_DEPTH_BUFFER_BIT);
 
 
-		// Loop each GUI element
-		for (uint i = 0; i < mGUIElements.size(); i++) {
-
-			// Render GUI element
-			mGUIElements[i]->render();
+		// Render root GUI element
+		if (mRoot) {
+			mRoot->render();
 		}
 
 
@@ -67,49 +70,38 @@ namespace vee {
 		rs.clearBuffers(GL_DEPTH_BUFFER_BIT);
 	}
 
-	//---------------------------------------------------------------
-	/**
-	 * Update GUI elements
-	 */
-	void GUIManager::update() {
-
-	}
-
 
 	//---------------------------------------------------------------
 	/**
 	 * Init
 	 */
-	void GUIManager::init() {
+	void GUI::init() {
 
-		/*
-		// Test GUI
-		GUIElement* t = new GUIElement();
-
-		// Rect
-		t->setRect(Rect(0, 0, 1024, 200));
-
-		// Color
-		t->setColor(64 ,64, 64, 255);
+		// TODO: parse GUI layout file.
 
 
-		mGUIElements.push_back(t);
-		*/
+
 	}
 
 	//---------------------------------------------------------------
 	/**
-	  * Destroy
-	  */
-	void GUIManager::destroy() {
+	 * Destroy
+	 */
+	void GUI::destroy() {
 
-		// Loop each GUI element
-		for (uint i = 0; i < mGUIElements.size(); i++) {
-
-			// Detroy GUI element
-			delete mGUIElements[i];
+		// Root GUI element
+		if (mRoot) {
+			delete mRoot;
 		}
+	}
 
-		mGUIElements.clear();
+
+	//---------------------------------------------------------------
+	/**
+	 * Get GUI element
+	 */
+	GUIElement* GUI::getGUIElement() {
+
+		return mRoot;
 	}
 };

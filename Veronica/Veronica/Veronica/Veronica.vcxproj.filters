@@ -162,11 +162,14 @@
     <ClCompile Include="veGUIElement.cpp">
       <Filter>vee\gui</Filter>
     </ClCompile>
-    <ClCompile Include="veGUIManager.cpp">
-      <Filter>vee\gui</Filter>
-    </ClCompile>
     <ClCompile Include="veEvent.cpp">
       <Filter>vee\event</Filter>
+    </ClCompile>
+    <ClCompile Include="veGUI.cpp">
+      <Filter>vee\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="veGUIUtility.cpp">
+      <Filter>vee\gui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -299,11 +302,11 @@
     <ClInclude Include="veGUIElement.h">
       <Filter>vee\gui</Filter>
     </ClInclude>
-    <ClInclude Include="veGUIManager.h">
-      <Filter>vee\gui</Filter>
-    </ClInclude>
     <ClInclude Include="veEvent.h">
       <Filter>vee\event</Filter>
+    </ClInclude>
+    <ClInclude Include="veGUI.h">
+      <Filter>vee\gui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
