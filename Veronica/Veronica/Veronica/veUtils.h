@@ -366,15 +366,13 @@ namespace vee {
 		//---------------------------------------------------------------
 		/**
 		 * Point in rect
-		 * @r {Rect&} rect.
-		 * @x {int} x coordinate.
-		 * @y {int} y coordinate.
-		 * @return {bool} point inside rect or not.
+		 * @p {Point&} input point.
+		 * @r {Rect&} input rect.
+		 * @return {bool} inside or not.
 		 */
-		static bool pointInRect(Rect& r, int x, int y) {
+		static bool pointInRect(Point& p, Rect& r) {
 
-			if ( x >= r.x && x <= (r.x+r.w) && y >= r.y && y <= (r.y+r.h)) {
-
+			if ( p.x >= r.x && p.x <= (r.x+r.w) && p.y >= r.y && p.y <= (r.y+r.h)) {
 				return true;
 			}
 

@@ -11,11 +11,14 @@
 
 namespace vee {
 
+	/**
+	 * Point
+	 * 2D "int" point.
+	 */
 	typedef struct Point {
 
 		// X coordinate
 		int x;
-
 		// Y coordinate
 		int y;
 
@@ -33,6 +36,8 @@ namespace vee {
 		}
 
 	} Point;
+
+
 
 	// Rect
 	typedef struct Rect {
@@ -75,8 +80,8 @@ namespace vee {
 	// GUI type
 	typedef enum GUIType {
 
-		// Default
-		GUI_DEFAULT,
+		// Simple
+		GUI_SIMPLE,
 
 		// Static
 		GUI_STATIC
@@ -95,18 +100,6 @@ namespace vee {
 
 	public:
 		/**
-		 * Mouse left button down
-		 */
-		virtual int mouseLDown(int x, int y);
-
-
-	public:
-		/**
-		 * Render
-		 */
-		virtual void render();
-
-		/**
 		 * Init
 		 */
 		virtual void init();
@@ -116,6 +109,11 @@ namespace vee {
 		 */
 		virtual void destroy();
 
+		/**
+		 * Render
+		 */
+		virtual void render();
+
 
 	public:
 		/**
@@ -123,17 +121,37 @@ namespace vee {
 		 */
 		void addChild(GUIElement* child);
 
+		/**
+		 * Remove child
+		 */
+		void removeChild(GUIElement* child);
+
+		/**
+		 * Get child by type
+		 */
+		GUIElement* getChildByType(GUIType type);
+
 
 	public:
 		/**
-		 * Set color
+		 * Set background color
 		 */
-		void setColor(uchar r, uchar g, uchar b, uchar a);
+		void setBackgroundColor(uchar r, uchar g, uchar b, uchar a);
+
+		/**
+		 * Set border color
+		 */
+		void setBorderColor(uchar r, uchar g, uchar b, uchar a);
 
 		/**
 		 * Set rect
 		 */
 		void setRect(Rect& r);
+
+		/**
+		 * Get type
+		 */
+		GUIType getType();
 
 
 	protected:
@@ -145,14 +163,17 @@ namespace vee {
 		Rect mRect;
 
 
-		// Color
-		uchar mColor[4];
+		// Background color
+		uchar mBackgroundColor[4];
+
+		// Border color
+		uchar mBorderColor[4];
 
 
-		// Parent GUI element
+		// Parent
 		GUIElement* mParent;
 
-		// Children GUI elements
+		// Children
 		vector<GUIElement*> mChildren;
 	};
 };
