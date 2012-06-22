@@ -4,8 +4,8 @@
 /*
  * veedUIColorPanel.h
  */
-#include "veedPrerequisites.h"
 
+#include "veedPrerequisites.h"
 
 namespace veed {
 

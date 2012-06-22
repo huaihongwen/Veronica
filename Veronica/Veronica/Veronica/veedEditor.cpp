@@ -12,10 +12,18 @@ namespace veed {
 		mRenderer = NULL;
 		// GLSL manager
 		mGLSLManager = NULL;
-		// GUI
-		mGUI = NULL;
 
 
+		// UI
+		// Window
+		mUIWindow = NULL;
+		// Edit view
+		mUIEditView = NULL;
+		// Texture panel
+		mUITexturePanel = NULL;
+
+
+		// Editor
 		// Scene factory
 		mSceneFactory = NULL;
 
@@ -33,67 +41,80 @@ namespace veed {
 
 
 	//---------------------------------------------------------------
-	// Init
+	/**
+	 * Init
+	 */
 	void Editor::init() {
 
 		// Engine
 		_initEngine();
 
 
+		// UI
+		_initUI();
+
+
+		// Editor
 		// Scene factory
 		mSceneFactory = new SceneFactory();
-
-		// Init scene
 		mSceneFactory->initScene();
 	}
 
 	//---------------------------------------------------------------
-	// Destroy
+	/**
+	 * Destroy
+	 */
 	void Editor::destroy() {
+		
+		// Editor
+		// Scene factory
+		if (mSceneFactory) {
+			delete mSceneFactory;
+		}
+
+
+		// UI
+		_destroyUI();
+
 
 		// Engine
 		_destroyEngine();
 	}
 
-
 	//---------------------------------------------------------------
-	// Update
+	/**
+	 * Update
+	 */
 	void Editor::update() {
 
-		// Update FPS
+		// Engine
+		// Timer
 		mTimer.updateFPS();
 	}
 
 	//---------------------------------------------------------------
-	// Render function
+	/**
+	 * Render
+	 */
 	void Editor::render() {
 
 		// Clear buffer
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		// GUI render
-		mGUI->render();
 
-		// Renderer render
+		// UI
+		_renderUI();
+
+
+		// Renderer
 		mRenderer->render();
 	}
 
 
 	//---------------------------------------------------------------
-	// Get camera
-	SphericalCamera& Editor::getCamera() {
-		return mRenderer->getCamera();
-	}
-
-	//---------------------------------------------------------------
-	// Get timer
-	Timer* Editor::getTimer() {
-		return &mTimer;
-	}
-
-
-	//---------------------------------------------------------------
-	// Initialize engine
+	/**
+	 * Init engine
+	 */
 	void Editor::_initEngine() {
 
 		// Timer
@@ -114,14 +135,13 @@ namespace veed {
 		mRenderer->setProjection(Transform::getPerspective(45.0f, (float)EDITVIEWPORTWIDTH/(float)EDITVIEWPORTHEIGHT,
 			0.1f, 1000.0f));
 		mRenderer->init();
-
-		// GUI
-		mGUI = new GUI();
-		mGUI->init();
 	}
 
+
 	//---------------------------------------------------------------
-	// Destroy engine
+	/**
+	 * Destroy engine
+	 */
 	void Editor::_destroyEngine() {
 
 		// Delete GLSL manager
@@ -136,15 +156,140 @@ namespace veed {
 		if (mRenderer) {
 			delete mRenderer;
 		}
-		// Delete GUI
-		if (mGUI) {
-			delete mGUI;
-		}
 	}
 
 
+	//---------------------------------------------------------------
+	/**
+	 * Init UI
+	 */
+	void Editor::_initUI() {
+
+		// Window
+		mUIWindow = new UIComponent();
+		mUIWindow->setRect(Rect(0, 0, EDITWINDOWWIDTH, EDITWINDOTHEIGHT));
+		mUIWindow->setBackgroundColor(64, 64, 64);
+
+		// Edit view
+		mUIEditView = new UIComponent();
+		mUIEditView->setRect(Rect(0, 0, 10, 10));
+		mUIEditView->setBackgroundColor(128, 128, 128);
+
+		// Texture panel
+		mUITexturePanel = new UITexturePanel();
+		mUITexturePanel->setRect(Rect(800, 200, 224, 468));
+		mUITexturePanel->setBackgroundColor(0, 0, 0);
+	}
+
+	//---------------------------------------------------------------
+	/**
+	 * Destroy UI
+	 */
+	void Editor::_destroyUI() {
+
+		// Window
+		if (mUIWindow) {
+			delete mUIWindow;
+		}
+		// Edit view
+		if (mUIEditView) {
+			delete mUIEditView;
+		}
+		// Texture panel
+		if (mUITexturePanel) {
+			delete mUITexturePanel;
+		}
+	}
+
+	//---------------------------------------------------------------
+	/**
+	 * Render UI
+	 */
+	void Editor::_renderUI() {
+
+		// Render system
+		RenderSystem& rs = RenderSystem::getSingleton();
+
+		// Window width
+		int ww = rs.getWindowWidth();
+		// Window height
+		int wh = rs.getWindowHeight();
+
+
+		// Ortho projection
+		rs.setOrthoProjection(0.0f, (float)ww, 0.0f, (float)wh);
+
+		// Viewport
+		rs.setViewport(0, 0, ww, wh);
+
+		// Model view identity
+		rs.identityModelView();
+
+
+		// Clear depth buffer
+		rs.clearBuffers(GL_DEPTH_BUFFER_BIT);
+
+
+		// Window
+		mUIWindow->render();
+		// Edit view
+		mUIEditView->render();
+		// Texture panel
+		mUITexturePanel->render();
+
+
+		// Clear depth buffer
+		rs.clearBuffers(GL_DEPTH_BUFFER_BIT);
+	}
+
+
+	//---------------------------------------------------------------
+	/**
+	 * Get camera
+	 */
+	SphericalCamera& Editor::getCamera() {
+		return mRenderer->getCamera();
+	}
+
+	//---------------------------------------------------------------
+	/**
+	 * Get timer
+	 */
+	Timer* Editor::getTimer() {
+		return &mTimer;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	//===============================================================
-	// TEMP
 	// TODO: Input system
 	//---------------------------------------------------------------
 	// Mouse down

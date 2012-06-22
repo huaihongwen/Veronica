@@ -55,9 +55,6 @@
     <Filter Include="veed\editor\scene factory">
       <UniqueIdentifier>{56b26ac2-0614-437a-9b66-f38b9c77474a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="vee\gui">
-      <UniqueIdentifier>{8e005b10-6dd5-45e3-871b-6400d0de09b0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="vee\event">
       <UniqueIdentifier>{f662b11d-fa43-4237-b0f7-e5fa39b40701}</UniqueIdentifier>
     </Filter>
@@ -117,9 +114,6 @@
     <ClCompile Include="veConsole.cpp">
       <Filter>vee\console</Filter>
     </ClCompile>
-    <ClCompile Include="veFontSystem.cpp">
-      <Filter>vee\gui</Filter>
-    </ClCompile>
     <ClCompile Include="veVoxelModel.cpp">
       <Filter>vee\voxel</Filter>
     </ClCompile>
@@ -159,17 +153,17 @@
     <ClCompile Include="veedSceneFactory.cpp">
       <Filter>veed\editor\scene factory</Filter>
     </ClCompile>
-    <ClCompile Include="veGUIElement.cpp">
-      <Filter>vee\gui</Filter>
-    </ClCompile>
     <ClCompile Include="veEvent.cpp">
       <Filter>vee\event</Filter>
     </ClCompile>
-    <ClCompile Include="veGUI.cpp">
-      <Filter>vee\gui</Filter>
+    <ClCompile Include="veFontSystem.cpp">
+      <Filter>vee\console</Filter>
     </ClCompile>
-    <ClCompile Include="veGUIUtility.cpp">
-      <Filter>vee\gui</Filter>
+    <ClCompile Include="veUIComponent.cpp">
+      <Filter>vee\TODO</Filter>
+    </ClCompile>
+    <ClCompile Include="veedTexturePanel.cpp">
+      <Filter>veed\editor\model factory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -257,9 +251,6 @@
     <ClInclude Include="veSphericalCamera.h">
       <Filter>vee\TODO</Filter>
     </ClInclude>
-    <ClInclude Include="veFontSystem.h">
-      <Filter>vee\gui</Filter>
-    </ClInclude>
     <ClInclude Include="veEngine.h">
       <Filter>vee</Filter>
     </ClInclude>
@@ -299,14 +290,17 @@
     <ClInclude Include="veVoxelModel.h">
       <Filter>vee\voxel</Filter>
     </ClInclude>
-    <ClInclude Include="veGUIElement.h">
-      <Filter>vee\gui</Filter>
-    </ClInclude>
     <ClInclude Include="veEvent.h">
       <Filter>vee\event</Filter>
     </ClInclude>
-    <ClInclude Include="veGUI.h">
-      <Filter>vee\gui</Filter>
+    <ClInclude Include="veFontSystem.h">
+      <Filter>vee\console</Filter>
+    </ClInclude>
+    <ClInclude Include="veUIComponent.h">
+      <Filter>vee\TODO</Filter>
+    </ClInclude>
+    <ClInclude Include="veedTexturePanel.h">
+      <Filter>veed\editor\model factory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

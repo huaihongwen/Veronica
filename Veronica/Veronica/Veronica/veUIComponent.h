@@ -1,13 +1,12 @@
-#ifndef VEE_GUIELEMENT_H
-#define VEE_GUIELEMENT_H
+#ifndef VEE_UICOMPONENT_H
+#define VEE_UICOMPONENT_H
 
 /**
- * Basic GUI element
+ * Basic UI component
  */
 
 #include "vePrerequisites.h"
-
-#include <vector>
+#include "veTexture.h"
 
 namespace vee {
 
@@ -25,6 +24,10 @@ namespace vee {
 
 		//---------------------------------------------------------------
 		Point() {}
+		Point(int px, int py) {
+			x = px;
+			y = py;
+		}
 		~Point() {}
 
 
@@ -77,28 +80,18 @@ namespace vee {
 
 
 
-	// GUI type
-	typedef enum GUIType {
-
-		// Simple
-		GUI_SIMPLE,
-
-		// Static
-		GUI_STATIC
-
-	} GUIType;
-
-
-
-	// GUIElement
-	class GUIElement {
+	/**
+	 * UI component
+	 */
+	class UIComponent {
 
 	public:
-		GUIElement();
-		virtual ~GUIElement();
+		UIComponent();
+		~UIComponent();
 
 
 	public:
+
 		/**
 		 * Init
 		 */
@@ -117,64 +110,38 @@ namespace vee {
 
 	public:
 		/**
-		 * Add child
+		 * Mouse left button up
 		 */
-		void addChild(GUIElement* child);
-
-		/**
-		 * Remove child
-		 */
-		void removeChild(GUIElement* child);
-
-		/**
-		 * Get child by type
-		 */
-		GUIElement* getChildByType(GUIType type);
+		virtual void mouseLUp(int x, int y);
 
 
 	public:
-		/**
-		 * Set background color
-		 */
-		void setBackgroundColor(uchar r, uchar g, uchar b, uchar a);
-
-		/**
-		 * Set border color
-		 */
-		void setBorderColor(uchar r, uchar g, uchar b, uchar a);
-
 		/**
 		 * Set rect
 		 */
 		void setRect(Rect& r);
 
 		/**
-		 * Get type
+		 * Set background color
 		 */
-		GUIType getType();
+		void setBackgroundColor(uchar r, uchar g, uchar b);
+
 
 
 	protected:
-		// GUI type
-		GUIType mType;
-
-
 		// Rect
 		Rect mRect;
 
 
 		// Background color
-		uchar mBackgroundColor[4];
-
-		// Border color
-		uchar mBorderColor[4];
+		uchar mColor[3];
 
 
-		// Parent
-		GUIElement* mParent;
+		// Texture
+		Texture* mTexture;
 
-		// Children
-		vector<GUIElement*> mChildren;
+		// Texture coordinates
+		float mTexCoords[8];
 	};
 };
 

@@ -1,13 +1,18 @@
 #ifndef VEED_EDITOR_H
 #define VEED_EDITOR_H
 
-/*
+/**
  * veedEditor.h
  */
 
 #include "veedPrerequisites.h"
 // Scene factory
 #include "veedSceneFactory.h"
+
+// UI
+// Texture panel
+#include "veedTexturePanel.h"
+
 
 // Engine
 // Timer
@@ -19,12 +24,6 @@
 #include "veRenderer.h"
 // GLSL manager
 #include "veGLSLManager.h"
-// GUI
-#include "veGUI.h"
-
-
-// Event
-#include "veEvent.h"
 
 
 namespace veed {
@@ -38,39 +37,97 @@ namespace veed {
 
 
 	public:
-		// Init
+		/**
+		 * Init
+		 */
 		void init();
 
-		// Destroy
+		/**
+		 * Destroy
+		 */
 		void destroy();
 
-
-		// Update
+		/**
+		 * Update
+		 */
 		void update();
 
-		// Render
+		/**
+		 * Render
+		 */
 		void render();
 
 
+	protected:
+		/**
+		 * Init engine
+		 */
+		void _initEngine();
+
+		/**
+		 * Destroy engine
+		 */
+		void _destroyEngine();
+
+
+		/**
+		 * Init UI
+		 */
+		void _initUI();
+
+		/**
+		 * Destroy UI
+		 */
+		void _destroyUI();
+
+		/**
+		 * Render UI
+		 */
+		void _renderUI();
+
+
 	public:
-		// Get camera
+		/**
+		 * Get camera
+		 */
 		SphericalCamera& getCamera();
 
-		// Get timer
+		/**
+		 * Get timer
+		 */
 		Timer* getTimer();
 
 
 	protected:
-		// Initialize engine
-		void _initEngine();
+		// Engine
+		// Timer
+		Timer mTimer;
 
-		// Destroy engine
-		void _destroyEngine();
+		// Render system
+		RenderSystem* mRenderSystem;
+		// Renderer
+		Renderer* mRenderer;
+		// GLSL manager
+		GLSLManager* mGLSLManager;
 
 
-	//===============================================================
-	// TEMP
-	// TODO: Input system
+		// UI
+		// Window
+		UIComponent* mUIWindow;
+		// Edit view
+		UIComponent* mUIEditView;
+		// Texture panel
+		UITexturePanel* mUITexturePanel;
+
+
+		// Editor
+		// Scene factory
+		SceneFactory* mSceneFactory;
+
+		
+
+		//---------------------------------------------------------------
+		// TODO: Input system
 	public:
 		// Mouse
 		// Mouse down
@@ -100,26 +157,6 @@ namespace veed {
 
 		// Key board keys
 		bool mKeys[256];
-	//===============================================================
-
-
-	protected:
-		// Engine
-		//Timer
-		Timer mTimer;
-
-		// Render system
-		RenderSystem* mRenderSystem;
-		// Renderer
-		Renderer* mRenderer;
-		// GLSL manager
-		GLSLManager* mGLSLManager;
-		// GUI
-		GUI* mGUI;
-
-
-		// Scene factory
-		SceneFactory* mSceneFactory;
 	};
 };
 

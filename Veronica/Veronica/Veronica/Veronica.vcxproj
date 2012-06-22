@@ -21,13 +21,12 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="veConsole.cpp" />
     <ClCompile Include="veedFactoryHistory.cpp" />
+    <ClCompile Include="veedTexturePanel.cpp" />
     <ClCompile Include="veedUIColorPanel.cpp" />
     <ClCompile Include="veEngine.cpp" />
     <ClCompile Include="veEvent.cpp" />
     <ClCompile Include="veFBOManager.cpp" />
     <ClCompile Include="veFontSystem.cpp" />
-    <ClCompile Include="veGUI.cpp" />
-    <ClCompile Include="veGUIUtility.cpp" />
     <ClCompile Include="veQuaternion.cpp" />
     <ClCompile Include="veRenderer.cpp" />
     <ClCompile Include="veRenderPass.cpp" />
@@ -48,8 +47,8 @@
     <ClCompile Include="veTransformController.cpp" />
     <ClCompile Include="veTextureManager.cpp" />
     <ClCompile Include="veTGALoader.cpp" />
-    <ClCompile Include="veGUIElement.cpp" />
     <ClCompile Include="veTransform.cpp" />
+    <ClCompile Include="veUIComponent.cpp" />
     <ClCompile Include="veVector3.cpp" />
     <ClCompile Include="veVoxel.cpp" />
     <ClCompile Include="veVoxelModel.cpp" />
@@ -85,6 +84,7 @@
     <ClInclude Include="veSingleton.h" />
     <ClInclude Include="veedSkeletonFactory.h" />
     <ClInclude Include="veSkeleton.h" />
+    <ClInclude Include="veedTexturePanel.h" />
     <ClInclude Include="veTransformController.h" />
     <ClInclude Include="veSphericalCamera.h" />
     <ClInclude Include="veMatrix3x3.h" />
@@ -94,8 +94,7 @@
     <ClInclude Include="veTGALoader.h" />
     <ClInclude Include="veTimer.h" />
     <ClInclude Include="veTransform.h" />
-    <ClInclude Include="veGUIElement.h" />
-    <ClInclude Include="veGUI.h" />
+    <ClInclude Include="veUIComponent.h" />
     <ClInclude Include="veUtils.h" />
     <ClInclude Include="veVector3.h" />
     <ClInclude Include="veVoxel.h" />
