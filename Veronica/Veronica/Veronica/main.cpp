@@ -469,14 +469,16 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 			return 0;
 		}
 
-	// Mouse move, TODO: input system
+	// Mouse move
 	case WM_MOUSEMOVE:
 		{
+			// Editor mouse move
 			gEditor->mouseMove();
+
 			return 0;
 		}
 
-	// Mouse left button pressed
+	// Mouse left button down
 	case WM_LBUTTONDOWN:
 		{
 			// Get screen mouse position
@@ -485,16 +487,24 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 			ScreenToClient(hWnd, &mousePos);
 
 
-			// Editor mouse down
-			gEditor->mouseDown(mousePos);
+			// Editor mouse left button down
+			gEditor->mouseLDown(mousePos.x, mousePos.y);
 
 			return 0;
 		}
 
-	// Mouse left button released
+	// Mouse left button up
 	case WM_LBUTTONUP:
 		{
-			gEditor->mouseUp();
+			// Get screen mouse position
+			GetCursorPos(&mousePos);
+			// Get client mouse position
+			ScreenToClient(hWnd, &mousePos);
+
+
+			// Editor mouse left button up
+			gEditor->mouseLUp(mousePos.x, mousePos.y);
+
 			return 0;
 		}
 

@@ -12,6 +12,8 @@ namespace veed {
 		mRenderer = NULL;
 		// GLSL manager
 		mGLSLManager = NULL;
+		// Texture manager
+		mTextureManager = NULL;
 
 
 		// UI
@@ -29,7 +31,8 @@ namespace veed {
 
 
 		// Input
-		mLeftButton = 0;
+		// Mouse left button area
+		mMouseLArea = UI_WINDOW;
 	}
 
 	//---------------------------------------------------------------
@@ -135,6 +138,9 @@ namespace veed {
 		mRenderer->setProjection(Transform::getPerspective(45.0f, (float)EDITVIEWPORTWIDTH/(float)EDITVIEWPORTHEIGHT,
 			0.1f, 1000.0f));
 		mRenderer->init();
+
+		// Texture manager
+		mTextureManager = new TextureManager();
 	}
 
 
@@ -156,6 +162,10 @@ namespace veed {
 		if (mRenderer) {
 			delete mRenderer;
 		}
+		// Delete texture manager
+		if (mTextureManager) {
+			delete mTextureManager;
+		}
 	}
 
 
@@ -168,17 +178,18 @@ namespace veed {
 		// Window
 		mUIWindow = new UIComponent();
 		mUIWindow->setRect(Rect(0, 0, EDITWINDOWWIDTH, EDITWINDOTHEIGHT));
-		mUIWindow->setBackgroundColor(64, 64, 64);
+		mUIWindow->setBackgroundColor(16, 16, 16);
 
 		// Edit view
 		mUIEditView = new UIComponent();
-		mUIEditView->setRect(Rect(0, 0, 10, 10));
-		mUIEditView->setBackgroundColor(128, 128, 128);
+		mUIEditView->setRect(Rect(0, 168, 800, 600));
+		mUIEditView->setBackgroundColor(32, 32, 32);
 
 		// Texture panel
 		mUITexturePanel = new UITexturePanel();
-		mUITexturePanel->setRect(Rect(800, 200, 224, 468));
-		mUITexturePanel->setBackgroundColor(0, 0, 0);
+		mUITexturePanel->setRect(Rect(824, 268, 200, 500));
+		mUITexturePanel->setBackgroundColor(32, 32, 32);
+		mUITexturePanel->init();
 	}
 
 	//---------------------------------------------------------------
@@ -261,61 +272,26 @@ namespace veed {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	//===============================================================
+	//---------------------------------------------------------------
 	// TODO: Input system
 	//---------------------------------------------------------------
-	// Mouse down
-	void Editor::mouseDown(POINT& pos) {
+	// Mouse left button down
+	void Editor::mouseLDown(int x, int y) {
 
-		/*
-		// Do hit test with UI components
-		mLeftButton = _hitTest(pos.x, pos.y);
-		
-
-		// Dispatch mouse down event
-
-		if (mLeftButton == UII_EDITVIEW) {
-
-			// Scene factory
-			mSceneFactory->handleMouseClick(pos.x, pos.y);
-		}
-		*/
+		// UI
+		_mouseLDownUI(x, y);
 	}
 
 	//---------------------------------------------------------------
-	// Mouse up
-	void Editor::mouseUp() {
-		
-		// Reset UI index
-		//mLeftButton = UII_NONE;
+	// Mouse left up
+	void Editor::mouseLUp(int x, int y) {
+
+		// UI
+		_mouseLUpUI(x, y);
+
+
+		// Reset mouse left button area
+		mMouseLArea = UI_WINDOW;
 	}
 
 	//---------------------------------------------------------------
@@ -331,69 +307,69 @@ namespace veed {
 
 		// Delta
 		float dx, dy;
-		dx = (float)(newPos.x - mMouse.x);
-		dy = (float)(newPos.y - mMouse.y);
+		dx = (float)(newPos.x - mMousePos.x);
+		dy = (float)(newPos.y - mMousePos.y);
 
 
 		// Save new position
-		mMouse = newPos;
+		mMousePos = newPos;
 
 
 		// Rotate camera
-		//if (mLeftButton == UII_EDITVIEW && !mKeys[16]) {
+		if (mMouseLArea == UI_EDITVIEW && !mKeys[16]) {
+			mRenderer->getCamera().onCameraRotate(dy, -dx);
+			
+			return;
+		}
+	}
 
-		//	mRenderer->getCamera().onCameraRotate(dy, -dx);
 
-		//	return;
-		//}
+	//---------------------------------------------------------------
+	/**
+	 * Mouse left button down UI
+	 */
+	void Editor::_mouseLDownUI(int x, int y) {
 
+		// Edit view
+		if (mUIEditView->mouseLDown(x, y)) {
+			
+			mMouseLArea = UI_EDITVIEW;
+			return;
+		}
 
-		// Dispatch mouse move event
+		// Texture panel
+		if (mUITexturePanel->mouseLDown(x, y)) {
+			
+			mMouseLArea = UI_TEXTUREPANEL;
+			return;
+		}
+	}
 
-		// Skeleton factory
-		//mSkeletonFactory->handleMouseMove(dx, dy);
+	//---------------------------------------------------------------
+	/**
+	 * Mouse left button up UI
+	 */
+	void Editor::_mouseLUpUI(int x, int y) {
+
+		// Texture panel
+		mUITexturePanel->mouseLUp(x, y);
 	}
 
 
 	//---------------------------------------------------------------
 	// Key down
 	void Editor::keyDown(WPARAM key) {
-
 		// Key down
 		mKeys[key] = false;
 	}
 	//---------------------------------------------------------------
 	// Key up
 	void Editor::keyUp(WPARAM key) {
-
 		// Key up
 		mKeys[key] = true;
 	}
 	//---------------------------------------------------------------
 	// Key pressed
 	void Editor::keyPressed(WPARAM key) {
-
-		// Dispatch key pressed event
-
-		// Skeleton factory
-		mSceneFactory->handleKeyPressed(key);
 	}
-
-
-	//---------------------------------------------------------------
-	/*
-	// UI components hit test
-	int Editor::_hitTest(int px, int py) {
-
-		// Hit test with edit view
-		if (mUIEditView->hitTest(px, py)) {
-
-			return UII_EDITVIEW;
-		}
-
-		// Hit nothing
-		return UII_NONE;
-	}
-	*/
-	//===============================================================
 };

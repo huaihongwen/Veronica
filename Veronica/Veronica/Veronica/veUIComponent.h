@@ -112,7 +112,12 @@ namespace vee {
 		/**
 		 * Mouse left button up
 		 */
-		virtual void mouseLUp(int x, int y);
+		virtual bool mouseLUp(int x, int y);
+
+		/**
+		 * Mouse left button down
+		 */
+		virtual bool mouseLDown(int x, int y);
 
 
 	public:
@@ -125,6 +130,16 @@ namespace vee {
 		 * Set background color
 		 */
 		void setBackgroundColor(uchar r, uchar g, uchar b);
+
+		/**
+		 * Set texture
+		 */
+		void setTexture(Texture* tex);
+
+		/**
+		 * Set texture coordinates
+		 */
+		void setTexCoords(float* coords);
 
 
 

@@ -98,11 +98,26 @@ namespace vee {
 	/**
 	 * Mouse left button up
 	 */
-	void UIComponent::mouseLUp(int x, int y) {
+	bool UIComponent::mouseLUp(int x, int y) {
 
 		if (!Utils::pointInRect(Point(x, y), mRect)) {
-			return;
+			return false;
 		}
+
+		return true;
+	}
+
+	//---------------------------------------------------------------
+	/**
+	 * Mouse left button down
+	 */
+	bool UIComponent::mouseLDown(int x, int y) {
+
+		if (!Utils::pointInRect(Point(x, y), mRect)) {
+			return false;
+		}
+
+		return true;
 	}
 
 
@@ -123,5 +138,24 @@ namespace vee {
 		mColor[0] = r;
 		mColor[1] = g;
 		mColor[2] = b;
+	}
+
+	//---------------------------------------------------------------
+	/**
+	 * Set texture
+	 */
+	void UIComponent::setTexture(Texture* tex) {
+		mTexture = tex;
+	}
+
+	//---------------------------------------------------------------
+	/**
+	 * Set texture coordinates
+	 */
+	void UIComponent::setTexCoords(float* coords) {
+		
+		for (int i = 0; i < 8; i++) {
+			mTexCoords[i] = coords[i];
+		}
 	}
 };

@@ -10,9 +10,34 @@
 namespace vee {
 
 	/**
+	 * Voxel type
+	 */
+	typedef enum VoxelType {
+		
+		// Default
+		VT_DEFAULT,
+
+
+		// Air
+		VT_AIR,
+
+		
+		// Purple brick
+		VT_PURPLEBRICK,
+		
+		// Yellow brick
+		VT_YELLOWBRICK
+
+	} VoxelType;
+
+
+	/**
 	 * Voxel
 	 */
 	typedef struct Voxel {
+
+		// Type
+		VoxelType mType;
 
 		// Color
 		uchar mColor[4];

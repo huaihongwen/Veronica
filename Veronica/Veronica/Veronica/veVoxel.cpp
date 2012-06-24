@@ -7,6 +7,9 @@ namespace vee {
 	//---------------------------------------------------------------
 	Voxel::Voxel() {
 
+		// Type
+		mType = VT_DEFAULT;
+
 		// Color
 		mColor[0] = 255;
 		mColor[1] = 255;
@@ -16,6 +19,9 @@ namespace vee {
 
 	//---------------------------------------------------------------
 	Voxel::Voxel(Voxel& v) {
+
+		// Type
+		mType = v.mType;
 
 		// Color
 		mColor[0] = v.mColor[0];

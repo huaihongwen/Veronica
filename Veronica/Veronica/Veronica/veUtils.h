@@ -379,6 +379,65 @@ namespace vee {
 
 			return false;
 		}
+
+
+		//---------------------------------------------------------------
+		/**
+		 * Get voxel face texture coordinates.
+		 * @t {VoxelType} voxel type.
+		 * @fIdx {int} face index.
+		 * @coords {float*} result texture coordinates.
+		 */
+		static void getVoxelFaceTexCoords(VoxelType t, int fIdx, float* coords) {
+
+			// Step
+			float step = 1.0f / 16.0f;
+
+			// Tile x, tile y
+			int tx, ty;
+
+
+			// Voxel type
+			switch (t) {
+
+			case VT_PURPLEBRICK:
+				{
+					tx = 0;
+					ty = 1;
+				}
+				break;
+
+			case VT_YELLOWBRICK:
+				{
+					if (fIdx == 4 || fIdx == 5) {
+						tx = 0;
+						ty = 2;
+					} else {
+						tx = 0;
+						ty = 3;
+					}
+				}
+				break;
+
+			default:
+				{
+					tx = 0;
+					ty = 0;
+				}
+				break;
+			}
+
+
+			// Output
+			coords[0] = tx*step;
+			coords[1] = ty*step + step;
+			coords[2] = tx*step;
+			coords[3] = ty*step;
+			coords[4] = tx*step + step;
+			coords[5] = ty*step;
+			coords[6] = tx*step + step;
+			coords[7] = ty*step + step;
+		}
 	};
 };
 

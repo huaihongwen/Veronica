@@ -24,9 +24,25 @@
 #include "veRenderer.h"
 // GLSL manager
 #include "veGLSLManager.h"
+// Texture manager
+#include "veTextureManager.h"
 
 
 namespace veed {
+
+	/**
+	 * Mouse left button down area
+	 */
+	typedef enum MouseLArea {
+
+		UI_WINDOW,
+
+		UI_EDITVIEW,
+
+		UI_TEXTUREPANEL
+
+	} MouseLArea;
+
 
 	// Editor
 	class Editor {
@@ -109,8 +125,11 @@ namespace veed {
 		Renderer* mRenderer;
 		// GLSL manager
 		GLSLManager* mGLSLManager;
+		// Texture manager
+		TextureManager* mTextureManager;
 
 
+	public:
 		// UI
 		// Window
 		UIComponent* mUIWindow;
@@ -130,14 +149,29 @@ namespace veed {
 		// TODO: Input system
 	public:
 		// Mouse
-		// Mouse down
-		void mouseDown(POINT& pos);
-		// Mouse up
-		void mouseUp();
+		// Mouse left button down
+		void mouseLDown(int x, int y);
+
+		// Mouse left up
+		void mouseLUp(int x, int y);
+
 		// Mouse move
 		void mouseMove();
 
 
+	protected:
+		/**
+		 * Mouse left button down UI
+		 */
+		void _mouseLDownUI(int x, int y);
+
+		/**
+		 * Mouse left button up UI
+		 */
+		void _mouseLUpUI(int x, int y);
+
+
+	public:
 		// Key board
 		// Key down
 		void keyDown(WPARAM key);
@@ -148,11 +182,11 @@ namespace veed {
 
 
 	protected:
-		// Mouse left button area idx
-		int mLeftButton;
+		// Mouse left button area
+		MouseLArea mMouseLArea;
 
 		// Mouse position
-		POINT mMouse;
+		POINT mMousePos;
 
 
 		// Key board keys
