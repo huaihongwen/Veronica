@@ -415,17 +415,74 @@ namespace vee {
 				}
 				break;
 
+			case VT_GREY_BRICK_1:
+				{
+					tx = 5;
+					ty = 15;
+				}
+				break;
+
+			case VT_GREY_BRICK_2:
+				{
+					tx = 6;
+					ty = 12;
+				}
+				break;
+
+			case VT_GREY_BRICK_3:
+				{
+					tx = 4;
+					ty = 9;
+				}
+				break;
+
+			case VT_GREY_BRICK_4:
+				{
+					tx = 5;
+					ty = 9;
+				}
+				break;
+
+			case VT_GREY_BRICK_5:
+				{
+					tx = 13;
+					ty = 9;
+				}
+				break;
+
+			case VT_GREY_BRICK_6:
+				{
+					tx = 14;
+					ty = 9;
+				}
+				break;
+
+			case VT_GREY_BRICK_7:
+				{
+					tx = 1;
+					ty = 15;
+				}
+				break;
+
+			case VT_GREY_BRICK_8:
+				{
+					tx = 0;
+					ty = 14;
+				}
+				break;
+
+			case VT_GREY_BRICK_9:
+				{
+					tx = 6;
+					ty = 15;
+				}
+				break;
+
+
 			case VT_GREY_METAL:
 				{
 					tx = 1;
 					ty = 1;
-				}
-				break;
-
-			case VT_GREY_BRICK:
-				{
-					tx = 5;
-					ty = 15;
 				}
 				break;
 

@@ -214,7 +214,15 @@ namespace vee {
 		// Brick
 		mTypes.push_back(VT_PURPLE_BRICK);
 		mTypes.push_back(VT_YELLOW_BRICK);
-		mTypes.push_back(VT_GREY_BRICK);
+		mTypes.push_back(VT_GREY_BRICK_1);
+		mTypes.push_back(VT_GREY_BRICK_2);
+		mTypes.push_back(VT_GREY_BRICK_3);
+		mTypes.push_back(VT_GREY_BRICK_4);
+		mTypes.push_back(VT_GREY_BRICK_5);
+		mTypes.push_back(VT_GREY_BRICK_6);
+		mTypes.push_back(VT_GREY_BRICK_7);
+		mTypes.push_back(VT_GREY_BRICK_8);
+		mTypes.push_back(VT_GREY_BRICK_9);
 
 
 		// Metal
