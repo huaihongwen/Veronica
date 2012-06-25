@@ -46,15 +46,6 @@
     <Filter Include="vee\skeleton">
       <UniqueIdentifier>{e946ff40-f931-4459-947e-53ae6349edd0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="veed\editor\model factory">
-      <UniqueIdentifier>{ddc7b2cb-0ef8-4ada-ab89-3bff49e7032a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="veed\editor\skeleton factory">
-      <UniqueIdentifier>{00a48db5-ea22-46e0-a6dd-645ad081e512}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="veed\editor\scene factory">
-      <UniqueIdentifier>{56b26ac2-0614-437a-9b66-f38b9c77474a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="vee\event">
       <UniqueIdentifier>{f662b11d-fa43-4237-b0f7-e5fa39b40701}</UniqueIdentifier>
     </Filter>
@@ -74,9 +65,6 @@
     </ClCompile>
     <ClCompile Include="veMesh.cpp">
       <Filter>vee\mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="veedEditor.cpp">
-      <Filter>veed\editor</Filter>
     </ClCompile>
     <ClCompile Include="veOctree.cpp">
       <Filter>vee\others</Filter>
@@ -120,23 +108,11 @@
     <ClCompile Include="veEngine.cpp">
       <Filter>vee</Filter>
     </ClCompile>
-    <ClCompile Include="veedFactoryHistory.cpp">
-      <Filter>veed\history</Filter>
-    </ClCompile>
     <ClCompile Include="veQuaternion.cpp">
       <Filter>vee\math</Filter>
     </ClCompile>
     <ClCompile Include="veTransformController.cpp">
       <Filter>vee\skeleton</Filter>
-    </ClCompile>
-    <ClCompile Include="veedSkeletonFactory.cpp">
-      <Filter>veed\editor\skeleton factory</Filter>
-    </ClCompile>
-    <ClCompile Include="veedModelFactory.cpp">
-      <Filter>veed\editor\model factory</Filter>
-    </ClCompile>
-    <ClCompile Include="veedUIColorPanel.cpp">
-      <Filter>veed\editor\model factory</Filter>
     </ClCompile>
     <ClCompile Include="veSkeleton.cpp">
       <Filter>vee\skeleton</Filter>
@@ -150,20 +126,26 @@
     <ClCompile Include="veScene.cpp">
       <Filter>vee\voxel</Filter>
     </ClCompile>
-    <ClCompile Include="veedSceneFactory.cpp">
-      <Filter>veed\editor\scene factory</Filter>
-    </ClCompile>
-    <ClCompile Include="veEvent.cpp">
-      <Filter>vee\event</Filter>
-    </ClCompile>
     <ClCompile Include="veFontSystem.cpp">
       <Filter>vee\console</Filter>
     </ClCompile>
     <ClCompile Include="veUIComponent.cpp">
       <Filter>vee\TODO</Filter>
     </ClCompile>
-    <ClCompile Include="veedTexturePanel.cpp">
-      <Filter>veed\editor\model factory</Filter>
+    <ClCompile Include="veEditor.cpp">
+      <Filter>veed\editor</Filter>
+    </ClCompile>
+    <ClCompile Include="veFactoryHistory.cpp">
+      <Filter>veed\history</Filter>
+    </ClCompile>
+    <ClCompile Include="veTexturePanel.cpp">
+      <Filter>veed\editor</Filter>
+    </ClCompile>
+    <ClCompile Include="veSceneFactory.cpp">
+      <Filter>veed\editor</Filter>
+    </ClCompile>
+    <ClCompile Include="veUIColorPanel.cpp">
+      <Filter>veed\editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -185,9 +167,6 @@
     <ClInclude Include="veMesh.h">
       <Filter>vee\mesh</Filter>
     </ClInclude>
-    <ClInclude Include="veedPrerequisites.h">
-      <Filter>veed</Filter>
-    </ClInclude>
     <ClInclude Include="veRay.h">
       <Filter>vee\others</Filter>
     </ClInclude>
@@ -196,9 +175,6 @@
     </ClInclude>
     <ClInclude Include="veBoundingBox.h">
       <Filter>vee\others</Filter>
-    </ClInclude>
-    <ClInclude Include="veedEditor.h">
-      <Filter>veed\editor</Filter>
     </ClInclude>
     <ClInclude Include="veGLSLManager.h">
       <Filter>vee\shader</Filter>
@@ -214,9 +190,6 @@
     </ClInclude>
     <ClInclude Include="veSingleton.h">
       <Filter>vee</Filter>
-    </ClInclude>
-    <ClInclude Include="veedSingleton.h">
-      <Filter>veed</Filter>
     </ClInclude>
     <ClInclude Include="veTGALoader.h">
       <Filter>vee\others</Filter>
@@ -254,23 +227,11 @@
     <ClInclude Include="veEngine.h">
       <Filter>vee</Filter>
     </ClInclude>
-    <ClInclude Include="veedFactoryHistory.h">
-      <Filter>veed\history</Filter>
-    </ClInclude>
     <ClInclude Include="veQuaternion.h">
       <Filter>vee\math</Filter>
     </ClInclude>
     <ClInclude Include="veTransformController.h">
       <Filter>vee\skeleton</Filter>
-    </ClInclude>
-    <ClInclude Include="veedSkeletonFactory.h">
-      <Filter>veed\editor\skeleton factory</Filter>
-    </ClInclude>
-    <ClInclude Include="veedModelFactory.h">
-      <Filter>veed\editor\model factory</Filter>
-    </ClInclude>
-    <ClInclude Include="veedUIColorPanel.h">
-      <Filter>veed\editor\model factory</Filter>
     </ClInclude>
     <ClInclude Include="veSkeleton.h">
       <Filter>vee\skeleton</Filter>
@@ -284,9 +245,6 @@
     <ClInclude Include="veUtils.h">
       <Filter>vee</Filter>
     </ClInclude>
-    <ClInclude Include="veedSceneFactory.h">
-      <Filter>veed\editor\scene factory</Filter>
-    </ClInclude>
     <ClInclude Include="veVoxelModel.h">
       <Filter>vee\voxel</Filter>
     </ClInclude>
@@ -299,8 +257,20 @@
     <ClInclude Include="veUIComponent.h">
       <Filter>vee\TODO</Filter>
     </ClInclude>
-    <ClInclude Include="veedTexturePanel.h">
-      <Filter>veed\editor\model factory</Filter>
+    <ClInclude Include="veEditor.h">
+      <Filter>veed\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="veFactoryHistory.h">
+      <Filter>veed\history</Filter>
+    </ClInclude>
+    <ClInclude Include="veTexturePanel.h">
+      <Filter>veed\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="veSceneFactory.h">
+      <Filter>veed\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="veUIColorPanel.h">
+      <Filter>veed\editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,17 +1,20 @@
-#ifndef VEED_UITEXTUREPANEL_H
-#define VEED_UITEXTUREPANEL_H
+#ifndef VEE_UITEXTUREPANEL_H
+#define VEE_UITEXTUREPANEL_H
 
 /*
- * veedUITexturePanel.h
+ * veUITexturePanel.h
  */
 
-#include "veedPrerequisites.h"
+// Engine
+#include "vePrerequisites.h"
+
 #include "veUIComponent.h"
 #include "veVoxel.h"
+#include "veEvent.h"
 
 #include <vector>
 
-namespace veed {
+namespace vee {
 
 	/**
 	 * Texture panel
@@ -64,6 +67,11 @@ namespace veed {
 
 		// Selected index
 		int mSelectedIdx;
+
+
+	public:
+		// Event
+		Event1<bool, VoxelType> mEvent;
 	};
 };
 

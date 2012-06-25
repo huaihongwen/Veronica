@@ -1,63 +1,141 @@
-#include "veedSceneFactory.h"
+#include "veSceneFactory.h"
+#include "veEditor.h"
 
-namespace veed {
+namespace vee {
 
 	//---------------------------------------------------------------
 	SceneFactory::SceneFactory() {
 
+		// Events
+		// Texture panel event handler id
+		mTexturePanelEventHandlerId = -1;
+
+		// Color panel event handler id
+		mColorPanelEventHandlerId = -1;
+
+
 		// Scene factory mode
 		mMode = SFM_REMOVE;
+
+		// Current voxel type
+		mCurVoxelType = VT_DEFAULT;
+
+
+		// Pointer to editor
+		mParent = NULL;
 	}
 
 	//---------------------------------------------------------------
 	SceneFactory::~SceneFactory() {
+
+		// Destroy
+		destroy();
 	}
 
+
 	//---------------------------------------------------------------
-	// Init scene
-	void SceneFactory::initScene() {
+	// Init
+	void SceneFactory::init() {
 
-		// Init scene
-		mScene.init(16, 16, 16);
-
+		// Scene
+		mScene.init(32, 64, 32);
 
 		// Set scene to chunk serializer
 		mChunkSerializer.setScene(&mScene);
 
 
 		// Chunk array
-		vector<Chunk*>& chunkArray = *mScene.getChunkArray();
+		vector<Chunk*>& cArr = *mScene.getChunkArray();
 
 		// Loop each chunk
-		for (uint i = 0; i < chunkArray.size(); i++) {
+		for (uint i = 0; i < cArr.size(); i++) {
 
 			// Serialize chunk
-			mSceneMeshesArray.push_back(mChunkSerializer.serialize(chunkArray[i]));
+			mSceneMeshesArray.push_back(mChunkSerializer.serialize(cArr[i]));
 		}
 
 
 		// Setup renderer's meshes
 		Renderer::getSingleton().mTestMeshes = &mSceneMeshesArray;
+
+
+		// Bind events
+		_bindEvents();
 	}
 
 
 	//---------------------------------------------------------------
 	/**
-	 * Handle mouse click
+	 * Destroy
+	 */
+	void SceneFactory::destroy() {
+
+		// Unbind events
+		_unbindEvents();
+
+
+		// Loop each mesh
+		for (uint i = 0; i < mSceneMeshesArray.size(); i++) {
+
+			// Delete mesh
+			delete mSceneMeshesArray[i];
+		}
+
+		mSceneMeshesArray.clear();
+	}
+
+
+	//---------------------------------------------------------------
+	/**
+	 * Bind events
+	 */
+	void SceneFactory::_bindEvents() {
+
+		// Attach to texture panel select event
+		mTexturePanelEventHandlerId = mParent->mUITexturePanel->mEvent.attach(this,
+			&vee::SceneFactory::_onTexturePanelSelect);
+	}
+
+	//---------------------------------------------------------------
+	/**
+	 * Unbind events
+	 */
+	void SceneFactory::_unbindEvents() {
+
+		// Detach from texture panel select event
+		mParent->mUITexturePanel->mEvent.detach(mTexturePanelEventHandlerId);
+	}
+
+	//---------------------------------------------------------------
+	/**
+	 * On texture panel select
+	 */
+	bool SceneFactory::_onTexturePanelSelect(VoxelType t) {
+
+		// Current voxel type
+		mCurVoxelType = t;
+
+		return true;
+	}
+
+
+	//---------------------------------------------------------------
+	/**
+	 * Mouse left button up
 	 * @wx {int} x coordinate relative to window.
 	 * @wy {int} y coordinate relative to window.
 	 */
-	void SceneFactory::handleMouseClick(int wx, int wy) {
+	void SceneFactory::mouseLUp(int x, int y) {
 
 		// Near point in world space
 		float np[3];
-		if (!Utils::unProject(wx, wy, 0.0f, np)) {
+		if (!Utils::unProject(x, y, 0.0f, np)) {
 			return;
 		}
 
 		// Far point in world space
 		float fp[3];
-		if (!Utils::unProject(wx, wy, 1.0f, fp)) {
+		if (!Utils::unProject(x, y, 1.0f, fp)) {
 			return;
 		}
 
@@ -188,7 +266,7 @@ namespace veed {
 		// Test succeed
 		if (succeed) {
 			
-			//if (VEED_DEBUG) {
+			//if (DEBUGMODE) {
 			//	cout<<"[SceneFactory]<<: Intersect with: "<<" voxel: "
 			//		<<result[0]<<" "<<result[1]<<" "<<result[2]<<" face: "<<result[3]<<endl;
 			//}
@@ -199,7 +277,7 @@ namespace veed {
 
 		} else {
 
-			//if (VEED_DEBUG) {
+			//if (DEBUGMODE) {
 			//	cout<<"[SceneFactory]<<: No voxel intersected."<<endl;
 			//}
 		}
@@ -208,10 +286,10 @@ namespace veed {
 
 	//---------------------------------------------------------------
 	/**
-	 * Handle key pressed
+	 * Key pressed
 	 * @key {WPARAM} input key.
 	 */
-	void SceneFactory::handleKeyPressed(WPARAM key) {
+	void SceneFactory::keyPressed(WPARAM key) {
 
 		switch (key) {
 
@@ -288,7 +366,7 @@ namespace veed {
 
 		// Add voxel
 		case SFM_ADD:
-			mScene.setVoxel(tInfo[0], tInfo[1], tInfo[2], new Voxel());
+			mScene.setVoxel(tInfo[0], tInfo[1], tInfo[2], new Voxel(mCurVoxelType));
 			break;
 
 		default:

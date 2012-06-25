@@ -1,20 +1,13 @@
-#ifndef VEED_EDITOR_H
-#define VEED_EDITOR_H
+#ifndef VEE_EDITOR_H
+#define VEE_EDITOR_H
 
 /**
- * veedEditor.h
+ * veEditor.h
  */
 
-#include "veedPrerequisites.h"
-// Scene factory
-#include "veedSceneFactory.h"
-
-// UI
-// Texture panel
-#include "veedTexturePanel.h"
-
-
 // Engine
+#include "vePrerequisites.h"
+
 // Timer
 #include "veTimer.h"
 
@@ -28,7 +21,14 @@
 #include "veTextureManager.h"
 
 
-namespace veed {
+// Editor
+// Scene factory
+#include "veSceneFactory.h"
+
+// Texture panel
+#include "veTexturePanel.h"
+
+namespace vee {
 
 	/**
 	 * Mouse left button down area

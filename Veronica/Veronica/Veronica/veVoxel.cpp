@@ -18,6 +18,19 @@ namespace vee {
 	}
 
 	//---------------------------------------------------------------
+	Voxel::Voxel(VoxelType t) {
+
+		// Type
+		mType = t;
+
+		// Color
+		mColor[0] = 255;
+		mColor[1] = 255;
+		mColor[2] = 255;
+		mColor[3] = 255;
+	}
+
+	//---------------------------------------------------------------
 	Voxel::Voxel(Voxel& v) {
 
 		// Type
@@ -86,11 +99,28 @@ namespace vee {
 		// Create pointer array
 		mData = new Voxel*[total];
 
-		// Loop each voxel
-		for (int i = 0; i < total; i++) {
 
-			// Create voxel
-			mData[i] = new Voxel();
+		int idx;
+
+		// Loop each voxel
+		for (int i = 0; i < sx; i++) {
+
+			for (int j = 0; j < sy; j++) {
+
+				for (int k = 0; k < sz; k++) {
+
+					idx = Utils::toArrayIndex(i, j, k, sy, sz);
+
+
+					if (j == 0) {
+
+						mData[idx] = new Voxel();
+					} else {
+
+						mData[idx] = NULL;
+					}
+				}
+			}
 		}
 	}
 

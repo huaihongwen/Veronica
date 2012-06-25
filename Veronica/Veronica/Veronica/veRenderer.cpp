@@ -142,7 +142,7 @@ namespace vee {
 		_renderStage();
 
 
-		/*
+
 		// View matrix
 		Transform vMat = mCamera.getViewMatrix();
 		// Model matrix
@@ -203,7 +203,6 @@ namespace vee {
 		rs.useProgram(NULL);
 
 		rs.bindTexture2D(0, 0);
-		*/
 	}
 
 

@@ -1,8 +1,8 @@
-#include "veedTexturePanel.h"
+#include "veTexturePanel.h"
 #include "veTextureManager.h"
 #include "veUtils.h"
 
-namespace veed {
+namespace vee {
 
 	//---------------------------------------------------------------
 	UITexturePanel::UITexturePanel() {
@@ -190,7 +190,8 @@ namespace veed {
 					// Selected index
 					mSelectedIdx = int(i);
 
-					cout<<"Select texture:  "<<i<<endl;
+					// Trigger texture panel select event
+					mEvent.notify(mTypes[i]);
 
 					break;
 				}
@@ -210,10 +211,25 @@ namespace veed {
 	 */
 	void UITexturePanel::_initTypes() {
 
-		// Purple brick
-		mTypes.push_back(VT_PURPLEBRICK);
+		// Brick
+		mTypes.push_back(VT_PURPLE_BRICK);
+		mTypes.push_back(VT_YELLOW_BRICK);
+		mTypes.push_back(VT_GREY_BRICK);
 
-		// Yellow brick
-		mTypes.push_back(VT_YELLOWBRICK);
+
+		// Metal
+		mTypes.push_back(VT_GREY_METAL);
+		mTypes.push_back(VT_GREENBLUE_METAL);
+		mTypes.push_back(VT_DARKPURPLE_METAL);
+		mTypes.push_back(VT_DARKBLUE_METAL);
+		mTypes.push_back(VT_BROWN_METAL);
+		mTypes.push_back(VT_DARKGREEN_METAL);
+		mTypes.push_back(VT_DARKRED_METAL);
+		mTypes.push_back(VT_BLACK_METAL);
+
+
+		// Light
+		mTypes.push_back(VT_DARK_LIGHT);
+		mTypes.push_back(VT_BRIGHT_LIGHT);
 	}
 };

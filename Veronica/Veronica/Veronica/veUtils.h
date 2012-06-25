@@ -286,7 +286,6 @@ namespace vee {
 		 */
 		static bool unProject(int wx, int wy, float wz, float* result) {
 
-			/*
 			// Render system
 			RenderSystem& rs = RenderSystem::getSingleton();
 
@@ -358,9 +357,6 @@ namespace vee {
 			result[2] = world[2];
 
 			return true;
-			*/
-
-			return false;
 		}
 
 
@@ -400,14 +396,14 @@ namespace vee {
 			// Voxel type
 			switch (t) {
 
-			case VT_PURPLEBRICK:
+			case VT_PURPLE_BRICK:
 				{
 					tx = 0;
 					ty = 1;
 				}
 				break;
 
-			case VT_YELLOWBRICK:
+			case VT_YELLOW_BRICK:
 				{
 					if (fIdx == 4 || fIdx == 5) {
 						tx = 0;
@@ -418,6 +414,85 @@ namespace vee {
 					}
 				}
 				break;
+
+			case VT_GREY_METAL:
+				{
+					tx = 1;
+					ty = 1;
+				}
+				break;
+
+			case VT_GREY_BRICK:
+				{
+					tx = 5;
+					ty = 15;
+				}
+				break;
+
+			case VT_GREENBLUE_METAL:
+				{
+					tx = 1;
+					ty = 2;
+				}
+				break;
+
+			case VT_DARKPURPLE_METAL:
+				{
+					tx = 1;
+					ty = 3;
+				}
+				break;
+
+			case VT_DARKBLUE_METAL:
+				{
+					tx = 1;
+					ty = 4;
+				}
+				break;
+
+			case VT_BROWN_METAL:
+				{
+					tx = 1;
+					ty = 5;
+				}
+				break;
+
+			case VT_DARKGREEN_METAL:
+				{
+					tx = 1;
+					ty = 6;
+				}
+				break;
+
+			case VT_DARKRED_METAL:
+				{
+					tx = 1;
+					ty = 7;
+				}
+				break;
+
+			case VT_BLACK_METAL:
+				{
+					tx = 1;
+					ty = 8;
+				}
+				break;
+
+
+			case VT_DARK_LIGHT:
+				{
+					tx = 3;
+					ty = 2;
+				}
+				break;
+
+			case VT_BRIGHT_LIGHT:
+				{
+					tx = 4;
+					ty = 2;
+				}
+				break;
+
 
 			default:
 				{

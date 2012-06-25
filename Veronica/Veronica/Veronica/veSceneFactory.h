@@ -1,26 +1,25 @@
-#ifndef VEED_SCENEFACTORY_H
-#define VEED_SCENEFACTORY_H
+#ifndef VEE_SCENEFACTORY_H
+#define VEE_SCENEFACTORY_H
 
 /*
- * veedSceneFactory.h
+ * veSceneFactory.h
  */
 
-#include "veedPrerequisites.h"
-
 // Engine
-// Utils
+#include "vePrerequisites.h"
+
 #include "veUtils.h"
-// Ray
 #include "veRay.h"
-// Chunk serializer
 #include "veChunkSerializer.h"
 
+
+// Editor
 // Factory history
-#include "veedFactoryHistory.h"
+#include "veFactoryHistory.h"
 
 #include <vector>
 
-namespace veed {
+namespace vee {
 
 	/**
 	 * Scene factory mode
@@ -31,7 +30,10 @@ namespace veed {
 		SFM_ADD,
 
 		// Remove voxel
-		SFM_REMOVE
+		SFM_REMOVE,
+
+		// Edit
+		SFM_EDIT
 
 	} SceneFactoryMode;
 
@@ -48,21 +50,43 @@ namespace veed {
 
 	public:
 		/**
-		 * Init scene
+		 * Init
 		 */
-		void initScene();
+		void init();
+
+		/**
+		 * Destroy
+		 */
+		void destroy();
+
+
+	protected:
+		/**
+		 * Bind events
+		 */
+		void _bindEvents();
+
+		/**
+		 * Unbind events
+		 */
+		void _unbindEvents();
+
+		/**
+		 * On texture panel select
+		 */
+		bool _onTexturePanelSelect(VoxelType t);
 
 
 	public:
 		/**
-		 * Handle mouse click
+		 * Mouse left button up
 		 */
-		void handleMouseClick(int wx, int wy);
+		void mouseLUp(int x, int y);
 
 		/**
-		 * Handle key pressed
+		 * Key pressed
 		 */
-		void handleKeyPressed(WPARAM key);
+		void keyPressed(WPARAM key);
 
 
 	protected:
@@ -107,15 +131,26 @@ namespace veed {
 	protected:
 		// Scene
 		Scene mScene;
+		
 
 		// Factory history
 		FactoryHistory mHistory;
 
 
-		// Edit related logic
+		// Events
+		// Texture panel event handler id
+		int mTexturePanelEventHandlerId;
 
+		// Color panel event handler id
+		int mColorPanelEventHandlerId;
+
+
+		// Edit related logic
 		// Scene factory mode
 		SceneFactoryMode mMode;
+
+		// Current voxel type
+		VoxelType mCurVoxelType;
 
 
 
@@ -126,6 +161,11 @@ namespace veed {
 
 		// Scene meshes array
 		vector<Mesh*> mSceneMeshesArray;
+
+
+	public:
+		// Pointer to editor
+		Editor* mParent;
 	};
 };
 

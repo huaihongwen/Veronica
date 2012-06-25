@@ -46,7 +46,7 @@ namespace vee {
 		/**
 		 * Serialize voxel face
 		 */
-		void _serializeVoxelFace(int i, int j, int k, Chunk* chunk,
+		void _serializeVoxelFace(Voxel* v, int i, int j, int k, Chunk* chunk,
 			int faceIndex, Mesh* m);
 
 		/**
@@ -61,8 +61,10 @@ namespace vee {
 			Vertex& v0, Vertex& v1, Vertex& v2, Vertex& v3);
 
 		/**
-		 *
+		 * Face texture coordinates
 		 */
+		void _faceTextCoords(VoxelType t, int faceIndex,
+			Vertex& v0, Vertex& v1, Vertex& v2, Vertex& v3);
 
 
 	protected:

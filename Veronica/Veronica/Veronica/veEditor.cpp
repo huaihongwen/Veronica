@@ -1,6 +1,6 @@
-#include "veedEditor.h"
+#include "veEditor.h"
 
-namespace veed {
+namespace vee {
 
 	//---------------------------------------------------------------
 	Editor::Editor() {
@@ -60,7 +60,9 @@ namespace veed {
 		// Editor
 		// Scene factory
 		mSceneFactory = new SceneFactory();
-		mSceneFactory->initScene();
+		// Set parent pointer
+		mSceneFactory->mParent = this;
+		mSceneFactory->init();
 	}
 
 	//---------------------------------------------------------------
@@ -290,6 +292,11 @@ namespace veed {
 		_mouseLUpUI(x, y);
 
 
+		if (mMouseLArea == UI_EDITVIEW) {
+			// Scene factory mouseLUp
+			mSceneFactory->mouseLUp(x, y);
+		}
+
 		// Reset mouse left button area
 		mMouseLArea = UI_WINDOW;
 	}
@@ -371,5 +378,8 @@ namespace veed {
 	//---------------------------------------------------------------
 	// Key pressed
 	void Editor::keyPressed(WPARAM key) {
+
+		// Scene factory key pressed
+		mSceneFactory->keyPressed(key);
 	}
 };

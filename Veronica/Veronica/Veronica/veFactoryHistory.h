@@ -1,22 +1,20 @@
-#ifndef VEED_FACTORYHISTORY_H
-#define VEED_FACTORYHISTORY_H
+#ifndef VEE_FACTORYHISTORY_H
+#define VEE_FACTORYHISTORY_H
 
 
 /*
- * veedFactoryHistory.h
+ * veFactoryHistory.h
  */
 
-
-#include "veedPrerequisites.h"
-
 // Engine
+#include "vePrerequisites.h"
+
 #include "veVoxel.h"
 
 #include <vector>
 #include <deque>
 
-
-namespace veed {
+namespace vee {
 
 	/**
 	 * Voxel snapshot

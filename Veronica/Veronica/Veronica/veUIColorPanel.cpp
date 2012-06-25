@@ -1,8 +1,8 @@
-#include "veedUIColorPanel.h"
+#include "veUIColorPanel.h"
 #include "veRenderSystem.h"
 
 
-namespace veed {
+namespace vee {
 
 	/*
 	//---------------------------------------------------------------

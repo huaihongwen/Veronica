@@ -1,13 +1,13 @@
-#ifndef VEED_UICOLORPANEL_H
-#define VEED_UICOLORPANEL_H
+#ifndef VEE_UICOLORPANEL_H
+#define VEE_UICOLORPANEL_H
 
 /*
- * veedUIColorPanel.h
+ * veUIColorPanel.h
  */
 
-#include "veedPrerequisites.h"
+#include "vePrerequisites.h"
 
-namespace veed {
+namespace vee {
 
 	/*
 	// Color panel

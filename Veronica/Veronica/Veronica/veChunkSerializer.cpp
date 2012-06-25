@@ -31,9 +31,9 @@ namespace vee {
 		// Vertex number
 		int vertNum = _vertNum(chunk);
 
-		//if (DEBUGMODE) {
-		//	cout<<"[ChunkSerializer]:<<  Vertex Number: "<<vertNum<<endl;
-		//}
+		if (DEBUGMODE) {
+			cout<<"[ChunkSerializer]:<<  Vertex Number: "<<vertNum<<endl;
+		}
 
 		// Mesh
 		Mesh* m = new Mesh(vertNum);
@@ -53,6 +53,7 @@ namespace vee {
 		int wCoord[3];
 
 		// Voxel
+		Voxel* curVoxel = NULL;
 		Voxel* v = NULL;
 
 		// Loop each coordinate
@@ -65,7 +66,7 @@ namespace vee {
 					wCoord[1] = j + py;
 					wCoord[2] = k + pz;
 
-					if (!mScene->getVoxel(wCoord[0], wCoord[1], wCoord[2], v) || !v) {
+					if (!mScene->getVoxel(wCoord[0], wCoord[1], wCoord[2], curVoxel) || !curVoxel) {
 
 						// Empty voxel
 						continue;
@@ -77,7 +78,7 @@ namespace vee {
 						if (!mScene->getVoxel(wCoord[0], wCoord[1], wCoord[2]-1, v) || !v) {
 							
 							// Face geometry
-							_serializeVoxelFace(i, j, k, chunk, 0, m);
+							_serializeVoxelFace(curVoxel, i, j, k, chunk, 0, m);
 
 							// Face ambient occlusion
 							_faceAmbientOcclusion(wCoord[0], wCoord[1], wCoord[2], 0, m);
@@ -87,7 +88,7 @@ namespace vee {
 						if (!mScene->getVoxel(wCoord[0], wCoord[1], wCoord[2]+1, v) || !v) {
 							
 							// Face geometry
-							_serializeVoxelFace(i, j, k, chunk, 2, m);
+							_serializeVoxelFace(curVoxel, i, j, k, chunk, 2, m);
 
 							// Face ambient occlusion
 							_faceAmbientOcclusion(wCoord[0], wCoord[1], wCoord[2], 2, m);
@@ -97,7 +98,7 @@ namespace vee {
 						if (!mScene->getVoxel(wCoord[0]-1, wCoord[1], wCoord[2], v) || !v) {
 							
 							// Face geometry
-							_serializeVoxelFace(i, j, k, chunk, 1, m);
+							_serializeVoxelFace(curVoxel, i, j, k, chunk, 1, m);
 
 							// Face ambient occlusion
 							_faceAmbientOcclusion(wCoord[0], wCoord[1], wCoord[2], 1, m);
@@ -107,7 +108,7 @@ namespace vee {
 						if (!mScene->getVoxel(wCoord[0]+1, wCoord[1], wCoord[2], v) || !v) {
 							
 							// Face geometry
-							_serializeVoxelFace(i, j, k, chunk, 3, m);
+							_serializeVoxelFace(curVoxel, i, j, k, chunk, 3, m);
 
 							// Face ambient occlusion
 							_faceAmbientOcclusion(wCoord[0], wCoord[1], wCoord[2], 3, m);
@@ -117,7 +118,7 @@ namespace vee {
 						if (!mScene->getVoxel(wCoord[0], wCoord[1]-1, wCoord[2], v) || !v) {
 							
 							// Face geometry
-							_serializeVoxelFace(i, j, k, chunk, 4, m);
+							_serializeVoxelFace(curVoxel, i, j, k, chunk, 4, m);
 
 							// Face ambient occlusion
 							_faceAmbientOcclusion(wCoord[0], wCoord[1], wCoord[2], 4, m);
@@ -127,7 +128,7 @@ namespace vee {
 						if (!mScene->getVoxel(wCoord[0], wCoord[1]+1, wCoord[2], v) || !v) {
 							
 							// Face geometry
-							_serializeVoxelFace(i, j, k, chunk, 5, m);
+							_serializeVoxelFace(curVoxel, i, j, k, chunk, 5, m);
 
 							// Face ambient occlusion
 							_faceAmbientOcclusion(wCoord[0], wCoord[1], wCoord[2], 5, m);
@@ -229,6 +230,7 @@ namespace vee {
 	/**
 	 * Serialize voxel face
 	 * Serialize voxel face in chunk space.
+	 * @v {Voxel*} voxel data.
 	 * @i {int} chunk space x coordinate.
 	 * @j {int} chunk space y coordinate.
 	 * @k {int} chunk space z coordinate.
@@ -236,9 +238,9 @@ namespace vee {
 	 * @faceIndex {int} face index.
 	 * @m {Mesh*} model space mesh.
 	 */
-	void ChunkSerializer::_serializeVoxelFace(int i, int j, int k, Chunk* chunk,
+	void ChunkSerializer::_serializeVoxelFace(Voxel* v, int i, int j, int k, Chunk* chunk,
 		int faceIndex, Mesh* m) {
-		
+
 		// Vertices
 		Vertex v0, v1, v2, v3;
 
@@ -248,31 +250,8 @@ namespace vee {
 		// Face normal
 		_faceNormal(faceIndex, v0, v1, v2, v3);
 
-
-
-
-		float step = 1.0f / 16.0f;
-
-		int uIdx = 1;
-		int vIdx = 1;
-
-
-		float x = uIdx * step;
-		float y = vIdx * step;
-
-
-		// Face texcoord
-		v0.mTexcoord[0] = x;
-		v0.mTexcoord[1] = y + step;
-		v1.mTexcoord[0] = x;
-		v1.mTexcoord[1] = y;
-		v2.mTexcoord[0] = x + step;
-		v2.mTexcoord[1] = y;
-		v3.mTexcoord[0] = x + step;
-		v3.mTexcoord[1] = y + step;
-
-
-
+		// Face texture coordinates
+		_faceTextCoords(v->mType, faceIndex, v0, v1, v2, v3);
 
 
 		// Push vertices
@@ -431,6 +410,30 @@ namespace vee {
 		v1.mNormal[0] = n[0]; v1.mNormal[1] = n[1]; v1.mNormal[2] = n[2];
 		v2.mNormal[0] = n[0]; v2.mNormal[1] = n[1]; v2.mNormal[2] = n[2];
 		v3.mNormal[0] = n[0]; v3.mNormal[1] = n[1]; v3.mNormal[2] = n[2];
+	}
+
+	//---------------------------------------------------------------
+	/**
+	 * Face texture coordinates
+	 */
+	void ChunkSerializer::_faceTextCoords(VoxelType t, int faceIndex,
+		Vertex& v0, Vertex& v1, Vertex& v2, Vertex& v3) {
+
+		// Texture coordinates
+		float coords[8];
+
+		// Get face texture coordinates
+		Utils::getVoxelFaceTexCoords(t, faceIndex, coords);
+
+
+		v0.mTexcoord[0] = coords[0];
+		v0.mTexcoord[1] = coords[1];
+		v1.mTexcoord[0] = coords[2];
+		v1.mTexcoord[1] = coords[3];
+		v2.mTexcoord[0] = coords[4];
+		v2.mTexcoord[1] = coords[5];
+		v3.mTexcoord[0] = coords[6];
+		v3.mTexcoord[1] = coords[7];
 	}
 
 

@@ -6,14 +6,18 @@
  * This file should be included by each engine header file
  */
 
-#include <string> // String
-#include <iostream> // Debug io
+// String
+#include <string>
+// Debug io
+#include <iostream>
+
 using namespace std;
 
 namespace vee {
 
 	// Debug
 	#define DEBUGMODE 1
+
 
 	// Re-define data types
 	typedef float real;
@@ -22,9 +26,13 @@ namespace vee {
 	typedef unsigned short ushort;
 	typedef unsigned long ulong;
 
+
 	// Pre-declare classes
 	// Allows use of pointers in header files without including individual .h
 
+
+	//---------------------------------------------------------------
+	// Engine
 	// Math
 	class Vector3;
 	class Vector4;
@@ -83,7 +91,6 @@ namespace vee {
 
 
 	// Others
-
 	// Octree
 	struct OctreeNode;
 	// Bounding box
@@ -96,8 +103,37 @@ namespace vee {
 	class Timer;
 
 
-	// Input
-	class Input;
+
+	//---------------------------------------------------------------
+	// Editor
+	// Screen width
+	#define EDITWINDOWWIDTH 1024
+	// Screen height
+	#define EDITWINDOTHEIGHT 768
+
+
+	// Edit view port x
+	#define EDITVIEWPORTX 0
+	// Edit view port y
+	#define EDITVIEWPORTY 0
+
+	// Edit viewport width
+	#define EDITVIEWPORTWIDTH 800
+	// Edit viewport height
+	#define EDITVIEWPORTHEIGHT 600
+
+
+	// Factory history
+	class FactoryHistory;
+
+	// Model factory
+	class ModelFactory;
+
+	// Color panel
+	class UIColorPanel;
+
+	// Editor
+	class Editor;
 };
 
 #endif

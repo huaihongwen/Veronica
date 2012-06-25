@@ -12,9 +12,8 @@
 #include <GL\glew.h>
 
 // Our stuffs
-#include "veedEditor.h"
+#include "veEditor.h"
 using namespace vee;
-using namespace veed;
 
 
 

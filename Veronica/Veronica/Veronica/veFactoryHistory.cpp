@@ -1,7 +1,6 @@
-#include "veedFactoryHistory.h"
+#include "veFactoryHistory.h"
 
-
-namespace veed {
+namespace vee {
 
 	//---------------------------------------------------------------
 	FactoryHistory::FactoryHistory(uint num) {
@@ -71,7 +70,7 @@ namespace veed {
 
 
 		// Debug
-		if (VEED_DEBUG) {
+		if (DEBUGMODE) {
 			cout<<"[FactoryHistory]<<: Push undo snapshot, Undo size: "<<mUndoStack.size()<<endl;
 		}
 	}
@@ -85,7 +84,7 @@ namespace veed {
 
 
 		// Debug
-		if (VEED_DEBUG) {
+		if (DEBUGMODE) {
 			cout<<"[FactoryHistory]<<: Push redo snapshot, Redo size: "<<mRedoStack.size()<<endl;
 		}
 	}
@@ -112,7 +111,7 @@ namespace veed {
 
 
 		// Debug
-		if (VEED_DEBUG) {
+		if (DEBUGMODE) {
 			cout<<"[FactoryHistory]<<: Pop undo snapshot, Undo size: "<<mUndoStack.size()<<endl;
 		}
 
@@ -140,7 +139,7 @@ namespace veed {
 
 
 		// Debug
-		if (VEED_DEBUG) {
+		if (DEBUGMODE) {
 			cout<<"[FactoryHistory]<<: Pop redo snapshot, Redo size: "<<mRedoStack.size()<<endl;
 		}
 

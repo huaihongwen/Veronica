@@ -23,10 +23,45 @@ namespace vee {
 
 		
 		// Purple brick
-		VT_PURPLEBRICK,
-		
+		VT_PURPLE_BRICK,
+
 		// Yellow brick
-		VT_YELLOWBRICK
+		VT_YELLOW_BRICK,
+
+		// Grey brick
+		VT_GREY_BRICK,
+
+
+		// Grey metal
+		VT_GREY_METAL,
+
+		// Green blue metal
+		VT_GREENBLUE_METAL,
+
+		// Dark purple metal
+		VT_DARKPURPLE_METAL,
+
+		// Dark blue metal
+		VT_DARKBLUE_METAL,
+
+		// Brown metal
+		VT_BROWN_METAL,
+
+		// Dark green metal
+		VT_DARKGREEN_METAL,
+
+		// Dark red metal
+		VT_DARKRED_METAL,
+
+		// Black metal
+		VT_BLACK_METAL,
+
+
+		// Dark light
+		VT_DARK_LIGHT,
+
+		// Bright light
+		VT_BRIGHT_LIGHT
 
 	} VoxelType;
 
@@ -45,6 +80,7 @@ namespace vee {
 
 		//---------------------------------------------------------------
 		Voxel();
+		Voxel(VoxelType t);
 		Voxel(Voxel& v);
 		~Voxel();
 
