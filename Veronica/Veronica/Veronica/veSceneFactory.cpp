@@ -38,7 +38,7 @@ namespace vee {
 	void SceneFactory::init() {
 
 		// Scene
-		mScene.init(32, 64, 32);
+		mScene.init(64, 64, 64);
 
 		// Set scene to chunk serializer
 		mChunkSerializer.setScene(&mScene);
@@ -460,7 +460,7 @@ namespace vee {
 			_refreshChunkMesh((uint)ncc[3]);
 		}
 
-		// -x
+		// x
 		if (mScene.worldCoordToChunkCoord(i+1, j, k, ncc) && (cc[3] != ncc[3])) {
 			// Refresh neighbor
 			_refreshChunkMesh((uint)ncc[3]);

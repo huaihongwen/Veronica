@@ -56,9 +56,9 @@ namespace vee {
 
 
 		// Button width
-		int bw = 32;
+		int bw = 16;
 		// Button height
-		int bh = 32;
+		int bh = 16;
 
 		// Horizontal button margin
 		int hbm = 3;

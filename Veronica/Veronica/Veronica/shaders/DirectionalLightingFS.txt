@@ -13,6 +13,6 @@ void main() {
 	color *= dcolor;
 
 	//vec3 color = vec3(1.0, 0.0, 0.0);
-	float percent = 0.9;
-	gl_FragColor = vec4(color * percent * vao + color * (1.0-percent), 1.0);
+	float percent = 0.8;
+	gl_FragColor = vec4(color * percent * vao + color * (1.0-percent), 0.5);
 }
