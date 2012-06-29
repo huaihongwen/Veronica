@@ -40,6 +40,7 @@ namespace vee {
 		// Scene
 		mScene.init(64, 64, 64);
 
+
 		// Set scene to chunk serializer
 		mChunkSerializer.setScene(&mScene);
 
@@ -49,7 +50,6 @@ namespace vee {
 
 		// Loop each chunk
 		for (uint i = 0; i < cArr.size(); i++) {
-
 			// Serialize chunk
 			mSceneMeshesArray.push_back(mChunkSerializer.serialize(cArr[i]));
 		}

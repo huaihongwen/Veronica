@@ -7,7 +7,6 @@
 
 // Engine
 #include "vePrerequisites.h"
-
 #include "veUtils.h"
 #include "veRay.h"
 #include "veChunkSerializer.h"
