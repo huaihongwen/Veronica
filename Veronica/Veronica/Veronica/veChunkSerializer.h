@@ -66,6 +66,11 @@ namespace vee {
 		void _faceTextCoords(VoxelType t, int faceIndex,
 			Vertex& v0, Vertex& v1, Vertex& v2, Vertex& v3);
 
+		/**
+		 * Face color
+		 */
+		void _faceColor(Voxel* v, Vertex& v0, Vertex& v1, Vertex& v2, Vertex& v3);
+
 
 	protected:
 		// Pointer to scene

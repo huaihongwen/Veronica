@@ -21,6 +21,8 @@ namespace vee {
 		mUIWindow = NULL;
 		// Edit view
 		mUIEditView = NULL;
+		// Color panel
+		mUIColorPanel = NULL;
 		// Texture panel
 		mUITexturePanel = NULL;
 
@@ -187,6 +189,13 @@ namespace vee {
 		mUIEditView->setRect(Rect(0, 168, 800, 600));
 		mUIEditView->setBackgroundColor(32, 32, 32);
 
+		// Color panel
+		mUIColorPanel = new UIColorPanel();
+		mUIColorPanel->setRect(Rect(824, 0, 200, 200));
+		mUIColorPanel->setBackgroundColor(32, 32, 32);
+		mUIColorPanel->init();
+
+
 		// Texture panel
 		mUITexturePanel = new UITexturePanel();
 		mUITexturePanel->setRect(Rect(824, 268, 200, 500));
@@ -207,6 +216,10 @@ namespace vee {
 		// Edit view
 		if (mUIEditView) {
 			delete mUIEditView;
+		}
+		// Color panel
+		if (mUIColorPanel) {
+			delete mUIColorPanel;
 		}
 		// Texture panel
 		if (mUITexturePanel) {
@@ -247,6 +260,8 @@ namespace vee {
 		mUIWindow->render();
 		// Edit view
 		mUIEditView->render();
+		// Color panel
+		mUIColorPanel->render();
 		// Texture panel
 		mUITexturePanel->render();
 
@@ -344,6 +359,13 @@ namespace vee {
 			return;
 		}
 
+		// Color panel
+		if (mUIColorPanel->mouseLDown(x, y)) {
+
+			mMouseLArea = UI_COLORPANEL;
+			return;
+		}
+
 		// Texture panel
 		if (mUITexturePanel->mouseLDown(x, y)) {
 			
@@ -357,6 +379,9 @@ namespace vee {
 	 * Mouse left button up UI
 	 */
 	void Editor::_mouseLUpUI(int x, int y) {
+
+		// Color panel
+		mUIColorPanel->mouseLUp(x, y);
 
 		// Texture panel
 		mUITexturePanel->mouseLUp(x, y);

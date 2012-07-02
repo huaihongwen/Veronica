@@ -1,5 +1,6 @@
 #include "veChunkSerializer.h"
 #include "veRay.h"
+#include "veLightingEngine.h"
 
 namespace vee {
 
@@ -253,6 +254,9 @@ namespace vee {
 		// Face texture coordinates
 		_faceTextCoords(v->mType, faceIndex, v0, v1, v2, v3);
 
+		// Face color
+		_faceColor(v, v0, v1, v2, v3);
+
 
 		// Push vertices
 		m->pushVertexGeometry(&v0);
@@ -435,6 +439,35 @@ namespace vee {
 		v3.mTexcoord[0] = coords[6];
 		v3.mTexcoord[1] = coords[7];
 	}
+
+	//---------------------------------------------------------------
+	/**
+	 * Face color
+	 */
+	void ChunkSerializer::_faceColor(Voxel* v,
+		Vertex& v0, Vertex& v1, Vertex& v2, Vertex& v3) {
+
+		v0.mColor[0] = v->mColor[0];
+		v0.mColor[1] = v->mColor[1];
+		v0.mColor[2] = v->mColor[2];
+		v0.mColor[3] = v->mColor[3];
+
+		v1.mColor[0] = v->mColor[0];
+		v1.mColor[1] = v->mColor[1];
+		v1.mColor[2] = v->mColor[2];
+		v1.mColor[3] = v->mColor[3];
+
+		v2.mColor[0] = v->mColor[0];
+		v2.mColor[1] = v->mColor[1];
+		v2.mColor[2] = v->mColor[2];
+		v2.mColor[3] = v->mColor[3];
+
+		v3.mColor[0] = v->mColor[0];
+		v3.mColor[1] = v->mColor[1];
+		v3.mColor[2] = v->mColor[2];
+		v3.mColor[3] = v->mColor[3];
+	}
+
 
 
 	//---------------------------------------------------------------

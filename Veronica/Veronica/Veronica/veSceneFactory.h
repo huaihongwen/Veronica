@@ -10,6 +10,7 @@
 #include "veUtils.h"
 #include "veRay.h"
 #include "veChunkSerializer.h"
+#include "veLightingEngine.h"
 
 
 // Editor
@@ -69,6 +70,11 @@ namespace vee {
 		 * Unbind events
 		 */
 		void _unbindEvents();
+
+		/**
+		 * On color panel select
+		 */
+		bool _onColorPanelSelect(float* c);
 
 		/**
 		 * On texture panel select
@@ -147,6 +153,10 @@ namespace vee {
 		// Edit related logic
 		// Scene factory mode
 		SceneFactoryMode mMode;
+
+
+		// Current voxel color
+		uchar mCurVoxelColor[3];
 
 		// Current voxel type
 		VoxelType mCurVoxelType;

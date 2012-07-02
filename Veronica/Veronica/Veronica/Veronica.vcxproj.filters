@@ -49,6 +49,9 @@
     <Filter Include="vee\event">
       <UniqueIdentifier>{f662b11d-fa43-4237-b0f7-e5fa39b40701}</UniqueIdentifier>
     </Filter>
+    <Filter Include="vee\voxel\lighting engine">
+      <UniqueIdentifier>{16d510a4-1c12-4840-ae60-13b131fab0c4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -146,6 +149,9 @@
     </ClCompile>
     <ClCompile Include="veUIColorPanel.cpp">
       <Filter>veed\editor</Filter>
+    </ClCompile>
+    <ClCompile Include="veLightingEngine.cpp">
+      <Filter>vee\voxel\lighting engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -271,6 +277,9 @@
     </ClInclude>
     <ClInclude Include="veUIColorPanel.h">
       <Filter>veed\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="veLightingEngine.h">
+      <Filter>vee\voxel\lighting engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

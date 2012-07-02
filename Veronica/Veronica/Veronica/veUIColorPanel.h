@@ -1,70 +1,108 @@
 #ifndef VEE_UICOLORPANEL_H
 #define VEE_UICOLORPANEL_H
 
-/*
+/**
  * veUIColorPanel.h
  */
 
 #include "vePrerequisites.h"
+#include "veUIComponent.h"
+#include "veEvent.h"
 
 namespace vee {
 
-	/*
-	// Color panel
+	/**
+	 * Color panel
+	 */
 	class UIColorPanel : public UIComponent {
 
 	public:
 		UIColorPanel();
-		UIColorPanel(string name, Rect& rect);
 		~UIColorPanel();
 
-	public:
-		// Get color
-		float* getColor();
 
-		// Render color selection area
+	public:
+		/**
+		 * Init
+		 */
+		void init();
+
+		/**
+		 * Destroy
+		 */
+		void destroy();
+
+		/**
+		 * Render
+		 */
 		void render();
 
-		// Handle move
-		void handleMove(int dx, int dy);
+
+	public:
+		/**
+		 * Mouse left button up
+		 */
+		bool mouseLUp(int x, int y);
+
 
 	protected:
-		// Render color bar
+		/**
+		 * Render bar
+		 */
 		void _renderBar();
-		// Render color cube
+
+		/**
+		 * Render cube
+		 */
 		void _renderCube();
 
-		// Handle hit
-		void _handleHit(int px, int py);
 
-		// Calculate bar color
+		/**
+		 * Select color
+		 */
+		void _selectColor(int x, int y);
+
+
+		/**
+		 * Calculates bar color
+		 */
 		void _calculateBarColor();
-		// Calculate cube color
+
+		/**
+		 * Calculates cube color
+		 */
 		void _calculateCubeColor();
 
+
 	protected:
-		// Color bar
-		Rect mBar;
-		// Color cube
-		Rect mCube;
+		// Bar rect
+		Rect mBarRect;
+
+		// Cube rect
+		Rect mCubeRect;
 
 
-		// Current bar color
-		float mCurrentBarColor[3];
+		// Bar color
+		float mBarColor[3];
 
-		// Current color
-		float mCurrentColor[3];
+		// Cube color
+		float mCubeColor[3];
 
 
-		// Current bar color indicator pos y
+		// Bar indicator pos y
 		int mBarIndicator;
 
-		// Current cube color indicator pos x
+
+		// Cube indicator pos x
 		int mCubeIndicatorX;
-		// Current cube color indicator pos y
+		// Cube indicator pos y
 		int mCubeIndicatorY;
+
+
+	public:
+		// Event
+		Event1<bool, float*> mEvent;
 	};
-	*/
 };
 
 #endif

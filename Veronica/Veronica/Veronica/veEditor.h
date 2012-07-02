@@ -25,6 +25,8 @@
 // Scene factory
 #include "veSceneFactory.h"
 
+// Color panel
+#include "veUIColorPanel.h"
 // Texture panel
 #include "veTexturePanel.h"
 
@@ -38,6 +40,8 @@ namespace vee {
 		UI_WINDOW,
 
 		UI_EDITVIEW,
+
+		UI_COLORPANEL,
 
 		UI_TEXTUREPANEL
 
@@ -135,6 +139,8 @@ namespace vee {
 		UIComponent* mUIWindow;
 		// Edit view
 		UIComponent* mUIEditView;
+		// Color panel
+		UIColorPanel* mUIColorPanel;
 		// Texture panel
 		UITexturePanel* mUITexturePanel;
 

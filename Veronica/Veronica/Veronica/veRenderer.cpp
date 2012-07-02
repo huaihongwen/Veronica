@@ -177,7 +177,7 @@ namespace vee {
 			glEnableClientState(GL_VERTEX_ARRAY);
 			glEnableClientState(GL_NORMAL_ARRAY);
 			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-			//glEnableClientState(GL_COLOR_ARRAY);
+			glEnableClientState(GL_COLOR_ARRAY);
 
 			glEnableVertexAttribArray(aoPos);
 
@@ -185,24 +185,90 @@ namespace vee {
 			glVertexPointer(3, GL_FLOAT, sizeof(Vertex), mTestMeshes->at(i)->getData());
 			glNormalPointer(GL_FLOAT, sizeof(Vertex), mTestMeshes->at(i)->getData()+12);
 			glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), mTestMeshes->at(i)->getData()+24);
-			//glColorPointer(3, GL_UNSIGNED_BYTE, sizeof(Vertex), mTestMesh->getData()+32);
+			glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Vertex), mTestMeshes->at(i)->getData()+32);
 
 			// Ambient occlusion
 			glVertexAttribPointer(aoPos, 1, GL_FLOAT, GL_FALSE, sizeof(Vertex), mTestMeshes->at(i)->getData()+36);
-			
+
+
 			glDrawArrays(GL_TRIANGLES, 0, mTestMeshes->at(i)->getVertNum());
 
 
 			glDisableClientState(GL_VERTEX_ARRAY);
 			glDisableClientState(GL_NORMAL_ARRAY);
 			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-			//glDisableClientState(GL_COLOR_ARRAY);
+			glDisableClientState(GL_COLOR_ARRAY);
 
 			glDisableVertexAttribArray(aoPos);
 		}
 		rs.useProgram(NULL);
 
 		rs.bindTexture2D(0, 0);
+
+
+
+		/*
+		// Testing
+		vector<int> r;
+
+		float posy = 30.0f;
+		float posx = 0.0f;
+		float posz = 0.0f;
+
+		Utils::voxelTraversal(0, 1, 0, posx, 1+posy, posz, r);
+
+
+		glColor3ub(255, 0, 0);
+		glBegin(GL_LINES);
+		glVertex3f(0, 1, 0);
+		glVertex3f( posx, 1+posy, posz);
+		glEnd();
+
+
+		glColor3ub(0, 0, 0);
+		glBegin(GL_LINES);
+		for (uint i = 0; i < r.size() / 3; i++) {
+
+			glVertex3f(r[i*3], r[i*3+1], r[i*3+2]);
+			glVertex3f(r[i*3]+1, r[i*3+1], r[i*3+2]);
+
+			glVertex3f(r[i*3]+1, r[i*3+1], r[i*3+2]);
+			glVertex3f(r[i*3]+1, r[i*3+1], r[i*3+2]+1);
+
+			glVertex3f(r[i*3], r[i*3+1], r[i*3+2]);
+			glVertex3f(r[i*3], r[i*3+1], r[i*3+2]+1);
+
+			glVertex3f(r[i*3], r[i*3+1], r[i*3+2]+1);
+			glVertex3f(r[i*3]+1, r[i*3+1], r[i*3+2]+1);
+
+
+			glVertex3f(r[i*3], r[i*3+1]+1, r[i*3+2]);
+			glVertex3f(r[i*3]+1, r[i*3+1]+1, r[i*3+2]);
+
+			glVertex3f(r[i*3]+1, r[i*3+1]+1, r[i*3+2]);
+			glVertex3f(r[i*3]+1, r[i*3+1]+1, r[i*3+2]+1);
+
+			glVertex3f(r[i*3], r[i*3+1]+1, r[i*3+2]);
+			glVertex3f(r[i*3], r[i*3+1]+1, r[i*3+2]+1);
+
+			glVertex3f(r[i*3], r[i*3+1]+1, r[i*3+2]+1);
+			glVertex3f(r[i*3]+1, r[i*3+1]+1, r[i*3+2]+1);
+
+
+			glVertex3f(r[i*3], r[i*3+1], r[i*3+2]);
+			glVertex3f(r[i*3], r[i*3+1]+1, r[i*3+2]);
+			
+			glVertex3f(r[i*3]+1, r[i*3+1], r[i*3+2]);
+			glVertex3f(r[i*3]+1, r[i*3+1]+1, r[i*3+2]);
+
+			glVertex3f(r[i*3]+1, r[i*3+1], r[i*3+2]+1);
+			glVertex3f(r[i*3]+1, r[i*3+1]+1, r[i*3+2]+1);
+
+			glVertex3f(r[i*3], r[i*3+1], r[i*3+2]+1);
+			glVertex3f(r[i*3], r[i*3+1]+1, r[i*3+2]+1);
+		}
+		glEnd();
+		*/
 	}
 
 

@@ -14,14 +14,14 @@ namespace vee {
 	 */
 	typedef enum VoxelType {
 		
+		// Air
+		VT_AIR,
+
+
 		// Default
 		VT_DEFAULT,
 
 
-		// Air
-		VT_AIR,
-
-		
 		// Purple brick
 		VT_PURPLE_BRICK,
 
@@ -104,7 +104,7 @@ namespace vee {
 
 		//---------------------------------------------------------------
 		Voxel();
-		Voxel(VoxelType t);
+		Voxel(VoxelType t, uchar* c);
 		Voxel(Voxel& v);
 		~Voxel();
 

@@ -18,15 +18,15 @@ namespace vee {
 	}
 
 	//---------------------------------------------------------------
-	Voxel::Voxel(VoxelType t) {
+	Voxel::Voxel(VoxelType t, uchar* c) {
 
 		// Type
 		mType = t;
 
 		// Color
-		mColor[0] = 255;
-		mColor[1] = 255;
-		mColor[2] = 255;
+		mColor[0] = c[0];
+		mColor[1] = c[1];
+		mColor[2] = c[2];
 		mColor[3] = 255;
 	}
 

@@ -17,6 +17,12 @@ namespace vee {
 		// Scene factory mode
 		mMode = SFM_REMOVE;
 
+
+		// Current voxel color
+		mCurVoxelColor[0] = 255;
+		mCurVoxelColor[1] = 255;
+		mCurVoxelColor[2] = 255;
+
 		// Current voxel type
 		mCurVoxelType = VT_DEFAULT;
 
@@ -38,13 +44,17 @@ namespace vee {
 	void SceneFactory::init() {
 
 		// Scene
-		mScene.init(64, 64, 64);
+		//mScene.init(16, 16, 16);
+		mScene.load("voxelModels//Model.vm");
 
 
 		// Set scene to chunk serializer
 		mChunkSerializer.setScene(&mScene);
 
 
+
+
+		// Temp
 		// Chunk array
 		vector<Chunk*>& cArr = *mScene.getChunkArray();
 
@@ -53,6 +63,8 @@ namespace vee {
 			// Serialize chunk
 			mSceneMeshesArray.push_back(mChunkSerializer.serialize(cArr[i]));
 		}
+
+
 
 
 		// Setup renderer's meshes
@@ -91,6 +103,10 @@ namespace vee {
 	 */
 	void SceneFactory::_bindEvents() {
 
+		// Attach to color panel select event
+		mColorPanelEventHandlerId = mParent->mUIColorPanel->mEvent.attach(this,
+			&vee::SceneFactory::_onColorPanelSelect);
+
 		// Attach to texture panel select event
 		mTexturePanelEventHandlerId = mParent->mUITexturePanel->mEvent.attach(this,
 			&vee::SceneFactory::_onTexturePanelSelect);
@@ -108,9 +124,31 @@ namespace vee {
 
 	//---------------------------------------------------------------
 	/**
+	 * On color panel select
+	 */
+	bool SceneFactory::_onColorPanelSelect(float* c) {
+
+		// Current voxel color
+		mCurVoxelColor[0] = uchar(255 * c[0]);
+		mCurVoxelColor[1] = uchar(255 * c[1]);
+		mCurVoxelColor[2] = uchar(255 * c[2]);
+
+		// Current voxel typ
+		mCurVoxelType = VT_DEFAULT;
+
+		return true;
+	}
+
+	//---------------------------------------------------------------
+	/**
 	 * On texture panel select
 	 */
 	bool SceneFactory::_onTexturePanelSelect(VoxelType t) {
+
+		// Current voxel color
+		mCurVoxelColor[0] = 255;
+		mCurVoxelColor[1] = 255;
+		mCurVoxelColor[2] = 255;
 
 		// Current voxel type
 		mCurVoxelType = t;
@@ -312,6 +350,15 @@ namespace vee {
 			mMode = SFM_ADD;
 			break;
 
+
+		case '9':
+			mScene.save("voxelModels//Model.vm");
+			break;
+
+		case '0':
+			//mScene.load("voxelModels//Model.vm");
+			break;
+
 		default:
 			break;
 		}
@@ -366,7 +413,7 @@ namespace vee {
 
 		// Add voxel
 		case SFM_ADD:
-			mScene.setVoxel(tInfo[0], tInfo[1], tInfo[2], new Voxel(mCurVoxelType));
+			mScene.setVoxel(tInfo[0], tInfo[1], tInfo[2], new Voxel(mCurVoxelType, mCurVoxelColor));
 			break;
 
 		default:

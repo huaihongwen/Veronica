@@ -15,9 +15,9 @@ namespace vee {
 	/**
 	 * Scene chunk size
 	 */
-	#define SCENECHUNK_X 64
-	#define SCENECHUNK_Y 64
-	#define SCENECHUNK_Z 64
+	#define SCENECHUNK_X 16
+	#define SCENECHUNK_Y 16
+	#define SCENECHUNK_Z 16
 
 
 
@@ -39,6 +39,18 @@ namespace vee {
 		 */
 		void init(int sx=SCENECHUNK_X, int sy=SCENECHUNK_Y,
 			int sz=SCENECHUNK_Z);
+
+
+	public:
+		/*
+		 * Save to file
+		 */
+		void save(char* fileName);
+
+		/**
+		 * Load from file
+		 */
+		void load(char* fileName);
 
 
 	public:
@@ -66,6 +78,11 @@ namespace vee {
 		 * Get chunk array
 		 */
 		vector<Chunk*>* getChunkArray();
+
+		/**
+		 * Get volume
+		 */
+		Volume& getVolume();
 
 	protected:
 		// Volume
