@@ -111,14 +111,7 @@ namespace vee {
 
 					idx = Utils::toArrayIndex(i, j, k, sy, sz);
 
-
-					if (j == 0) {
-
-						mData[idx] = new Voxel();
-					} else {
-
-						mData[idx] = NULL;
-					}
+					mData[idx] = NULL;
 				}
 			}
 		}

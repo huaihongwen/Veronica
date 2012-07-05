@@ -33,7 +33,10 @@ namespace vee {
 		SFM_REMOVE,
 
 		// Edit
-		SFM_EDIT
+		SFM_EDIT,
+
+		// Select
+		SFM_SELECT
 
 	} SceneFactoryMode;
 

@@ -350,6 +350,14 @@ namespace vee {
 			mMode = SFM_ADD;
 			break;
 
+		case '3':
+			mMode = SFM_EDIT;
+			break;
+
+		case '4':
+			mMode = SFM_SELECT;
+			break;
+
 
 		case '9':
 			mScene.save("voxelModels//Model.vm");
@@ -414,6 +422,24 @@ namespace vee {
 		// Add voxel
 		case SFM_ADD:
 			mScene.setVoxel(tInfo[0], tInfo[1], tInfo[2], new Voxel(mCurVoxelType, mCurVoxelColor));
+			break;
+
+		// Edit voxel
+		case SFM_EDIT:
+			mScene.setVoxel(tInfo[0], tInfo[1], tInfo[2], new Voxel(mCurVoxelType, mCurVoxelColor));
+			break;
+
+		// Select voxel
+		case SFM_SELECT:
+			{
+				// Select type
+				mCurVoxelType = v->mType;
+
+				// Select color
+				mCurVoxelColor[0] = v->mColor[0];
+				mCurVoxelColor[1] = v->mColor[1];
+				mCurVoxelColor[2] = v->mColor[2];
+			}
 			break;
 
 		default:
