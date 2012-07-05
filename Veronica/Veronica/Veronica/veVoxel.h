@@ -182,33 +182,6 @@ namespace vee {
 		void setVoxel(int i, int j, int k, Voxel* v);
 
 	} Chunk;
-
-
-
-
-
-	
-
-
-
-
-
-
-
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
 };
 
 #endif

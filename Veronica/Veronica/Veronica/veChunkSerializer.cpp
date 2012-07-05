@@ -479,7 +479,6 @@ namespace vee {
 	 * @faceIndex {int} face index.
 	 * @m {Mesh*} input mesh.
 	 */
-	/*
 	void ChunkSerializer::_faceAmbientOcclusion(int i, int j, int k, int faceIndex, Mesh* m) {
 
 		// Vertices' ambient occlusion
@@ -891,9 +890,5 @@ namespace vee {
 		m->pushVertexLighting(ao0);
 		m->pushVertexLighting(ao2);
 		m->pushVertexLighting(ao3);
-	}
-	*/
-
-	void ChunkSerializer::_faceAmbientOcclusion(int i, int j, int k, int faceIndex, Mesh* m) {
 	}
 };
