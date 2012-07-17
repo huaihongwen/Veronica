@@ -230,7 +230,7 @@ namespace vee {
 			// Loop each intersection
 			for (; num > 0; --num) {
 
-				// Mark currecnt intersection coordinate
+				// Mark current intersection coordinate
 				r.push_back(x);
 				r.push_back(y);
 				r.push_back(z);
