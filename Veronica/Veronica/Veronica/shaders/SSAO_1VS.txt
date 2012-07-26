@@ -1,0 +1,22 @@
+varying vec3 vPos;
+varying vec3 vNormal;
+varying vec3 vColor;
+
+
+void main() {
+	
+	// View space position
+	vec4 viewPos = gl_ModelViewMatrix * gl_Vertex;
+	vPos = viewPos.xyz;
+
+
+	// View space normal
+	vNormal = gl_NormalMatrix * gl_Normal;
+
+
+	// Color
+	vColor = gl_Color.rgb;
+
+
+	gl_Position = ftransform();
+}

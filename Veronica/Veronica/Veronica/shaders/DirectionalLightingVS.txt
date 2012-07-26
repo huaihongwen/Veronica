@@ -1,0 +1,15 @@
+attribute float ao;
+
+varying vec4 diffuse;
+varying float vao;
+varying vec2 texcoord;
+
+void main() {
+	gl_Position = ftransform();
+
+	diffuse = gl_Color;
+
+	vao = ao;
+
+	texcoord = gl_MultiTexCoord0.xy;
+}
