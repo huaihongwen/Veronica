@@ -8,23 +8,21 @@
 #include "vePrerequisites.h"
 #include "veVoxel.h"
 
-#include <vector>
 
 namespace vee {
 
 	/**
-	 * Scene chunk size
+	 * Scene size
 	 */
-	#define SCENECHUNK_X 16
-	#define SCENECHUNK_Y 16
-	#define SCENECHUNK_Z 16
+	#define SCENE_X 16
+	#define SCENE_Y 16
+	#define SCENE_Z 16
 
 
 
 	/*
 	 * Scene
-	 * Scene defines the world space, it is divided into
-	 * equal size chunks.
+	 * Scene defines the world space.
 	 */
 	class Scene {
 
@@ -37,8 +35,13 @@ namespace vee {
 		/**
 		 * Init
 		 */
-		void init(int sx=SCENECHUNK_X, int sy=SCENECHUNK_Y,
-			int sz=SCENECHUNK_Z);
+		void init(int sx=SCENE_X, int sy=SCENE_Y,
+			int sz=SCENE_Z);
+
+		/**
+		 * Destroy
+		 */
+		void destroy();
 
 
 	public:
@@ -55,11 +58,6 @@ namespace vee {
 
 	public:
 		/**
-		 * Convert world space coordinate to chunk local space coordinate.
-		 */
-		bool worldCoordToChunkCoord(int i, int j, int k, int* cc);
-
-		/**
 		 * Test world space coordinate inside or not.
 		 */
 		bool testInside(int i, int j, int k);
@@ -74,26 +72,10 @@ namespace vee {
 		 */
 		void setVoxel(int i, int j, int k, Voxel* v);
 
-		/**
-		 * Get chunk array
-		 */
-		vector<Chunk*>* getChunkArray();
 
-		/**
-		 * Get volume
-		 */
-		Volume& getVolume();
-
-	protected:
-		// Volume
-		Volume mVolume;
-
-
-		// Chunk volume size
-		int mCVSize[3];
-
-		// Chunk array
-		vector<Chunk*> mChunkArray;
+	public:
+		// Chunk
+		Chunk mChunk;
 	};
 };
 

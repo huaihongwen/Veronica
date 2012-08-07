@@ -12,13 +12,6 @@ namespace vee {
 	ChunkSerializer::~ChunkSerializer() {
 	}
 
-	//---------------------------------------------------------------
-	/**
-	 * Set scene 
-	 */
-	void ChunkSerializer::setScene(Scene* s) {
-		mScene = s;
-	}
 
 	//---------------------------------------------------------------
 	/**
@@ -50,24 +43,18 @@ namespace vee {
 		int py = chunk->mVolume.mPos[1];
 		int pz = chunk->mVolume.mPos[2];
 
-		// Converted world space coordinate
-		int wCoord[3];
 
 		// Voxel
 		Voxel* curVoxel = NULL;
 		Voxel* v = NULL;
+
 
 		// Loop each coordinate
 		for (int i = 0; i < sx; i++) {
 			for (int j = 0; j < sy; j++) {
 				for (int k = 0; k < sz; k++) {
 
-					// Converted world space coordinate
-					wCoord[0] = i + px;
-					wCoord[1] = j + py;
-					wCoord[2] = k + pz;
-
-					if (!mScene->getVoxel(wCoord[0], wCoord[1], wCoord[2], curVoxel) || !curVoxel) {
+					if (!chunk->getVoxel(i, j, k, curVoxel) || !curVoxel) {
 
 						// Empty voxel
 						continue;
@@ -76,63 +63,63 @@ namespace vee {
 						// Check 6 neighbor voxels
 
 						// Neighbor 0
-						if (!mScene->getVoxel(wCoord[0], wCoord[1], wCoord[2]-1, v) || !v) {
+						if (!chunk->getVoxel(i, j, k-1, v) || !v) {
 							
 							// Face geometry
 							_serializeVoxelFace(curVoxel, i, j, k, chunk, 0, m);
 
 							// Face ambient occlusion
-							_faceAmbientOcclusion(wCoord[0], wCoord[1], wCoord[2], 0, m);
+							_faceAmbientOcclusion(i, j, k, chunk, 0, m);
 						}
 
 						// Neighbor 2
-						if (!mScene->getVoxel(wCoord[0], wCoord[1], wCoord[2]+1, v) || !v) {
+						if (!chunk->getVoxel(i, j, k+1, v) || !v) {
 							
 							// Face geometry
 							_serializeVoxelFace(curVoxel, i, j, k, chunk, 2, m);
 
 							// Face ambient occlusion
-							_faceAmbientOcclusion(wCoord[0], wCoord[1], wCoord[2], 2, m);
+							_faceAmbientOcclusion(i, j, k, chunk, 2, m);
 						}
 
 						// Neighbor 1
-						if (!mScene->getVoxel(wCoord[0]-1, wCoord[1], wCoord[2], v) || !v) {
+						if (!chunk->getVoxel(i-1, j, k, v) || !v) {
 							
 							// Face geometry
 							_serializeVoxelFace(curVoxel, i, j, k, chunk, 1, m);
 
 							// Face ambient occlusion
-							_faceAmbientOcclusion(wCoord[0], wCoord[1], wCoord[2], 1, m);
+							_faceAmbientOcclusion(i, j, k, chunk, 1, m);
 						}
 
 						// Neighbor 3
-						if (!mScene->getVoxel(wCoord[0]+1, wCoord[1], wCoord[2], v) || !v) {
+						if (!chunk->getVoxel(i+1, j, k, v) || !v) {
 							
 							// Face geometry
 							_serializeVoxelFace(curVoxel, i, j, k, chunk, 3, m);
 
 							// Face ambient occlusion
-							_faceAmbientOcclusion(wCoord[0], wCoord[1], wCoord[2], 3, m);
+							_faceAmbientOcclusion(i, j, k, chunk, 3, m);
 						}
 
 						// Neighbor 4
-						if (!mScene->getVoxel(wCoord[0], wCoord[1]-1, wCoord[2], v) || !v) {
+						if (!chunk->getVoxel(i, j-1, k, v) || !v) {
 							
 							// Face geometry
 							_serializeVoxelFace(curVoxel, i, j, k, chunk, 4, m);
 
 							// Face ambient occlusion
-							_faceAmbientOcclusion(wCoord[0], wCoord[1], wCoord[2], 4, m);
+							_faceAmbientOcclusion(i, j, k, chunk, 4, m);
 						}
 
 						// Neighbor 5
-						if (!mScene->getVoxel(wCoord[0], wCoord[1]+1, wCoord[2], v) || !v) {
+						if (!chunk->getVoxel(i, j+1, k, v) || !v) {
 							
 							// Face geometry
 							_serializeVoxelFace(curVoxel, i, j, k, chunk, 5, m);
 
 							// Face ambient occlusion
-							_faceAmbientOcclusion(wCoord[0], wCoord[1], wCoord[2], 5, m);
+							_faceAmbientOcclusion(i, j, k, chunk, 5, m);
 						}
 					}
 				}
@@ -166,8 +153,6 @@ namespace vee {
 		int py = chunk->mVolume.mPos[1];
 		int pz = chunk->mVolume.mPos[2];
 
-		// Converted world space coordinate
-		int wCoord[3];
 
 		// Voxel
 		Voxel* v = NULL;
@@ -177,12 +162,7 @@ namespace vee {
 			for (int j = 0; j < sy; j++) {
 				for (int k = 0; k < sz; k++) {
 
-					// Converted world space coordinate
-					wCoord[0] = i + px;
-					wCoord[1] = j + py;
-					wCoord[2] = k + pz;
-
-					if (!mScene->getVoxel(wCoord[0], wCoord[1], wCoord[2], v) || !v) {
+					if (!chunk->getVoxel(i, j, k, v) || !v) {
 
 						// Empty voxel
 						continue;
@@ -191,32 +171,32 @@ namespace vee {
 						// Check 6 neighbor voxels
 
 						// Neighbor 0
-						if (!mScene->getVoxel(wCoord[0], wCoord[1], wCoord[2]-1, v) || !v) {
+						if (!chunk->getVoxel(i, j, k-1, v) || !v) {
 							vertNum += 6;
 						}
 
 						// Neighbor 2
-						if (!mScene->getVoxel(wCoord[0], wCoord[1], wCoord[2]+1, v) || !v) {
+						if (!chunk->getVoxel(i, j, k+1, v) || !v) {
 							vertNum += 6;
 						}
 
 						// Neighbor 1
-						if (!mScene->getVoxel(wCoord[0]-1, wCoord[1], wCoord[2], v) || !v) {
+						if (!chunk->getVoxel(i-1, j,k, v) || !v) {
 							vertNum += 6;
 						}
 
 						// Neighbor 3
-						if (!mScene->getVoxel(wCoord[0]+1, wCoord[1], wCoord[2], v) || !v) {
+						if (!chunk->getVoxel(i+1, j, k, v) || !v) {
 							vertNum += 6;
 						}
 
 						// Neighbor 4
-						if (!mScene->getVoxel(wCoord[0], wCoord[1]-1, wCoord[2], v) || !v) {
+						if (!chunk->getVoxel(i, j-1, k, v) || !v) {
 							vertNum += 6;
 						}
 
 						// Neighbor 5
-						if (!mScene->getVoxel(wCoord[0], wCoord[1]+1, wCoord[2], v) || !v) {
+						if (!chunk->getVoxel(i, j+1, k, v) || !v) {
 							vertNum += 6;
 						}
 					}
@@ -473,13 +453,14 @@ namespace vee {
 	//---------------------------------------------------------------
 	/**
 	 * Face ambient occlusion
-	 * @i {int} world space x coordinate.
-	 * @j {int} world space y coordinate.
-	 * @k {int} world space z coordinate.
+	 * @i {int} chunk space x coordinate.
+	 * @j {int} chunk space y coordinate.
+	 * @k {int} chunk space z coordinate.
+	 * @chunk {Chunk*} input chunk.
 	 * @faceIndex {int} face index.
 	 * @m {Mesh*} input mesh.
 	 */
-	void ChunkSerializer::_faceAmbientOcclusion(int i, int j, int k, int faceIndex, Mesh* m) {
+	void ChunkSerializer::_faceAmbientOcclusion(int i, int j, int k, Chunk* chunk, int faceIndex, Mesh* m) {
 
 		// Vertices' ambient occlusion
 		float ao0, ao1, ao2, ao3;
@@ -504,61 +485,61 @@ namespace vee {
 		case 0:
 			{
 				// Vertex 0
-				if (!mScene->getVoxel(i+1, j+1, k-1, v) || !v) {
+				if (!chunk->getVoxel(i+1, j+1, k-1, v) || !v) {
 					ao0 += step;
 				}
-				if (!mScene->getVoxel(i+1, j, k-1, v) || !v) {
+				if (!chunk->getVoxel(i+1, j, k-1, v) || !v) {
 					ao0 += step;
 				}
-				if (!mScene->getVoxel(i, j, k-1, v) || !v) {
+				if (!chunk->getVoxel(i, j, k-1, v) || !v) {
 					ao0 += step;
 				}
-				if (!mScene->getVoxel(i, j+1, k-1, v) || !v) {
+				if (!chunk->getVoxel(i, j+1, k-1, v) || !v) {
 					ao0 += step;
 				}
 
 
 				// Vertex 1
-				if (!mScene->getVoxel(i+1, j, k-1, v) || !v) {
+				if (!chunk->getVoxel(i+1, j, k-1, v) || !v) {
 					ao1 += step;
 				}
-				if (!mScene->getVoxel(i+1, j-1, k-1, v) || !v) {
+				if (!chunk->getVoxel(i+1, j-1, k-1, v) || !v) {
 					ao1 += step;
 				}
-				if (!mScene->getVoxel(i, j-1, k-1, v) || !v) {
+				if (!chunk->getVoxel(i, j-1, k-1, v) || !v) {
 					ao1 += step;
 				}
-				if (!mScene->getVoxel(i, j, k-1, v) || !v) {
+				if (!chunk->getVoxel(i, j, k-1, v) || !v) {
 					ao1 += step;
 				}
 
 
 				// Vertex 2
-				if (!mScene->getVoxel(i, j, k-1, v) || !v) {
+				if (!chunk->getVoxel(i, j, k-1, v) || !v) {
 					ao2 += step;
 				}
-				if (!mScene->getVoxel(i, j-1, k-1, v) || !v) {
+				if (!chunk->getVoxel(i, j-1, k-1, v) || !v) {
 					ao2 += step;
 				}
-				if (!mScene->getVoxel(i-1, j-1, k-1, v) || !v) {
+				if (!chunk->getVoxel(i-1, j-1, k-1, v) || !v) {
 					ao2 += step;
 				}
-				if (!mScene->getVoxel(i-1, j, k-1, v) || !v) {
+				if (!chunk->getVoxel(i-1, j, k-1, v) || !v) {
 					ao2 += step;
 				}
 
 
 				// Vertex 3
-				if (!mScene->getVoxel(i, j+1, k-1, v) || !v) {
+				if (!chunk->getVoxel(i, j+1, k-1, v) || !v) {
 					ao3 += step;
 				}
-				if (!mScene->getVoxel(i, j, k-1, v) || !v) {
+				if (!chunk->getVoxel(i, j, k-1, v) || !v) {
 					ao3 += step;
 				}
-				if (!mScene->getVoxel(i-1, j, k-1, v) || !v) {
+				if (!chunk->getVoxel(i-1, j, k-1, v) || !v) {
 					ao3 += step;
 				}
-				if (!mScene->getVoxel(i-1, j+1, k-1, v) || !v) {
+				if (!chunk->getVoxel(i-1, j+1, k-1, v) || !v) {
 					ao3 += step;
 				}
 			}
@@ -567,61 +548,61 @@ namespace vee {
 		case 1:
 			{
 				// Vertex 0
-				if (!mScene->getVoxel(i-1, j+1, k-1, v) || !v) {
+				if (!chunk->getVoxel(i-1, j+1, k-1, v) || !v) {
 					ao0 += step;
 				}
-				if (!mScene->getVoxel(i-1, j, k-1, v) || !v) {
+				if (!chunk->getVoxel(i-1, j, k-1, v) || !v) {
 					ao0 += step;
 				}
-				if (!mScene->getVoxel(i-1, j, k, v) || !v) {
+				if (!chunk->getVoxel(i-1, j, k, v) || !v) {
 					ao0 += step;
 				}
-				if (!mScene->getVoxel(i-1, j+1, k, v) || !v) {
+				if (!chunk->getVoxel(i-1, j+1, k, v) || !v) {
 					ao0 += step;
 				}
 
 
 				// Vertex 1
-				if (!mScene->getVoxel(i-1, j, k-1, v) || !v) {
+				if (!chunk->getVoxel(i-1, j, k-1, v) || !v) {
 					ao1 += step;
 				}
-				if (!mScene->getVoxel(i-1, j-1, k-1, v) || !v) {
+				if (!chunk->getVoxel(i-1, j-1, k-1, v) || !v) {
 					ao1 += step;
 				}
-				if (!mScene->getVoxel(i-1, j-1, k, v) || !v) {
+				if (!chunk->getVoxel(i-1, j-1, k, v) || !v) {
 					ao1 += step;
 				}
-				if (!mScene->getVoxel(i-1, j, k, v) || !v) {
+				if (!chunk->getVoxel(i-1, j, k, v) || !v) {
 					ao1 += step;
 				}
 
 
 				// Vertex 2
-				if (!mScene->getVoxel(i-1, j, k, v) || !v) {
+				if (!chunk->getVoxel(i-1, j, k, v) || !v) {
 					ao2 += step;
 				}
-				if (!mScene->getVoxel(i-1, j-1, k, v) || !v) {
+				if (!chunk->getVoxel(i-1, j-1, k, v) || !v) {
 					ao2 += step;
 				}
-				if (!mScene->getVoxel(i-1, j-1, k+1, v) || !v) {
+				if (!chunk->getVoxel(i-1, j-1, k+1, v) || !v) {
 					ao2 += step;
 				}
-				if (!mScene->getVoxel(i-1, j, k+1, v) || !v) {
+				if (!chunk->getVoxel(i-1, j, k+1, v) || !v) {
 					ao2 += step;
 				}
 
 
 				// Vertex 3
-				if (!mScene->getVoxel(i-1, j+1, k, v) || !v) {
+				if (!chunk->getVoxel(i-1, j+1, k, v) || !v) {
 					ao3 += step;
 				}
-				if (!mScene->getVoxel(i-1, j, k, v) || !v) {
+				if (!chunk->getVoxel(i-1, j, k, v) || !v) {
 					ao3 += step;
 				}
-				if (!mScene->getVoxel(i-1, j, k+1, v) || !v) {
+				if (!chunk->getVoxel(i-1, j, k+1, v) || !v) {
 					ao3 += step;
 				}
-				if (!mScene->getVoxel(i-1, j+1, k+1, v) || !v) {
+				if (!chunk->getVoxel(i-1, j+1, k+1, v) || !v) {
 					ao3 += step;
 				}
 			}
@@ -630,61 +611,61 @@ namespace vee {
 		case 2:
 			{
 				// Vertex 0
-				if (!mScene->getVoxel(i-1, j+1, k+1, v) || !v) {
+				if (!chunk->getVoxel(i-1, j+1, k+1, v) || !v) {
 					ao0 += step;
 				}
-				if (!mScene->getVoxel(i-1, j, k+1, v) || !v) {
+				if (!chunk->getVoxel(i-1, j, k+1, v) || !v) {
 					ao0 += step;
 				}
-				if (!mScene->getVoxel(i, j, k+1, v) || !v) {
+				if (!chunk->getVoxel(i, j, k+1, v) || !v) {
 					ao0 += step;
 				}
-				if (!mScene->getVoxel(i, j+1, k+1, v) || !v) {
+				if (!chunk->getVoxel(i, j+1, k+1, v) || !v) {
 					ao0 += step;
 				}
 
 
 				// Vertex 1
-				if (!mScene->getVoxel(i-1, j, k+1, v) || !v) {
+				if (!chunk->getVoxel(i-1, j, k+1, v) || !v) {
 					ao1 += step;
 				}
-				if (!mScene->getVoxel(i-1, j-1, k+1, v) || !v) {
+				if (!chunk->getVoxel(i-1, j-1, k+1, v) || !v) {
 					ao1 += step;
 				}
-				if (!mScene->getVoxel(i, j-1, k+1, v) || !v) {
+				if (!chunk->getVoxel(i, j-1, k+1, v) || !v) {
 					ao1 += step;
 				}
-				if (!mScene->getVoxel(i, j, k+1, v) || !v) {
+				if (!chunk->getVoxel(i, j, k+1, v) || !v) {
 					ao1 += step;
 				}
 
 
 				// Vertex 2
-				if (!mScene->getVoxel(i, j, k+1, v) || !v) {
+				if (!chunk->getVoxel(i, j, k+1, v) || !v) {
 					ao2 += step;
 				}
-				if (!mScene->getVoxel(i, j-1, k+1, v) || !v) {
+				if (!chunk->getVoxel(i, j-1, k+1, v) || !v) {
 					ao2 += step;
 				}
-				if (!mScene->getVoxel(i+1, j-1, k+1, v) || !v) {
+				if (!chunk->getVoxel(i+1, j-1, k+1, v) || !v) {
 					ao2 += step;
 				}
-				if (!mScene->getVoxel(i+1, j, k+1, v) || !v) {
+				if (!chunk->getVoxel(i+1, j, k+1, v) || !v) {
 					ao2 += step;
 				}
 
 
 				// Vertex 3
-				if (!mScene->getVoxel(i, j+1, k+1, v) || !v) {
+				if (!chunk->getVoxel(i, j+1, k+1, v) || !v) {
 					ao3 += step;
 				}
-				if (!mScene->getVoxel(i, j, k+1, v) || !v) {
+				if (!chunk->getVoxel(i, j, k+1, v) || !v) {
 					ao3 += step;
 				}
-				if (!mScene->getVoxel(i+1, j, k+1, v) || !v) {
+				if (!chunk->getVoxel(i+1, j, k+1, v) || !v) {
 					ao3 += step;
 				}
-				if (!mScene->getVoxel(i+1, j+1, k+1, v) || !v) {
+				if (!chunk->getVoxel(i+1, j+1, k+1, v) || !v) {
 					ao3 += step;
 				}
 			}
@@ -693,61 +674,61 @@ namespace vee {
 		case 3:
 			{
 				// Vertex 0
-				if (!mScene->getVoxel(i+1, j+1, k+1, v) || !v) {
+				if (!chunk->getVoxel(i+1, j+1, k+1, v) || !v) {
 					ao0 += step;
 				}
-				if (!mScene->getVoxel(i+1, j, k+1, v) || !v) {
+				if (!chunk->getVoxel(i+1, j, k+1, v) || !v) {
 					ao0 += step;
 				}
-				if (!mScene->getVoxel(i+1, j, k, v) || !v) {
+				if (!chunk->getVoxel(i+1, j, k, v) || !v) {
 					ao0 += step;
 				}
-				if (!mScene->getVoxel(i+1, j+1, k, v) || !v) {
+				if (!chunk->getVoxel(i+1, j+1, k, v) || !v) {
 					ao0 += step;
 				}
 
 
 				// Vertex 1
-				if (!mScene->getVoxel(i+1, j, k+1, v) || !v) {
+				if (!chunk->getVoxel(i+1, j, k+1, v) || !v) {
 					ao1 += step;
 				}
-				if (!mScene->getVoxel(i+1, j-1, k+1, v) || !v) {
+				if (!chunk->getVoxel(i+1, j-1, k+1, v) || !v) {
 					ao1 += step;
 				}
-				if (!mScene->getVoxel(i+1, j-1, k, v) || !v) {
+				if (!chunk->getVoxel(i+1, j-1, k, v) || !v) {
 					ao1 += step;
 				}
-				if (!mScene->getVoxel(i+1, j, k, v) || !v) {
+				if (!chunk->getVoxel(i+1, j, k, v) || !v) {
 					ao1 += step;
 				}
 
 
 				// Vertex 2
-				if (!mScene->getVoxel(i+1, j, k, v) || !v) {
+				if (!chunk->getVoxel(i+1, j, k, v) || !v) {
 					ao2 += step;
 				}
-				if (!mScene->getVoxel(i+1, j-1, k, v) || !v) {
+				if (!chunk->getVoxel(i+1, j-1, k, v) || !v) {
 					ao2 += step;
 				}
-				if (!mScene->getVoxel(i+1, j-1, k-1, v) || !v) {
+				if (!chunk->getVoxel(i+1, j-1, k-1, v) || !v) {
 					ao2 += step;
 				}
-				if (!mScene->getVoxel(i+1, j, k-1, v) || !v) {
+				if (!chunk->getVoxel(i+1, j, k-1, v) || !v) {
 					ao2 += step;
 				}
 
 
 				// Vertex 3
-				if (!mScene->getVoxel(i+1, j+1, k, v) || !v) {
+				if (!chunk->getVoxel(i+1, j+1, k, v) || !v) {
 					ao3 += step;
 				}
-				if (!mScene->getVoxel(i+1, j, k, v) || !v) {
+				if (!chunk->getVoxel(i+1, j, k, v) || !v) {
 					ao3 += step;
 				}
-				if (!mScene->getVoxel(i+1, j, k-1, v) || !v) {
+				if (!chunk->getVoxel(i+1, j, k-1, v) || !v) {
 					ao3 += step;
 				}
-				if (!mScene->getVoxel(i+1, j+1, k-1, v) || !v) {
+				if (!chunk->getVoxel(i+1, j+1, k-1, v) || !v) {
 					ao3 += step;
 				}
 			}
@@ -756,61 +737,61 @@ namespace vee {
 		case 4:
 			{
 				// Vertex 0
-				if (!mScene->getVoxel(i-1, j-1, k+1, v) || !v) {
+				if (!chunk->getVoxel(i-1, j-1, k+1, v) || !v) {
 					ao0 += step;
 				}
-				if (!mScene->getVoxel(i-1, j-1, k, v) || !v) {
+				if (!chunk->getVoxel(i-1, j-1, k, v) || !v) {
 					ao0 += step;
 				}
-				if (!mScene->getVoxel(i, j-1, k, v) || !v) {
+				if (!chunk->getVoxel(i, j-1, k, v) || !v) {
 					ao0 += step;
 				}
-				if (!mScene->getVoxel(i, j-1, k+1, v) || !v) {
+				if (!chunk->getVoxel(i, j-1, k+1, v) || !v) {
 					ao0 += step;
 				}
 
 
 				// Vertex 1
-				if (!mScene->getVoxel(i-1, j-1, k, v) || !v) {
+				if (!chunk->getVoxel(i-1, j-1, k, v) || !v) {
 					ao1 += step;
 				}
-				if (!mScene->getVoxel(i-1, j-1, k-1, v) || !v) {
+				if (!chunk->getVoxel(i-1, j-1, k-1, v) || !v) {
 					ao1 += step;
 				}
-				if (!mScene->getVoxel(i, j-1, k-1, v) || !v) {
+				if (!chunk->getVoxel(i, j-1, k-1, v) || !v) {
 					ao1 += step;
 				}
-				if (!mScene->getVoxel(i, j-1, k, v) || !v) {
+				if (!chunk->getVoxel(i, j-1, k, v) || !v) {
 					ao1 += step;
 				}
 
 
 				// Vertex 2
-				if (!mScene->getVoxel(i, j-1, k, v) || !v) {
+				if (!chunk->getVoxel(i, j-1, k, v) || !v) {
 					ao2 += step;
 				}
-				if (!mScene->getVoxel(i, j-1, k-1, v) || !v) {
+				if (!chunk->getVoxel(i, j-1, k-1, v) || !v) {
 					ao2 += step;
 				}
-				if (!mScene->getVoxel(i+1, j-1, k-1, v) || !v) {
+				if (!chunk->getVoxel(i+1, j-1, k-1, v) || !v) {
 					ao2 += step;
 				}
-				if (!mScene->getVoxel(i+1, j-1, k, v) || !v) {
+				if (!chunk->getVoxel(i+1, j-1, k, v) || !v) {
 					ao2 += step;
 				}
 
 
 				// Vertex 3
-				if (!mScene->getVoxel(i, j-1, k+1, v) || !v) {
+				if (!chunk->getVoxel(i, j-1, k+1, v) || !v) {
 					ao3 += step;
 				}
-				if (!mScene->getVoxel(i, j-1, k, v) || !v) {
+				if (!chunk->getVoxel(i, j-1, k, v) || !v) {
 					ao3 += step;
 				}
-				if (!mScene->getVoxel(i+1, j-1, k, v) || !v) {
+				if (!chunk->getVoxel(i+1, j-1, k, v) || !v) {
 					ao3 += step;
 				}
-				if (!mScene->getVoxel(i+1, j-1, k+1, v) || !v) {
+				if (!chunk->getVoxel(i+1, j-1, k+1, v) || !v) {
 					ao3 += step;
 				}
 			}
@@ -819,61 +800,61 @@ namespace vee {
 		case 5:
 			{
 				// Vertex 0
-				if (!mScene->getVoxel(i-1, j+1, k-1, v) || !v) {
+				if (!chunk->getVoxel(i-1, j+1, k-1, v) || !v) {
 					ao0 += step;
 				}
-				if (!mScene->getVoxel(i-1, j+1, k, v) || !v) {
+				if (!chunk->getVoxel(i-1, j+1, k, v) || !v) {
 					ao0 += step;
 				}
-				if (!mScene->getVoxel(i, j+1, k, v) || !v) {
+				if (!chunk->getVoxel(i, j+1, k, v) || !v) {
 					ao0 += step;
 				}
-				if (!mScene->getVoxel(i, j+1, k-1, v) || !v) {
+				if (!chunk->getVoxel(i, j+1, k-1, v) || !v) {
 					ao0 += step;
 				}
 
 
 				// Vertex 1
-				if (!mScene->getVoxel(i-1, j+1, k, v) || !v) {
+				if (!chunk->getVoxel(i-1, j+1, k, v) || !v) {
 					ao1 += step;
 				}
-				if (!mScene->getVoxel(i-1, j+1, k+1, v) || !v) {
+				if (!chunk->getVoxel(i-1, j+1, k+1, v) || !v) {
 					ao1 += step;
 				}
-				if (!mScene->getVoxel(i, j+1, k+1, v) || !v) {
+				if (!chunk->getVoxel(i, j+1, k+1, v) || !v) {
 					ao1 += step;
 				}
-				if (!mScene->getVoxel(i, j+1, k, v) || !v) {
+				if (!chunk->getVoxel(i, j+1, k, v) || !v) {
 					ao1 += step;
 				}
 
 
 				// Vertex 2
-				if (!mScene->getVoxel(i, j+1, k, v) || !v) {
+				if (!chunk->getVoxel(i, j+1, k, v) || !v) {
 					ao2 += step;
 				}
-				if (!mScene->getVoxel(i, j+1, k+1, v) || !v) {
+				if (!chunk->getVoxel(i, j+1, k+1, v) || !v) {
 					ao2 += step;
 				}
-				if (!mScene->getVoxel(i+1, j+1, k+1, v) || !v) {
+				if (!chunk->getVoxel(i+1, j+1, k+1, v) || !v) {
 					ao2 += step;
 				}
-				if (!mScene->getVoxel(i+1, j+1, k, v) || !v) {
+				if (!chunk->getVoxel(i+1, j+1, k, v) || !v) {
 					ao2 += step;
 				}
 
 
 				// Vertex 3
-				if (!mScene->getVoxel(i, j+1, k-1, v) || !v) {
+				if (!chunk->getVoxel(i, j+1, k-1, v) || !v) {
 					ao3 += step;
 				}
-				if (!mScene->getVoxel(i, j+1, k, v) || !v) {
+				if (!chunk->getVoxel(i, j+1, k, v) || !v) {
 					ao3 += step;
 				}
-				if (!mScene->getVoxel(i+1, j+1, k, v) || !v) {
+				if (!chunk->getVoxel(i+1, j+1, k, v) || !v) {
 					ao3 += step;
 				}
-				if (!mScene->getVoxel(i+1, j+1, k-1, v) || !v) {
+				if (!chunk->getVoxel(i+1, j+1, k-1, v) || !v) {
 					ao3 += step;
 				}
 			}

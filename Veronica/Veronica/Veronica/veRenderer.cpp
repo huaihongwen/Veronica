@@ -168,39 +168,37 @@ namespace vee {
 		p->setUniform1i("tex", 0);
 
 
-		// Loop each mesh
-		for (uint i = 0; i < mTestMeshes->size(); i++) {
 
-			rs.setModelView(vMat * mTestMeshes->at(i)->getTransform());
+		rs.setModelView(vMat * mTestMesh->getTransform());
 
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glEnableClientState(GL_NORMAL_ARRAY);
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		glEnableClientState(GL_COLOR_ARRAY);
 
-			glEnableClientState(GL_VERTEX_ARRAY);
-			glEnableClientState(GL_NORMAL_ARRAY);
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-			glEnableClientState(GL_COLOR_ARRAY);
-
-			glEnableVertexAttribArray(aoPos);
+		glEnableVertexAttribArray(aoPos);
 
 
-			glVertexPointer(3, GL_FLOAT, sizeof(Vertex), mTestMeshes->at(i)->getData());
-			glNormalPointer(GL_FLOAT, sizeof(Vertex), mTestMeshes->at(i)->getData()+12);
-			glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), mTestMeshes->at(i)->getData()+24);
-			glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Vertex), mTestMeshes->at(i)->getData()+32);
+		glVertexPointer(3, GL_FLOAT, sizeof(Vertex), mTestMesh->getData());
+		glNormalPointer(GL_FLOAT, sizeof(Vertex), mTestMesh->getData()+12);
+		glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), mTestMesh->getData()+24);
+		glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Vertex), mTestMesh->getData()+32);
 
-			// Ambient occlusion
-			glVertexAttribPointer(aoPos, 1, GL_FLOAT, GL_FALSE, sizeof(Vertex), mTestMeshes->at(i)->getData()+36);
-
-
-			glDrawArrays(GL_TRIANGLES, 0, mTestMeshes->at(i)->getVertNum());
+		// Ambient occlusion
+		glVertexAttribPointer(aoPos, 1, GL_FLOAT, GL_FALSE, sizeof(Vertex), mTestMesh->getData()+36);
 
 
-			glDisableClientState(GL_VERTEX_ARRAY);
-			glDisableClientState(GL_NORMAL_ARRAY);
-			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-			glDisableClientState(GL_COLOR_ARRAY);
+		glDrawArrays(GL_TRIANGLES, 0, mTestMesh->getVertNum());
 
-			glDisableVertexAttribArray(aoPos);
-		}
+
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_NORMAL_ARRAY);
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		glDisableClientState(GL_COLOR_ARRAY);
+
+		glDisableVertexAttribArray(aoPos);
+
+
 		rs.useProgram(NULL);
 
 		rs.bindTexture2D(0, 0);

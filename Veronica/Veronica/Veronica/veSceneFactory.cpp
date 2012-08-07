@@ -45,30 +45,19 @@ namespace vee {
 
 		// Scene
 		//mScene.init(16, 16, 16);
-		mScene.load("voxelModels//Model.vm");
+		//mScene.load("voxelModels//Model.vm");
+		
+		
+		// Chunk
+		mChunk.init(16, 16, 16);
 
 
-		// Set scene to chunk serializer
-		mChunkSerializer.setScene(&mScene);
+		// Serialize chunk
+		mMesh = mChunkSerializer.serialize(&mChunk);
 
 
-
-
-		// Temp
-		// Chunk array
-		vector<Chunk*>& cArr = *mScene.getChunkArray();
-
-		// Loop each chunk
-		for (uint i = 0; i < cArr.size(); i++) {
-			// Serialize chunk
-			mSceneMeshesArray.push_back(mChunkSerializer.serialize(cArr[i]));
-		}
-
-
-
-
-		// Setup renderer's meshes
-		Renderer::getSingleton().mTestMeshes = &mSceneMeshesArray;
+		// Setup renderer's mesh
+		Renderer::getSingleton().mTestMesh = mMesh;
 
 
 		// Bind events
@@ -86,14 +75,8 @@ namespace vee {
 		_unbindEvents();
 
 
-		// Loop each mesh
-		for (uint i = 0; i < mSceneMeshesArray.size(); i++) {
-
-			// Delete mesh
-			delete mSceneMeshesArray[i];
-		}
-
-		mSceneMeshesArray.clear();
+		// Delete mesh
+		delete mMesh;
 	}
 
 
@@ -165,6 +148,7 @@ namespace vee {
 	 */
 	void SceneFactory::mouseLUp(int x, int y) {
 
+		/*
 		// Near point in world space
 		float np[3];
 		if (!Utils::unProject(x, y, 0.0f, np)) {
@@ -319,6 +303,7 @@ namespace vee {
 			//	cout<<"[SceneFactory]<<: No voxel intersected."<<endl;
 			//}
 		}
+		*/
 	}
 
 
@@ -360,7 +345,7 @@ namespace vee {
 
 
 		case '9':
-			mScene.save("voxelModels//Model.vm");
+			//mScene.save("voxelModels//Model.vm");
 			break;
 
 		case '0':
@@ -380,6 +365,7 @@ namespace vee {
 	 */
 	void SceneFactory::_editVoxel(int* iInfo) {
 
+		/*
 		// Target voxel info
 		int tInfo[3];
 		_targetVoxelInfo(iInfo, tInfo);
@@ -449,6 +435,7 @@ namespace vee {
 
 		// Refresh meshes
 		_refreshMeshes(tInfo[0], tInfo[1], tInfo[2]);
+		*/
 	}
 
 
@@ -511,6 +498,7 @@ namespace vee {
 	 */
 	void SceneFactory::_refreshMeshes(int i, int j, int k) {
 
+		/*
 		// Chunk coordinate
 		int cc[4];
 
@@ -562,6 +550,7 @@ namespace vee {
 			// Refresh neighbor
 			_refreshChunkMesh((uint)ncc[3]);
 		}
+		*/
 	}
 
 	//---------------------------------------------------------------
@@ -570,11 +559,13 @@ namespace vee {
 	 */
 	void SceneFactory::_refreshChunkMesh(uint i) {
 
+		/*
 		// Delete old mesh
 		delete mSceneMeshesArray[i];
 
 		// Refresh chunk mesh
 		mSceneMeshesArray[i] = mChunkSerializer.serialize((*mScene.getChunkArray())[i]);
+		*/
 	}
 
 
@@ -637,6 +628,7 @@ namespace vee {
 	 */
 	OperationSnapshot* SceneFactory::_restore(OperationSnapshot* oldOS) {
 
+		/*
 		// Old VoxelSnapshot
 		VoxelSnapshot* oldVS;
 
@@ -692,6 +684,9 @@ namespace vee {
 
 
 		return curOS;
+		*/
+
+		return NULL;
 	}
 
 };

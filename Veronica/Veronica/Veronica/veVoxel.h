@@ -174,7 +174,7 @@ namespace vee {
 		/**
 		 * Get voxel
 		 */
-		Voxel* getVoxel(int i, int j, int k);
+		bool getVoxel(int i, int j, int k, Voxel*& v);
 
 		/**
 		 * Set voxel

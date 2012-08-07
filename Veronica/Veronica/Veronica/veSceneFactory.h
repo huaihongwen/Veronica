@@ -10,7 +10,6 @@
 #include "veUtils.h"
 #include "veRay.h"
 #include "veChunkSerializer.h"
-#include "veLightingEngine.h"
 
 
 // Editor
@@ -137,8 +136,8 @@ namespace vee {
 
 
 	protected:
-		// Scene
-		Scene mScene;
+		// Chunk
+		Chunk mChunk;
 		
 
 		// Factory history
@@ -171,8 +170,8 @@ namespace vee {
 		// Chunk serializer
 		ChunkSerializer mChunkSerializer;
 
-		// Scene meshes array
-		vector<Mesh*> mSceneMeshesArray;
+		// Chunk mesh
+		Mesh* mMesh;
 
 
 	public:

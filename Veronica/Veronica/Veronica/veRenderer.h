@@ -90,8 +90,8 @@ namespace vee {
 		// Texture
 		Texture mTestTexture;
 
-		// Test meshes
-		vector<Mesh*>* mTestMeshes;
+		// Test mesh
+		Mesh* mTestMesh;
 	};
 };
 

@@ -111,7 +111,8 @@ namespace vee {
 
 					idx = Utils::toArrayIndex(i, j, k, sy, sz);
 
-					mData[idx] = NULL;
+					//mData[idx] = NULL;
+					mData[idx] = new Voxel();
 				}
 			}
 		}
@@ -119,23 +120,28 @@ namespace vee {
 
 	//---------------------------------------------------------------
 	/**
-	 * This function assumes input coordinate i, j, k is
-	 * inside of the volume.
-	 *
 	 * Get voxel
 	 * @i {int} chunk space x coordinate.
 	 * @j {int} chunk space y coordinate.
 	 * @k {int} chunk space z coordinate.
+	 * @return {bool} voxel inside or not.
 	 */
-	Voxel* Chunk::getVoxel(int i, int j, int k) {
-		return mData[Utils::toArrayIndex(i, j, k, mVolume.mSize[1], mVolume.mSize[2])];
+	bool Chunk::getVoxel(int i, int j, int k, Voxel*& v) {
+
+		// Test inside or not
+		if (!mVolume.contain(i, j, k)) {
+
+			return false;
+		} else {
+
+			v = mData[Utils::toArrayIndex(i, j, k, mVolume.mSize[1], mVolume.mSize[2])];
+
+			return true;
+		}
 	}
 
 	//---------------------------------------------------------------
 	/**
-	 * This function assumes input coordinate i, j, k is
-	 * inside of the volume.
-	 *
 	 * Set voxel
 	 * @i {int} chunk space x coordinate.
 	 * @j {int} chunk space y coordinate.
@@ -143,6 +149,13 @@ namespace vee {
 	 * @v {Voxel*} input voxel pointer.
 	 */
 	void Chunk::setVoxel(int i, int j, int k, Voxel* v) {
+
+		// Test inside or not
+		if (!mVolume.contain(i, j, k)) {
+
+			return;
+		}
+
 
 		// Index
 		int index = Utils::toArrayIndex(i, j, k, mVolume.mSize[1], mVolume.mSize[2]);

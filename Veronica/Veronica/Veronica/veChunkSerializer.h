@@ -6,8 +6,7 @@
  */
 
 #include "vePrerequisites.h"
-#include "veRay.h"
-#include "veScene.h"
+#include "veVoxel.h"
 #include "veMesh.h"
 #include "veUtils.h"
 
@@ -27,11 +26,6 @@ namespace vee {
 
 
 	public:
-		/**
-		 * Set scene 
-		 */
-		void setScene(Scene* s);
-
 		/**
 		 * Chunk serializer
 		 */
@@ -72,18 +66,12 @@ namespace vee {
 		void _faceColor(Voxel* v, Vertex& v0, Vertex& v1, Vertex& v2, Vertex& v3);
 
 
-	protected:
-		// Pointer to scene
-		Scene* mScene;
-
-
-
 	// TODO: Lighting system
 	protected:
 		/**
 		 * Face ambient occlusion
 		 */
-		void _faceAmbientOcclusion(int i, int j, int k, int faceIndex, Mesh* m);
+		void _faceAmbientOcclusion(int i, int j, int k, Chunk* chunk, int faceIndex, Mesh* m);
 	};
 };
 
