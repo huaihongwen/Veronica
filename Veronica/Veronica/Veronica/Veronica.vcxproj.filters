@@ -52,6 +52,9 @@
     <Filter Include="vee\voxel\lighting engine">
       <UniqueIdentifier>{16d510a4-1c12-4840-ae60-13b131fab0c4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="vee\voxel\Deprecated">
+      <UniqueIdentifier>{6a3a27ec-34c5-4e16-a30f-4f0fec376f31}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -126,9 +129,6 @@
     <ClCompile Include="veChunkSerializer.cpp">
       <Filter>vee\voxel</Filter>
     </ClCompile>
-    <ClCompile Include="veScene.cpp">
-      <Filter>vee\voxel</Filter>
-    </ClCompile>
     <ClCompile Include="veFontSystem.cpp">
       <Filter>vee\console</Filter>
     </ClCompile>
@@ -152,6 +152,9 @@
     </ClCompile>
     <ClCompile Include="veLightingEngine.cpp">
       <Filter>vee\voxel\lighting engine</Filter>
+    </ClCompile>
+    <ClCompile Include="veScene.cpp">
+      <Filter>vee\voxel\Deprecated</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -245,9 +248,6 @@
     <ClInclude Include="veChunkSerializer.h">
       <Filter>vee\voxel</Filter>
     </ClInclude>
-    <ClInclude Include="veScene.h">
-      <Filter>vee\voxel</Filter>
-    </ClInclude>
     <ClInclude Include="veUtils.h">
       <Filter>vee</Filter>
     </ClInclude>
@@ -280,6 +280,9 @@
     </ClInclude>
     <ClInclude Include="veLightingEngine.h">
       <Filter>vee\voxel\lighting engine</Filter>
+    </ClInclude>
+    <ClInclude Include="veScene.h">
+      <Filter>vee\voxel\Deprecated</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
