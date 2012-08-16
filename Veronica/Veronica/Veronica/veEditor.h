@@ -1,9 +1,9 @@
-#ifndef VEE_EDITOR_H
-#define VEE_EDITOR_H
-
 /**
  * veEditor.h
  */
+
+#ifndef VEE_EDITOR_H
+#define VEE_EDITOR_H
 
 // Engine
 #include "vePrerequisites.h"
@@ -26,7 +26,7 @@
 #include "veSceneFactory.h"
 
 // Color panel
-#include "veUIColorPanel.h"
+#include "veColorSelector.h"
 // Texture panel
 #include "veTexturePanel.h"
 
@@ -136,13 +136,13 @@ namespace vee {
 	public:
 		// UI
 		// Window
-		UIComponent* mUIWindow;
+		veUIComponent* mUIWindow;
 		// Edit view
-		UIComponent* mUIEditView;
-		// Color panel
-		UIColorPanel* mUIColorPanel;
+		veUIComponent* mUIEditView;
+		// Color selector
+		veColorSelector* mColorSelector;
 		// Texture panel
-		UITexturePanel* mUITexturePanel;
+		//UITexturePanel* mUITexturePanel;
 
 
 		// Editor

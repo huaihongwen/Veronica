@@ -10,8 +10,8 @@ namespace vee {
 		// Texture panel event handler id
 		mTexturePanelEventHandlerId = -1;
 
-		// Color panel event handler id
-		mColorPanelEventHandlerId = -1;
+		// Color selection event handler id
+		mColorSelectionEvtHandlerId = -1;
 
 
 		// Scene factory mode
@@ -87,12 +87,12 @@ namespace vee {
 	void SceneFactory::_bindEvents() {
 
 		// Attach to color panel select event
-		mColorPanelEventHandlerId = mParent->mUIColorPanel->mEvent.attach(this,
-			&vee::SceneFactory::_onColorPanelSelect);
+		//mColorSelectionEvtHandlerId = mParent->mColorSelection->mEvent.attach(this,
+			//&vee::SceneFactory::_onColorPanelSelect);
 
 		// Attach to texture panel select event
-		mTexturePanelEventHandlerId = mParent->mUITexturePanel->mEvent.attach(this,
-			&vee::SceneFactory::_onTexturePanelSelect);
+		//mTexturePanelEventHandlerId = mParent->mUITexturePanel->mEvent.attach(this,
+			//&vee::SceneFactory::_onTexturePanelSelect);
 	}
 
 	//---------------------------------------------------------------
@@ -102,7 +102,7 @@ namespace vee {
 	void SceneFactory::_unbindEvents() {
 
 		// Detach from texture panel select event
-		mParent->mUITexturePanel->mEvent.detach(mTexturePanelEventHandlerId);
+		//mParent->mUITexturePanel->mEvent.detach(mTexturePanelEventHandlerId);
 	}
 
 	//---------------------------------------------------------------

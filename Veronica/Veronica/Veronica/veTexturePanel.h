@@ -19,7 +19,7 @@ namespace vee {
 	/**
 	 * Texture panel
 	 */
-	class UITexturePanel : public UIComponent {
+	class UITexturePanel : public veUIComponent {
 
 	public:
 		UITexturePanel();
@@ -59,7 +59,7 @@ namespace vee {
 
 	protected:
 		// Buttons
-		vector<UIComponent*> mButtons;
+		vector<veUIComponent*> mButtons;
 
 		// Types
 		vector<VoxelType> mTypes;

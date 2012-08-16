@@ -6,89 +6,19 @@
  */
 
 #include "vePrerequisites.h"
+#include "veGeometry.h"
 #include "veTexture.h"
 
 namespace vee {
 
 	/**
-	 * Point
-	 * 2D "int" point.
-	 */
-	typedef struct Point {
-
-		// X coordinate
-		int x;
-		// Y coordinate
-		int y;
-
-
-		//---------------------------------------------------------------
-		Point() {}
-		Point(int px, int py) {
-			x = px;
-			y = py;
-		}
-		~Point() {}
-
-
-		// =
-		void operator = (const Point& p) {
-			
-			x = p.x;
-			y = p.y;
-		}
-
-	} Point;
-
-
-
-	// Rect
-	typedef struct Rect {
-
-		// X coordinate
-		int x;
-		// Y coordinate
-		int y;
-		// Width
-		int w;
-		// Height
-		int h;
-
-
-		//---------------------------------------------------------------
-		Rect() {}
-		Rect(int xCoord, int yCoord, int width, int height) {
-
-			x = xCoord;
-			y = yCoord;
-			w = width;
-			h = height;
-		}
-		~Rect() {}
-
-
-		// =
-		void operator = (const Rect& r) {
-
-			x = r.x;
-			y = r.y;
-			w = r.w;
-			h = r.h;
-		}
-
-	} Rect;
-
-
-
-	/**
 	 * UI component
 	 */
-	class UIComponent {
+	class veUIComponent {
 
 	public:
-		UIComponent();
-		~UIComponent();
-
+		veUIComponent();
+		~veUIComponent();
 
 	public:
 
@@ -124,7 +54,7 @@ namespace vee {
 		/**
 		 * Set rect
 		 */
-		void setRect(Rect& r);
+		void setRect(veRect& r);
 
 		/**
 		 * Set background color
@@ -144,13 +74,20 @@ namespace vee {
 
 
 	protected:
-		// Rect
-		Rect mRect;
+		// Flag to tell whether this UI component is being selected or not
+		bool mIsSelected;
 
+		// The width of the borders of this UI, the borders would be drawn only
+		// if its selected.
+		// TODO: this could just be some kind of UI config enumerations value, so
+		// each UI component doesnt need to keep its own copy
+		int mBorderWidth;
+
+		// Rect
+		veRect mRect;
 
 		// Background color
-		uchar mColor[3];
-
+		uchar mBgColor[3];
 
 		// Texture
 		Texture* mTexture;

@@ -369,7 +369,7 @@ namespace vee {
 		 * @r {Rect&} input rect.
 		 * @return {bool} inside or not.
 		 */
-		static bool pointInRect(Point& p, Rect& r) {
+		static bool pointInRect(vePoint& p, veRect& r) {
 
 			if ( p.x >= r.x && p.x <= (r.x+r.w) && p.y >= r.y && p.y <= (r.y+r.h)) {
 				return true;

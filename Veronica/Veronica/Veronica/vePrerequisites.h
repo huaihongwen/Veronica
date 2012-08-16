@@ -39,6 +39,12 @@ namespace vee {
 	class Matrix3x3;
 	class Transform;
 
+	// Geometry
+	struct vePoint;
+	struct veRect;
+
+	// Color
+	class veColor;
 
 	// Console
 	class Console;
@@ -130,7 +136,7 @@ namespace vee {
 	class ModelFactory;
 
 	// Color panel
-	class UIColorPanel;
+	class veUIColorPanel;
 
 	// Editor
 	class Editor;

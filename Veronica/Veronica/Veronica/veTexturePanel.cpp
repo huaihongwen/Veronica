@@ -93,7 +93,7 @@ namespace vee {
 
 
 		// Current button
-		UIComponent* b;
+		veUIComponent* b;
 
 		// Current texture coordinates
 		float coords[8];
@@ -113,10 +113,10 @@ namespace vee {
 
 
 				// Curernt button
-				b = new UIComponent();
+				b = new veUIComponent();
 
 				// Rect
-				b->setRect(Rect(
+				b->setRect(veRect(
 					mRect.x + hpm + hLeft/2 + hbm + j*abw,
 					mRect.y + vpm + vLeft/2 + vbm + i*abh,
 					bw,
@@ -162,7 +162,7 @@ namespace vee {
 	void UITexturePanel::render() {
 
 		// Parent render
-		UIComponent::render();
+		veUIComponent::render();
 
 
 		// Loop each button
@@ -180,7 +180,7 @@ namespace vee {
 	bool UITexturePanel::mouseLUp(int x, int y) {
 
 		// Parent mouseLUp
-		if (UIComponent::mouseLUp(x, y)) {
+		if (veUIComponent::mouseLUp(x, y)) {
 
 			// Loop each button
 			for (uint i = 0; i < mButtons.size(); i++) {

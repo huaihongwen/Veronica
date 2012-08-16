@@ -7,14 +7,19 @@
 namespace vee {
 
 	//---------------------------------------------------------------
-	UIComponent::UIComponent() {
+	veUIComponent::veUIComponent() {
+
+		// All UIs are not selected initially
+		mIsSelected = false;
+
+		mBorderWidth = 2;
 
 		// Texture
 		mTexture = NULL;
 	}
 
 	//---------------------------------------------------------------
-	UIComponent::~UIComponent() {
+	veUIComponent::~veUIComponent() {
 	}
 
 
@@ -22,15 +27,13 @@ namespace vee {
 	/**
 	 * Init
 	 */
-	void UIComponent::init() {
-	}
+	void veUIComponent::init() {}
 
 	//---------------------------------------------------------------
 	/**
 	 * Destroy
 	 */
-	void UIComponent::destroy() {
-	}
+	void veUIComponent::destroy() {}
 
 	//---------------------------------------------------------------
 	/**
@@ -38,20 +41,18 @@ namespace vee {
 	 * This function assumes the ortho projection and viewport are
 	 * already setup.
 	 */
-	void UIComponent::render() {
+	void veUIComponent::render() {
 
 		float x0 = float(mRect.x);
 		float y0 = float(mRect.y);
 		float x1 = x0 + mRect.w;
 		float y1 = y0 + mRect.h;
 
-
 		// Render system
 		RenderSystem& rs = RenderSystem::getSingleton();
 
 		// Window height
 		int wh = rs.getWindowHeight();
-
 
 		// Texture
 		if (mTexture) {
@@ -76,19 +77,36 @@ namespace vee {
 				glVertex3f(x1, wh-y0, 0.0f);
 			glEnd();
 
-
 			// Unbind texture
 			rs.bindTexture2D(0, 0);
 		} else {
 
-			// Background
-			glColor3ubv(mColor);
+			glColor3ubv(mBgColor);
 
 			glBegin(GL_QUADS);
 				glVertex3f(x0, wh-y0, 0.0f);
 				glVertex3f(x0, wh-y1, 0.0f);
 				glVertex3f(x1, wh-y1, 0.0f);
 				glVertex3f(x1, wh-y0, 0.0f);
+			glEnd();
+		}
+
+		if (mIsSelected) {
+
+			glLineWidth((float)mBorderWidth);
+			glColor3ub(255, 255, 255);
+
+			x0 -= mBorderWidth;
+			y0 -= mBorderWidth;
+			x1 += mBorderWidth;
+			y1 += mBorderWidth;
+
+			glBegin(GL_LINE_STRIP);
+			glVertex3f(x0, wh-y0, 0.0f);
+			glVertex3f(x0, wh-y1, 0.0f);
+			glVertex3f(x1, wh-y1, 0.0f);
+			glVertex3f(x1, wh-y0, 0.0f);
+			glVertex3f(x0, wh-y0, 0.0f);
 			glEnd();
 		}
 	}
@@ -98,9 +116,9 @@ namespace vee {
 	/**
 	 * Mouse left button up
 	 */
-	bool UIComponent::mouseLUp(int x, int y) {
+	bool veUIComponent::mouseLUp(int x, int y) {
 
-		if (!Utils::pointInRect(Point(x, y), mRect)) {
+		if (!Utils::pointInRect(vePoint(x, y), mRect)) {
 			return false;
 		}
 
@@ -111,10 +129,19 @@ namespace vee {
 	/**
 	 * Mouse left button down
 	 */
-	bool UIComponent::mouseLDown(int x, int y) {
+	bool veUIComponent::mouseLDown(int x, int y) {
 
-		if (!Utils::pointInRect(Point(x, y), mRect)) {
+		if (!Utils::pointInRect(vePoint(x, y), mRect)) {
+
+			if (mIsSelected) {
+				mIsSelected = false;
+			}
+
 			return false;
+		}
+
+		if (!mIsSelected) {
+			mIsSelected = true;
 		}
 
 		return true;
@@ -125,7 +152,7 @@ namespace vee {
 	/**
 	 * Set rect
 	 */
-	void UIComponent::setRect(Rect& r) {
+	void veUIComponent::setRect(veRect& r) {
 		mRect = r;
 	}
 
@@ -133,18 +160,18 @@ namespace vee {
 	/**
 	 * Set background color
 	 */
-	void UIComponent::setBackgroundColor(uchar r, uchar g, uchar b) {
+	void veUIComponent::setBackgroundColor(uchar r, uchar g, uchar b) {
 
-		mColor[0] = r;
-		mColor[1] = g;
-		mColor[2] = b;
+		mBgColor[0] = r;
+		mBgColor[1] = g;
+		mBgColor[2] = b;
 	}
 
 	//---------------------------------------------------------------
 	/**
 	 * Set texture
 	 */
-	void UIComponent::setTexture(Texture* tex) {
+	void veUIComponent::setTexture(Texture* tex) {
 		mTexture = tex;
 	}
 
@@ -152,7 +179,7 @@ namespace vee {
 	/**
 	 * Set texture coordinates
 	 */
-	void UIComponent::setTexCoords(float* coords) {
+	void veUIComponent::setTexCoords(float* coords) {
 		
 		for (int i = 0; i < 8; i++) {
 			mTexCoords[i] = coords[i];

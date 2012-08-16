@@ -19,11 +19,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="veColorPalette.cpp" />
+    <ClCompile Include="veColorRect.cpp" />
     <ClCompile Include="veConsole.cpp" />
     <ClCompile Include="veFactoryHistory.cpp" />
     <ClCompile Include="veLightingEngine.cpp" />
     <ClCompile Include="veTexturePanel.cpp" />
-    <ClCompile Include="veUIColorPanel.cpp" />
+    <ClCompile Include="veColorSelector.cpp" />
     <ClCompile Include="veEngine.cpp" />
     <ClCompile Include="veFBOManager.cpp" />
     <ClCompile Include="veFontSystem.cpp" />
@@ -54,11 +56,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="veBoundingBox.h" />
+    <ClInclude Include="veColor.h" />
+    <ClInclude Include="veColorPalette.h" />
+    <ClInclude Include="veColorRect.h" />
     <ClInclude Include="veConsole.h" />
     <ClInclude Include="veFactoryHistory.h" />
     <ClInclude Include="veEngine.h" />
+    <ClInclude Include="veGeometry.h" />
     <ClInclude Include="veLightingEngine.h" />
-    <ClInclude Include="veUIColorPanel.h" />
+    <ClInclude Include="veColorSelector.h" />
     <ClInclude Include="veEditor.h" />
     <ClInclude Include="veEvent.h" />
     <ClInclude Include="veFBOManager.h" />

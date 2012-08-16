@@ -21,10 +21,10 @@ namespace vee {
 		mUIWindow = NULL;
 		// Edit view
 		mUIEditView = NULL;
-		// Color panel
-		mUIColorPanel = NULL;
+		// Color selection
+		mColorSelector = NULL;
 		// Texture panel
-		mUITexturePanel = NULL;
+		//mUITexturePanel = NULL;
 
 
 		// Editor
@@ -180,27 +180,26 @@ namespace vee {
 	void Editor::_initUI() {
 
 		// Window
-		mUIWindow = new UIComponent();
-		mUIWindow->setRect(Rect(0, 0, EDITWINDOWWIDTH, EDITWINDOTHEIGHT));
+		mUIWindow = new veUIComponent();
+		mUIWindow->setRect(veRect(0, 0, EDITWINDOWWIDTH, EDITWINDOTHEIGHT));
 		mUIWindow->setBackgroundColor(16, 16, 16);
 
 		// Edit view
-		mUIEditView = new UIComponent();
-		mUIEditView->setRect(Rect(0, 168, 800, 600));
+		mUIEditView = new veUIComponent();
+		mUIEditView->setRect(veRect(0, 168, 800, 600));
 		mUIEditView->setBackgroundColor(32, 32, 32);
 
-		// Color panel
-		mUIColorPanel = new UIColorPanel();
-		mUIColorPanel->setRect(Rect(824, 0, 200, 200));
-		mUIColorPanel->setBackgroundColor(32, 32, 32);
-		mUIColorPanel->init();
-
+		// Color selector
+		mColorSelector = new veColorSelector();
+		mColorSelector->setRect(veRect(820, 20, 170, 180));
+		mColorSelector->setBackgroundColor(32, 32, 32);
+		mColorSelector->init();
 
 		// Texture panel
-		mUITexturePanel = new UITexturePanel();
-		mUITexturePanel->setRect(Rect(824, 268, 200, 500));
-		mUITexturePanel->setBackgroundColor(32, 32, 32);
-		mUITexturePanel->init();
+		//mUITexturePanel = new UITexturePanel();
+		//mUITexturePanel->setRect(veRect(824, 268, 200, 500));
+		//mUITexturePanel->setBackgroundColor(32, 32, 32);
+		//mUITexturePanel->init();
 	}
 
 	//---------------------------------------------------------------
@@ -218,13 +217,13 @@ namespace vee {
 			delete mUIEditView;
 		}
 		// Color panel
-		if (mUIColorPanel) {
-			delete mUIColorPanel;
+		if (mColorSelector) {
+			delete mColorSelector;
 		}
 		// Texture panel
-		if (mUITexturePanel) {
-			delete mUITexturePanel;
-		}
+		//if (mUITexturePanel) {
+			//delete mUITexturePanel;
+		//}
 	}
 
 	//---------------------------------------------------------------
@@ -260,10 +259,10 @@ namespace vee {
 		mUIWindow->render();
 		// Edit view
 		mUIEditView->render();
-		// Color panel
-		mUIColorPanel->render();
+		// Color selection
+		mColorSelector->render();
 		// Texture panel
-		mUITexturePanel->render();
+		//mUITexturePanel->render();
 
 
 		// Clear depth buffer
@@ -356,22 +355,19 @@ namespace vee {
 		if (mUIEditView->mouseLDown(x, y)) {
 			
 			mMouseLArea = UI_EDITVIEW;
-			return;
 		}
 
 		// Color panel
-		if (mUIColorPanel->mouseLDown(x, y)) {
+		if (mColorSelector->mouseLDown(x, y)) {
 
 			mMouseLArea = UI_COLORPANEL;
-			return;
 		}
 
 		// Texture panel
-		if (mUITexturePanel->mouseLDown(x, y)) {
+		//if (mUITexturePanel->mouseLDown(x, y)) {
 			
-			mMouseLArea = UI_TEXTUREPANEL;
-			return;
-		}
+			//mMouseLArea = UI_TEXTUREPANEL;
+		//}
 	}
 
 	//---------------------------------------------------------------
@@ -381,10 +377,10 @@ namespace vee {
 	void Editor::_mouseLUpUI(int x, int y) {
 
 		// Color panel
-		mUIColorPanel->mouseLUp(x, y);
+		mColorSelector->mouseLUp(x, y);
 
 		// Texture panel
-		mUITexturePanel->mouseLUp(x, y);
+		//mUITexturePanel->mouseLUp(x, y);
 	}
 
 

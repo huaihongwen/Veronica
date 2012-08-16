@@ -148,8 +148,8 @@ namespace vee {
 		// Texture panel event handler id
 		int mTexturePanelEventHandlerId;
 
-		// Color panel event handler id
-		int mColorPanelEventHandlerId;
+		// Color selection event handler id
+		int mColorSelectionEvtHandlerId;
 
 
 		// Edit related logic
