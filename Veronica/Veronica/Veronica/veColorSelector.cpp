@@ -16,14 +16,14 @@ namespace vee {
 		// Set the color rect base on the color selector's position, width and height
 		veRect rect = veRect(mRect.x + 5, mRect.y + 5, 130, 130);
 		_mColorRect.setRect(rect);
-		_mColorRect.setBackgroundColor(100, 32, 32);
+		_mColorRect.setBackgroundColor(255, 0, 0);
 		_mColorRect.init();
 
 		// Set the color bar's position, width and height
 		rect.x = rect.x + rect.w + 10;
 		rect.w = 20;
 		_mColorBar.setRect(rect);
-		_mColorBar.setBackgroundColor(32, 100, 32);
+		_mColorBar.setBackgroundColor(0, 255, 0);
 		_mColorBar.init();
 
 		// Set the color palette's position, width and height
@@ -32,7 +32,7 @@ namespace vee {
 		rect.w = mRect.w;
 		rect.h = 35;
 		_mColorPalette.setRect(rect);
-		_mColorPalette.setBackgroundColor(32, 32, 100);
+		_mColorPalette.setBackgroundColor(0, 0, 255);
 		_mColorPalette.init();
 	}
 

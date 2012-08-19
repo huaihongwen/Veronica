@@ -240,8 +240,6 @@ namespace vee {
 		// Window height
 		int wh = rs.getWindowHeight();
 
-
-		// Ortho projection
 		rs.setOrthoProjection(0.0f, (float)ww, 0.0f, (float)wh);
 
 		// Viewport

@@ -3,6 +3,7 @@
 
 #include <windows.h>
 #include <GL\glew.h>
+#include <math.h>
 
 namespace vee {
 
@@ -43,6 +44,7 @@ namespace vee {
 	 */
 	void veUIComponent::render() {
 
+		// Get the coordinates of the UI's top left and bottom right pixel pos
 		float x0 = float(mRect.x);
 		float y0 = float(mRect.y);
 		float x1 = x0 + mRect.w;
@@ -50,13 +52,23 @@ namespace vee {
 
 		// Render system
 		RenderSystem& rs = RenderSystem::getSingleton();
-
-		// Window height
+		
+		// Get window height
 		int wh = rs.getWindowHeight();
+
+		if (mIsSelected) {		// Draw a larger rect under the UI component
+			glColor3ub(255, 255, 255);
+
+			glBegin(GL_QUADS);
+				glVertex3f(x0 - mBorderWidth, wh-y0 + mBorderWidth, 0.0f);
+				glVertex3f(x0 - mBorderWidth, wh-y1 - mBorderWidth, 0.0f);
+				glVertex3f(x1 + mBorderWidth, wh-y1 - mBorderWidth, 0.0f);
+				glVertex3f(x1 + mBorderWidth, wh-y0 + mBorderWidth, 0.0f);
+			glEnd();
+		}
 
 		// Texture
 		if (mTexture) {
-
 			// Bind texture
 			rs.bindTexture2D(mTexture->getId(), 0);
 
@@ -90,25 +102,6 @@ namespace vee {
 				glVertex3f(x1, wh-y0, 0.0f);
 			glEnd();
 		}
-
-		if (mIsSelected) {
-
-			glLineWidth((float)mBorderWidth);
-			glColor3ub(255, 255, 255);
-
-			x0 -= mBorderWidth;
-			y0 -= mBorderWidth;
-			x1 += mBorderWidth;
-			y1 += mBorderWidth;
-
-			glBegin(GL_LINE_STRIP);
-			glVertex3f(x0, wh-y0, 0.0f);
-			glVertex3f(x0, wh-y1, 0.0f);
-			glVertex3f(x1, wh-y1, 0.0f);
-			glVertex3f(x1, wh-y0, 0.0f);
-			glVertex3f(x0, wh-y0, 0.0f);
-			glEnd();
-		}
 	}
 
 
@@ -117,6 +110,8 @@ namespace vee {
 	 * Mouse left button up
 	 */
 	bool veUIComponent::mouseLUp(int x, int y) {
+
+		printf("Mouse up at %d %d \n", x, y);
 
 		if (!Utils::pointInRect(vePoint(x, y), mRect)) {
 			return false;
