@@ -23,7 +23,7 @@ namespace vee {
 		rect.x = rect.x + rect.w + 10;
 		rect.w = 20;
 		_mColorBar.setRect(rect);
-		_mColorBar.setBackgroundColor(0, 255, 0);
+		_mColorBar.setBackgroundColor(32, 32, 32);
 		_mColorBar.init();
 
 		// Set the color palette's position, width and height

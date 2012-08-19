@@ -239,8 +239,8 @@ namespace vee {
 		
 
 		// Texture manager
-		TextureManager& textureManager = TextureManager::getSingleton();
-		Texture* texture;
+		veTextureManager& textureManager = veTextureManager::getSingleton();
+		veTexture* texture;
 
 
 		// Output textures
@@ -272,8 +272,8 @@ namespace vee {
 			if (!textureManager.getTexture(mInputTexNames.at(k))) {
 				
 				// Load textures from file
-				texture = textureManager.loadTexture(mInputTexNames.at(k), 
-					mInputTexFiles.at(k).c_str());
+				//texture = textureManager.loadTexture(mInputTexNames.at(k), 
+					//mInputTexFiles.at(k).c_str());
 			}
 		}
 	}

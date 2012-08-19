@@ -41,7 +41,7 @@ namespace vee {
 		}
 
 		// Attach 2d texture to frame buffer object
-		void attachTexture2D(GLenum attachPoint, Texture* texture) {
+		void attachTexture2D(GLenum attachPoint, veTexture* texture) {
 
 			// Bind current
 			glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, mId);

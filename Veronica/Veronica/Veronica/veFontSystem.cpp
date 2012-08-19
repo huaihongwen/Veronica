@@ -22,17 +22,17 @@ namespace vee {
 
 
 		// Texture manager
-		TextureManager& tm = TextureManager::getSingleton();
+		//veTextureManager& tm = TextureManager::getSingleton();
 		
 		// Load font texture from file
-		Texture* tex = tm.loadTexture(mFontName, filename);
+		//veTexture* tex = tm.loadTexture(mFontName, filename);
 
 
 		// Font width
-		mFontWidth = (int)tex->getWidth() / 16;
+		//mFontWidth = (int)tex->getWidth() / 16;
 
 		// Font height
-		mFontHeight = (int)tex->getHeight() / 16;
+		//mFontHeight = (int)tex->getHeight() / 16;
 
 
 		// Font color
@@ -84,7 +84,7 @@ namespace vee {
 		RenderSystem& rs = RenderSystem::getSingleton();
 
 		// Texture manager
-		TextureManager& tm = TextureManager::getSingleton();
+		veTextureManager& tm = veTextureManager::getSingleton();
 
 
 		// Window width

@@ -88,7 +88,7 @@ namespace vee {
 
 	public:
 		// Texture
-		Texture mTestTexture;
+		veTexture mTestTexture;
 
 		// Test mesh
 		Mesh* mTestMesh;

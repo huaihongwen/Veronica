@@ -144,7 +144,7 @@ namespace vee {
 		mRenderer->init();
 
 		// Texture manager
-		mTextureManager = new TextureManager();
+		mTextureManager = new veTextureManager();
 	}
 
 

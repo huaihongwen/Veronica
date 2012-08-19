@@ -1,10 +1,12 @@
+/**
+ * veTexture.h
+ */
+
 #ifndef VEE_TEXTURE_H
 #define VEE_TEXTURE_H
 
-/* Basic texture
- */
-
 #include "vePrerequisites.h"
+#include "veTGALoader.h"
 
 #include <windows.h>
 #include <GL\glew.h>
@@ -12,10 +14,10 @@
 namespace vee {
 
 	// Basic texture
-	class Texture {
+	class veTexture {
 
 	public:
-		Texture() {
+		veTexture() {
 
 			mWidth = 0;
 			mHeight = 0;
@@ -24,7 +26,7 @@ namespace vee {
 
 			mId = 0;
 		}
-		~Texture() {
+		~veTexture() {
 
 			// Destroy
 			destroy();
@@ -66,6 +68,38 @@ namespace vee {
 
 			// Bind to default
 			glBindTexture(GL_TEXTURE_2D, 0);
+		}
+
+		// Load texture data from TGA img
+		// @params
+		// filename (const char*)			The name of the TGA file
+		// @return
+		void loadDataFromTGA(const char* filename) {
+
+			// TGA data
+			TGAData tgaData;
+			// Load tgaData from file
+			TGALoader::loadTGAFile(&tgaData, filename);
+
+			GLenum format, internalFormat;
+			// Texture format
+			switch (tgaData.mBitsPP / 8)
+			{
+				case 3:
+					format = GL_RGB;
+					internalFormat = GL_RGB8;
+					break;
+				case 4:
+					format = GL_RGBA;
+					internalFormat = GL_RGBA8;
+					break;
+				default:
+					break;
+			}
+
+			// Initialize the texture
+			this->init(tgaData.mWidth, tgaData.mHeight,
+				internalFormat, format, GL_UNSIGNED_BYTE, tgaData.mData);
 		}
 
 		// Destroy

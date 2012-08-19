@@ -32,6 +32,17 @@ namespace vee {
 		veColorBar();
 		// Destructor
 		~veColorBar();
+
+		// Calculates the current selected color for the color bar base
+		// on the offset percentage of y coordinate
+		// @params
+		// yOffsetPerc (float)		// How much is the y coordinate offset from the top
+									// From 0.0f to 1.0f
+		// @returns
+		void CalculateSelectedColor(float yOffsetPerc);
+
+	protected:
+		veColor _mSelectedColor;		// The current selected color
 	};
 };
 

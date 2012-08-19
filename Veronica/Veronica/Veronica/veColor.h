@@ -43,6 +43,16 @@ namespace vee {
 			return mRGBA[idx];
 		}
 
+		// Sets the color using 3 color channels
+		// @params
+		// r, g, b (uchar)		RGBA channel values
+		// @return
+		void set(uchar r, uchar g, uchar b) {
+			mRGBA[0] = r;
+			mRGBA[1] = g;
+			mRGBA[2] = b;
+		}
+
 		// Sets the color using 4 color channels
 		// @params
 		// r, g, b, a (uchar)		RGBA channel values

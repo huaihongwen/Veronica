@@ -25,9 +25,9 @@ namespace vee {
 	void UITexturePanel::init() {
 
 		// Texture manager
-		TextureManager& tm = TextureManager::getSingleton();
+		//veTextureManager& tm = TextureManager::getSingleton();
 		// Init texture
-		Texture* t = tm.loadTexture("Terrain", "textures//terrain.tga");
+		//veTexture* t = tm.loadTexture("Terrain", "textures//terrain.tga");
 
 
 		// Init types
@@ -123,7 +123,7 @@ namespace vee {
 					bh));
 
 				// Texture
-				b->setTexture(t);
+				//b->setTexture(t);
 
 				// Current texture coordinates
 				Utils::getVoxelFaceTexCoords(mTypes[count], 0, coords);

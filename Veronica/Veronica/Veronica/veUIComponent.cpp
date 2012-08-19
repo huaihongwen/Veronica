@@ -15,12 +15,26 @@ namespace vee {
 
 		mBorderWidth = 2;
 
+		// Set default texture coordinate
+		mTexCoords[0] = 0.0f;
+		mTexCoords[1] = 1.0f;
+
+		mTexCoords[2] = 0.0f;
+		mTexCoords[3] = 0.0f;
+
+		mTexCoords[4] = 1.0f;
+		mTexCoords[5] = 0.0f;
+
+		mTexCoords[6] = 1.0f;
+		mTexCoords[7] = 1.0f;
+
 		// Texture
 		mTexture = NULL;
 	}
 
 	//---------------------------------------------------------------
 	veUIComponent::~veUIComponent() {
+		// TODO: delete texture using texture manager
 	}
 
 
@@ -97,7 +111,7 @@ namespace vee {
 
 			glBegin(GL_QUADS);
 				glVertex3f(x0, wh-y0, 0.0f);
-				glVertex3f(x0, wh-y1, 0.0f);
+				glVertex3f( x0, wh-y1, 0.0f);
 				glVertex3f(x1, wh-y1, 0.0f);
 				glVertex3f(x1, wh-y0, 0.0f);
 			glEnd();
@@ -166,7 +180,7 @@ namespace vee {
 	/**
 	 * Set texture
 	 */
-	void veUIComponent::setTexture(Texture* tex) {
+	void veUIComponent::setTexture(veTexture* tex) {
 		mTexture = tex;
 	}
 

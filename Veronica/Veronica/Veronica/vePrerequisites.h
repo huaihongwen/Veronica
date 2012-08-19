@@ -72,9 +72,9 @@ namespace vee {
 	// Mesh
 	class Mesh;
 	// Texture
-	class Texture;
+	class veTexture;
 	// Texture manager
-	class TextureManager;
+	class veTextureManager;
 
 	// Frame buffer object
 	class FramebufferObject;

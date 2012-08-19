@@ -130,7 +130,7 @@ namespace vee {
 		// GLSL manager
 		GLSLManager* mGLSLManager;
 		// Texture manager
-		TextureManager* mTextureManager;
+		veTextureManager* mTextureManager;
 
 
 	public:

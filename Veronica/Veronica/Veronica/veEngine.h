@@ -42,7 +42,7 @@ namespace vee {
 
 	protected:
 		// Texture manager
-		TextureManager* mTextureManager;
+		veTextureManager* mTextureManager;
 		// FBO manager
 		FBOManager* mFBOManager;
 		// GLSL manager

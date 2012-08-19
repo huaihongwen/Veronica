@@ -1,8 +1,9 @@
+/**
+ *	Texture manager
+ */
+
 #ifndef VEE_TEXTUREMANAGER_H
 #define VEE_TEXTUREMANAGER_H
-
-/* Texture manager
- */
 
 #include "vePrerequisites.h"
 #include "veSingleton.h"
@@ -13,31 +14,28 @@
 namespace vee {
 
 	// Texture map
-	typedef map<string, Texture*> TextureMap;
+	typedef map<string, veTexture*> veTextureMap;
 
 	// Texture manager
-	class TextureManager : public SingletonVee<TextureManager> {
+	class veTextureManager : public SingletonVee<veTextureManager> {
 
 	public:
-		TextureManager();
-		~TextureManager();
+		veTextureManager();
+		~veTextureManager();
 
 		// Singleton
-		static TextureManager& getSingleton(void);
-		static TextureManager* getSingletonPtr(void);
+		static veTextureManager& getSingleton(void);
+		static veTextureManager* getSingletonPtr(void);
 
 		// Create texture
-		Texture* createTexture(string name);
-
-		// Load texture
-		Texture* loadTexture(string name, const char* filename);
+		veTexture* createTexture(string name);
 
 		// Get texture
-		Texture* getTexture(string name);
+		veTexture* getTexture(string name);
 
 	protected:
 		// Textures
-		TextureMap mTextures;
+		veTextureMap mTextures;
 	};
 };
 

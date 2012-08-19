@@ -37,7 +37,6 @@ namespace vee {
 		 */
 		virtual void render();
 
-
 	public:
 		/**
 		 * Mouse left button up
@@ -64,14 +63,12 @@ namespace vee {
 		/**
 		 * Set texture
 		 */
-		void setTexture(Texture* tex);
+		void setTexture(veTexture* tex);
 
 		/**
 		 * Set texture coordinates
 		 */
 		void setTexCoords(float* coords);
-
-
 
 	protected:
 		// Flag to tell whether this UI component is being selected or not
@@ -83,14 +80,14 @@ namespace vee {
 		// each UI component doesnt need to keep its own copy
 		int mBorderWidth;
 
-		// Rect
+		// Rect contains the start pos, width and height of this UI
 		veRect mRect;
 
 		// Background color
 		uchar mBgColor[3];
 
-		// Texture
-		Texture* mTexture;
+		// Pointer to the UI's texture object
+		veTexture* mTexture;
 
 		// Texture coordinates
 		float mTexCoords[8];
