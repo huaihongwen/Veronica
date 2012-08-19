@@ -11,7 +11,10 @@ namespace vee {
 	veColorRect::~veColorRect() {}
 
 	// Constructor
-	veColorBar::veColorBar() {
+	veColorBar::veColorBar() {}
+
+	// Initializes the color bar
+	void veColorBar::init() {
 
 		veTextureManager& tm = veTextureManager::getSingleton();
 
@@ -26,18 +29,14 @@ namespace vee {
 
 		int idx;
 		int bytesPerRow = texWidth * 3;
-		
-		float percent;
 
 		for (int i = 0; i < texHeight; i++) {
+
+			CalculateSelectedColor((float)(i + 1), (float)texHeight);
 
 			for (int j = 0; j < bytesPerRow; j += 3) {
 
 				idx = i * texWidth * 3 + j;
-
-				percent = (float)(i + 1) / (float)texHeight;
-
-				CalculateSelectedColor(percent);
 
 				texData[idx] = _mSelectedColor[0];
 				texData[idx + 1] = _mSelectedColor[1];
@@ -51,50 +50,44 @@ namespace vee {
 	}
 
 	// Calculates the current selected color
-	void veColorBar::CalculateSelectedColor(float yOffsetPerc) {
+	void veColorBar::CalculateSelectedColor(float yOffset, float yRange) {
 
-		float percentPerTransition = 1.0f / 6.0f;
+		float heightPerSegment = yRange / 6.0f;
 		uchar valueChange;
 
-		if (yOffsetPerc < 1.0f * percentPerTransition) {	// Red to yellow
-			yOffsetPerc /= percentPerTransition;
-			valueChange = (uchar)(255 * yOffsetPerc);
+		if (yOffset <= 1.0f * heightPerSegment) {	// Red to yellow
+			valueChange = (uchar)(255 * yOffset / heightPerSegment);
 
 			_mSelectedColor.set(255, 0 + valueChange, 0);
 		}
-		else if (yOffsetPerc < 2.0f * percentPerTransition) {	// Yellow to green
-			yOffsetPerc -= 1.0f * percentPerTransition;
-			yOffsetPerc /= percentPerTransition;
-			valueChange = (uchar)(255 * yOffsetPerc);
+		else if (yOffset <= 2.0f * heightPerSegment) {	// Yellow to green
+			yOffset -= 1.0f * heightPerSegment;
+			valueChange = (uchar)(255 * yOffset / heightPerSegment);
 
 			_mSelectedColor.set(255 - valueChange, 255, 0);
 
 		}
-		else if (yOffsetPerc < 3.0f * percentPerTransition) {	// Green to lightblue
-			yOffsetPerc -= 2.0f * percentPerTransition;
-			yOffsetPerc /= percentPerTransition;
-			valueChange = (uchar)(255 * yOffsetPerc);
+		else if (yOffset <= 3.0f * heightPerSegment) {	// Green to lightblue
+			yOffset -= 2.0f * heightPerSegment;
+			valueChange = (uchar)(255 * yOffset / heightPerSegment);
 
 			_mSelectedColor.set(0, 255, 0 + valueChange);
 		}
-		else if (yOffsetPerc < 4.0f * percentPerTransition) {	// Lightblue to blue
-			yOffsetPerc -= 3.0f * percentPerTransition;
-			yOffsetPerc /= percentPerTransition;
-			valueChange = (uchar)(255 * yOffsetPerc);
+		else if (yOffset <= 4.0f * heightPerSegment) {	// Lightblue to blue
+			yOffset -= 3.0f * heightPerSegment;
+			valueChange = (uchar)(255 * yOffset / heightPerSegment);
 
 			_mSelectedColor.set(0, 255 - valueChange, 255);
 		}
-		else if (yOffsetPerc < 5.0f * percentPerTransition) {	// Blue to purple
-			yOffsetPerc -= 4.0f * percentPerTransition;
-			yOffsetPerc /= percentPerTransition;
-			valueChange = (uchar)(255 * yOffsetPerc);
+		else if (yOffset <= 5.0f * heightPerSegment) {	// Blue to purple
+			yOffset -= 4.0f * heightPerSegment;
+			valueChange = (uchar)(255 * yOffset / heightPerSegment);
 
 			_mSelectedColor.set(0 + valueChange, 0, 255);
 		}
 		else {											// Purple back to red
-			yOffsetPerc -= 5.0f * percentPerTransition;
-			yOffsetPerc /= percentPerTransition;
-			valueChange = (uchar)(255 * yOffsetPerc);
+			yOffset -= 5.0f * heightPerSegment;
+			valueChange = (uchar)(255 * yOffset / heightPerSegment);
 
 			_mSelectedColor.set(255, 0, 255 - valueChange);
 		}
