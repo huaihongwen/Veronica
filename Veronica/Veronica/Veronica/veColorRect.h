@@ -20,8 +20,23 @@ namespace vee {
 		// Destructor
 		~veColorRect();
 
+		// Initializeds the color rect
+		// @params
+		// @return
+		void init();
+
+		// Calculates the current selected color for the color rect base
+		// on the offset of x and y coordinates and the range of the selection
+		// @params
+		// xOffset (float)				How much is the x coordinate offset from the left
+		// yOffset (float)				How much is the y coordinate offset from the top
+		// range (float)				Range of the selection
+		// @returns
+		void calculateSelectedColor(float xOffset, float yOffset, float range);
+
 	protected:
 		veColor _mBaseColor;			// The current base color of this color rect
+		veColor _mSelectedColor;		// The current selected color
 	};
 
 	// A color bar class, renders all intepolated colors
@@ -34,17 +49,31 @@ namespace vee {
 		~veColorBar();
 
 		// Initializes the color bar
+		// @params
+		// @return
 		void init();
+
+		// Renders the color bar
+		// @params
+		// @return
+		void render();
+
+		// Click and select the color for color bar
+		// @params
+		// x, y (int)		Mouse pos when mouse down
+		// @return			Returns true if its inside UI rect, false otherwise
+		bool mouseLDown(int x, int y);
 
 		// Calculates the current selected color for the color bar base
 		// on the offset of y coordinate and the y range of the selection
 		// @params
-		// yOffsetPerc (float)			How much is the y coordinate offset from the top
-		// yRange (float)				Range of the selection in y direction
+		// yOffset (float)			How much is the y coordinate offset from the top
+		// yRange (float)			Range of the selection in y direction
 		// @returns
-		void CalculateSelectedColor(float yOffset, float yRange);
+		void calculateSelectedColor(float yOffset, float yRange);
 
 	protected:
+		float _mYOffset;					// The current y offset of the selected color
 		veColor _mSelectedColor;		// The current selected color
 	};
 };
