@@ -58,18 +58,53 @@ namespace vee {
 	//---------------------------------------------------------------
 	Chunk::~Chunk() {
 
-		// Total
+		// Destroy
+		destroy();
+	}
+
+	//---------------------------------------------------------------
+	/**
+	 * Init
+	 * @c {Chunk&} input chunk.
+	 */
+	void Chunk::init(Chunk* c) {
+
+		// Volume
+		mVolume.mPos[0] = c->mVolume.mPos[0];
+		mVolume.mPos[1] = c->mVolume.mPos[1];
+		mVolume.mPos[2] = c->mVolume.mPos[2];
+
+		mVolume.mSize[0] = c->mVolume.mSize[0];
+		mVolume.mSize[1] = c->mVolume.mSize[1];
+		mVolume.mSize[2] = c->mVolume.mSize[2];
+
+
+		// Voxel array
 		int total = mVolume.mSize[0]*mVolume.mSize[1]*mVolume.mSize[2];
 
-		// Loop each voxel
-		for (int i = 0; i < total; i++) {
-			
-			// Delete voxel
-			delete mData[i];
-		}
+		// Create pointer array
+		mData = new Voxel*[total];
 
-		// Delete pointer array
-		delete [] mData;
+
+		int idx;
+
+		// Loop each voxel
+		for (int i = 0; i < mVolume.mSize[0]; i++) {
+			for (int j = 0; j < mVolume.mSize[1]; j++) {
+				for (int k = 0; k < mVolume.mSize[2]; k++) {
+
+					idx = Utils::toArrayIndex(i, j, k, mVolume.mSize[1], mVolume.mSize[2]);
+
+					if (c->mData[idx]) {
+
+						mData[idx] = new Voxel(*(c->mData[idx]));
+					} else {
+
+						mData[idx] = NULL;
+					}
+				}
+			}
+		}
 	}
 
 	//---------------------------------------------------------------
@@ -93,6 +128,7 @@ namespace vee {
 		mVolume.mSize[1] = sy;
 		mVolume.mSize[2] = sz;
 
+
 		// Voxel array
 		int total = mVolume.mSize[0]*mVolume.mSize[1]*mVolume.mSize[2];
 
@@ -104,9 +140,7 @@ namespace vee {
 
 		// Loop each voxel
 		for (int i = 0; i < sx; i++) {
-
 			for (int j = 0; j < sy; j++) {
-
 				for (int k = 0; k < sz; k++) {
 
 					idx = Utils::toArrayIndex(i, j, k, sy, sz);
@@ -117,6 +151,159 @@ namespace vee {
 			}
 		}
 	}
+
+
+	//---------------------------------------------------------------
+	/**
+	 * Init
+	 * @fileName {char*} file name.
+	 */
+	void Chunk::init(char* fileName) {
+
+		// File
+		FILE* fp;
+
+		// Open file
+		fopen_s(&fp, fileName, "rb");
+
+		if (!fp) {
+			return;
+		}
+
+
+		// Voxel type
+		VoxelType vt;
+
+		// Index
+		int idx;
+
+
+		// Volume
+		// World position
+		fread(mVolume.mPos, sizeof(int), 3, fp);
+		// Size
+		fread(mVolume.mSize, sizeof(int), 3, fp);
+
+
+		// Voxel array
+		int total = mVolume.mSize[0]*mVolume.mSize[1]*mVolume.mSize[2];
+
+		// Create pointer array
+		mData = new Voxel*[total];
+
+
+		// Loop each voxel
+		for (int i = 0; i < mVolume.mSize[0]; i++) {
+			for (int j = 0; j < mVolume.mSize[1]; j++) {
+				for (int k = 0; k < mVolume.mSize[2]; k++) {
+
+					// Index
+					idx = Utils::toArrayIndex(i, j, k, mVolume.mSize[1], mVolume.mSize[2]);
+
+					// Voxel type
+					fread(&vt, sizeof(VoxelType), 1, fp);
+
+
+					if (vt != VT_AIR) {
+
+						// Voxel
+						mData[idx] = new Voxel();
+
+						// Voxel type
+						mData[idx]->mType = vt;
+
+						// Voxel color
+						fread(mData[idx]->mColor, sizeof(uchar), 4, fp);
+					} else {
+
+						mData[idx] = NULL;
+					}
+				}
+			}
+		}
+
+
+		// Close file
+		fclose(fp);
+	}
+
+
+	//---------------------------------------------------------------
+	/**
+	 * Destroy
+	 */
+	void Chunk::destroy() {
+
+		if (mData) {
+
+			// Total
+			int total = mVolume.mSize[0]*mVolume.mSize[1]*mVolume.mSize[2];
+
+			// Loop each voxel
+			for (int i = 0; i < total; i++) {
+
+				// Delete voxel
+				delete mData[i];
+			}
+
+			// Delete pointer array
+			delete [] mData;
+		}
+	}
+
+
+	//---------------------------------------------------------------
+	/**
+	 * Save to file
+	 * @fileName {char*} file name.
+	 */
+	void Chunk::saveToFile(char* fileName) {
+
+		// File
+		FILE* fp;
+
+		// Open file
+		fopen_s(&fp, fileName, "wb");
+
+		if (!fp) {
+			return;
+		}
+
+
+		// Voxel type
+		VoxelType vt;
+
+
+		// Volume
+		// World position
+		fwrite(mVolume.mPos, sizeof(int), 3, fp);
+		// Size
+		fwrite(mVolume.mSize, sizeof(int), 3, fp);
+
+
+		// Loop each voxel
+		for (int i = 0; i < mVolume.mSize[0]*mVolume.mSize[1]*mVolume.mSize[2]; i++) {
+
+			if (mData[i]) {
+
+				// Voxel type
+				fwrite(&mData[i]->mType, sizeof(VoxelType), 1, fp);
+
+				// Voxel color
+				fwrite(mData[i]->mColor, sizeof(uchar), 4, fp);
+			} else {
+
+				// Empty voxel type
+				vt = VT_AIR;
+				fwrite(&vt, sizeof(VoxelType), 1, fp);
+			}
+		}
+
+
+		// Close file
+		fclose(fp);
+	}
+
 
 	//---------------------------------------------------------------
 	/**

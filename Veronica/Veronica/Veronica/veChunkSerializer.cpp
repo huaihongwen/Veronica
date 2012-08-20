@@ -18,19 +18,25 @@ namespace vee {
 	 * Chunk serializer
 	 * Serialize chunk into model space mesh.
 	 * @chunk {Chunk*} input chunk.
-	 * @return {Mesh*} model space mesh.
+	 * @m {Mesh*} model space mesh.
 	 */
-	Mesh* ChunkSerializer::serialize(Chunk* chunk) {
+	void ChunkSerializer::serialize(Chunk* chunk, Mesh* m) {
 
 		// Vertex number
-		int vertNum = _vertNum(chunk);
+		//int vertNum = _vertNum(chunk);
 
+		/*
 		if (DEBUGMODE) {
 			cout<<"[ChunkSerializer]:<<  Vertex Number: "<<vertNum<<endl;
 		}
+		*/
 
 		// Mesh
-		Mesh* m = new Mesh(vertNum);
+		//Mesh* m = new Mesh(vertNum);
+
+
+		// Reset mesh
+		m->reset();
 
 
 		// Chunk volume size
@@ -128,8 +134,6 @@ namespace vee {
 
 		m->setTransform((float)chunk->mVolume.mPos[0],
 			(float)chunk->mVolume.mPos[1], (float)chunk->mVolume.mPos[2]);
-
-		return m;
 	}
 
 	//---------------------------------------------------------------
@@ -138,6 +142,7 @@ namespace vee {
 	 * @chunk {Chunk*} input chunk.
 	 * @return {int} vertex number.
 	 */
+	/*
 	int ChunkSerializer::_vertNum(Chunk* chunk) {
 
 		// Vertex number
@@ -206,6 +211,7 @@ namespace vee {
 
 		return vertNum;
 	}
+	*/
 
 	//---------------------------------------------------------------
 	/**

@@ -21,7 +21,7 @@ namespace vee {
 	 */
 	typedef struct VoxelSnapshot {
 
-		// World space coordinate
+		// Chunk space coordinate
 		int mCoord[3];
 
 		// Copied voxel data
@@ -35,7 +35,7 @@ namespace vee {
 		//---------------------------------------------------------------
 		VoxelSnapshot(int i, int j, int k, Voxel* data) {
 
-			// World space coordinate
+			// Chunk space coordinate
 			mCoord[0] = i;
 			mCoord[1] = j;
 			mCoord[2] = k;
@@ -75,6 +75,12 @@ namespace vee {
 		//---------------------------------------------------------------
 		~OperationSnapshot() {
 
+			destroy();
+		}
+
+		//---------------------------------------------------------------
+		void destroy() {
+
 			// Loop each VoxelSnapshot
 			for (uint i = 0; i < mVSArray.size(); i++) {
 
@@ -95,6 +101,18 @@ namespace vee {
 	public:
 		FactoryHistory(uint num=50);
 		~FactoryHistory();
+
+
+	public:
+		/**
+		 * Init
+		 */
+		void init();
+
+		/**
+		 * Destroy
+		 */
+		void destroy();
 
 
 	public:

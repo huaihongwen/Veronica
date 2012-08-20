@@ -55,6 +55,9 @@
     <Filter Include="vee\voxel\Deprecated">
       <UniqueIdentifier>{6a3a27ec-34c5-4e16-a30f-4f0fec376f31}</UniqueIdentifier>
     </Filter>
+    <Filter Include="vee\filesystem">
+      <UniqueIdentifier>{c988e34a-841c-427d-bb17-b75339fd5f7f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -155,6 +158,9 @@
     </ClCompile>
     <ClCompile Include="veScene.cpp">
       <Filter>vee\voxel\Deprecated</Filter>
+    </ClCompile>
+    <ClCompile Include="veFileSystem.cpp">
+      <Filter>vee\filesystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -283,6 +289,9 @@
     </ClInclude>
     <ClInclude Include="veScene.h">
       <Filter>vee\voxel\Deprecated</Filter>
+    </ClInclude>
+    <ClInclude Include="veFileSystem.h">
+      <Filter>vee\filesystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

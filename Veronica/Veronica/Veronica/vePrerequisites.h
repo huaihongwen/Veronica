@@ -47,12 +47,6 @@ namespace vee {
 	class FontSystem;
 
 
-	// Voxel
-	class VoxelGroup;
-	class VoxModel;
-	class VoxelTableSerializer;
-
-
 	// GUI
 	// GUI element
 	class GUIElement;
@@ -88,6 +82,12 @@ namespace vee {
 	class Renderer;
 
 	class Utils;
+
+	// File system
+	class veFileSystem;
+
+	// Engine
+	class veEngine;
 
 
 	// Others

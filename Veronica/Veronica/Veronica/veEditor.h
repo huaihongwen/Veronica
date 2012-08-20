@@ -11,6 +11,9 @@
 // Timer
 #include "veTimer.h"
 
+// File system
+#include "veFileSystem.h"
+
 // Render system
 #include "veRenderSystem.h"
 // Renderer
@@ -118,10 +121,13 @@ namespace vee {
 		Timer* getTimer();
 
 
-	protected:
+	public:
 		// Engine
 		// Timer
 		Timer mTimer;
+
+		// File system
+		veFileSystem* mFileSystem;
 
 		// Render system
 		RenderSystem* mRenderSystem;
@@ -149,7 +155,18 @@ namespace vee {
 		// Scene factory
 		SceneFactory* mSceneFactory;
 
-		
+
+	public:
+		// TODO: Better architect
+		// Edit data
+		// Chunk
+		Chunk* mChunk;
+		// Chunk mesh
+		Mesh* mMesh;
+		// Factory history
+		FactoryHistory* mHistory;
+
+
 
 		//---------------------------------------------------------------
 		// TODO: Input system
@@ -162,7 +179,7 @@ namespace vee {
 		void mouseLUp(int x, int y);
 
 		// Mouse move
-		void mouseMove();
+		void mouseMove(int x, int y);
 
 
 	protected:

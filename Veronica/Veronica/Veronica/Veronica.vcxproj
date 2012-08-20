@@ -21,6 +21,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="veConsole.cpp" />
     <ClCompile Include="veFactoryHistory.cpp" />
+    <ClCompile Include="veFileSystem.cpp" />
     <ClCompile Include="veLightingEngine.cpp" />
     <ClCompile Include="veTexturePanel.cpp" />
     <ClCompile Include="veUIColorPanel.cpp" />
@@ -57,6 +58,7 @@
     <ClInclude Include="veConsole.h" />
     <ClInclude Include="veFactoryHistory.h" />
     <ClInclude Include="veEngine.h" />
+    <ClInclude Include="veFileSystem.h" />
     <ClInclude Include="veLightingEngine.h" />
     <ClInclude Include="veUIColorPanel.h" />
     <ClInclude Include="veEditor.h" />

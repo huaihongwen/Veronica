@@ -1,12 +1,13 @@
 #ifndef VEE_MESH_H
 #define VEE_MESH_H
 
-/*
+/**
  * veMesh.h
  */
 
 #include "vePrerequisites.h"
 #include "veTransform.h"
+
 
 namespace vee {
 
@@ -30,7 +31,6 @@ namespace vee {
 		uchar mColor[4];
 
 
-
 		// Lighting information
 		// Ambient occlusion
 		float mAO;
@@ -41,13 +41,30 @@ namespace vee {
 
 	/**
 	 * Mesh
-	 * Mesh contains an array of interleaved vertex data.
 	 */
 	class Mesh {
 
 	public:
-		Mesh(int vertNum=0);
+		Mesh();
 		~Mesh();
+
+
+	public:
+		/**
+		 * Init
+		 */
+		void init(int num);
+
+		/**
+		 * Destroy
+		 */
+		void destroy();
+
+
+		/**
+		 * Reset
+		 */
+		void reset();
 
 
 	public:
@@ -56,12 +73,14 @@ namespace vee {
 		 */
 		void pushVertexGeometry(Vertex* v);
 
+
 		/**
 		 * Push vertex lighting
 		 */
 		void pushVertexLighting(float ao);
 
 
+	public:
 		/**
 		 * Get data
 		 */
@@ -74,32 +93,37 @@ namespace vee {
 
 
 		/**
-		 * Set transform matrix
+		 * Set transform
 		 */
 		void setTransform(float x, float y, float z);
 
 		/**
-		 * Get transform matrix
+		 * Get transform
 		 */
 		Transform getTransform();
 
+
 	protected:
-		// Vertex number
-		int mVertNum;
+		// Max vertex number
+		int _mVertNumMax;
 
-		// Current geometry number
-		int mCurGeometryNum;
+		// Current vertex number
+		int _mVertNumCur;
 
-		// Current lighting number
-		int mCurLightingNum;
+
+		// Current geometry index
+		int _mGeoIdx;
+
+		// Current lighting index
+		int _mLightingIdx;
 
 
 		// Vertex data
-		uchar* mData;
+		uchar* _mData;
 
 
 		// Transform matrix
-		Transform mTransform;
+		Transform _mTransform;
 	};
 };
 

@@ -15,10 +15,15 @@ namespace vee {
 
 		mTestTexture.init(tgaData.mWidth, tgaData.mHeight,
 			GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, tgaData.mData);
-		
+
+
+		// Indicator visible flag
+		mIndicatorVisible = false;
 	}
 	//---------------------------------------------------------------
 	Renderer::~Renderer() {
+
+		destroy();
 	}
 
 
@@ -142,7 +147,6 @@ namespace vee {
 		_renderStage();
 
 
-
 		// View matrix
 		Transform vMat = mCamera.getViewMatrix();
 		// Model matrix
@@ -204,69 +208,8 @@ namespace vee {
 		rs.bindTexture2D(0, 0);
 
 
-
-		/*
-		// Testing
-		vector<int> r;
-
-		float posy = 30.0f;
-		float posx = 0.0f;
-		float posz = 0.0f;
-
-		Utils::voxelTraversal(0, 1, 0, posx, 1+posy, posz, r);
-
-
-		glColor3ub(255, 0, 0);
-		glBegin(GL_LINES);
-		glVertex3f(0, 1, 0);
-		glVertex3f( posx, 1+posy, posz);
-		glEnd();
-
-
-		glColor3ub(0, 0, 0);
-		glBegin(GL_LINES);
-		for (uint i = 0; i < r.size() / 3; i++) {
-
-			glVertex3f(r[i*3], r[i*3+1], r[i*3+2]);
-			glVertex3f(r[i*3]+1, r[i*3+1], r[i*3+2]);
-
-			glVertex3f(r[i*3]+1, r[i*3+1], r[i*3+2]);
-			glVertex3f(r[i*3]+1, r[i*3+1], r[i*3+2]+1);
-
-			glVertex3f(r[i*3], r[i*3+1], r[i*3+2]);
-			glVertex3f(r[i*3], r[i*3+1], r[i*3+2]+1);
-
-			glVertex3f(r[i*3], r[i*3+1], r[i*3+2]+1);
-			glVertex3f(r[i*3]+1, r[i*3+1], r[i*3+2]+1);
-
-
-			glVertex3f(r[i*3], r[i*3+1]+1, r[i*3+2]);
-			glVertex3f(r[i*3]+1, r[i*3+1]+1, r[i*3+2]);
-
-			glVertex3f(r[i*3]+1, r[i*3+1]+1, r[i*3+2]);
-			glVertex3f(r[i*3]+1, r[i*3+1]+1, r[i*3+2]+1);
-
-			glVertex3f(r[i*3], r[i*3+1]+1, r[i*3+2]);
-			glVertex3f(r[i*3], r[i*3+1]+1, r[i*3+2]+1);
-
-			glVertex3f(r[i*3], r[i*3+1]+1, r[i*3+2]+1);
-			glVertex3f(r[i*3]+1, r[i*3+1]+1, r[i*3+2]+1);
-
-
-			glVertex3f(r[i*3], r[i*3+1], r[i*3+2]);
-			glVertex3f(r[i*3], r[i*3+1]+1, r[i*3+2]);
-			
-			glVertex3f(r[i*3]+1, r[i*3+1], r[i*3+2]);
-			glVertex3f(r[i*3]+1, r[i*3+1]+1, r[i*3+2]);
-
-			glVertex3f(r[i*3]+1, r[i*3+1], r[i*3+2]+1);
-			glVertex3f(r[i*3]+1, r[i*3+1]+1, r[i*3+2]+1);
-
-			glVertex3f(r[i*3], r[i*3+1], r[i*3+2]+1);
-			glVertex3f(r[i*3], r[i*3+1]+1, r[i*3+2]+1);
-		}
-		glEnd();
-		*/
+		// Render indicator
+		_renderIndicator();
 	}
 
 
@@ -315,5 +258,105 @@ namespace vee {
 
 
 		glEnd();
+	}
+
+	//---------------------------------------------------------------
+	/**
+	 * Render indicator
+	 */
+	void Renderer::_renderIndicator() {
+
+		// Render system
+		RenderSystem& rs = RenderSystem::getSingleton();
+
+
+		// Clear depth buffer
+		rs.clearBuffers(GL_DEPTH_BUFFER_BIT);
+
+
+		// Voxel size
+		float vs = 1.0f;
+
+		// Base position
+		float bp[3];
+		bp[0] = mIndicatorPos[0] * vs;
+		bp[1] = mIndicatorPos[1] * vs;
+		bp[2] = mIndicatorPos[2] * vs;
+
+
+
+		if (mIndicatorVisible) {
+
+			glColor3ub(255, 0, 0);
+			glBegin(GL_QUADS);
+
+			switch (mIndicatorPos[3]) {
+
+			case 0:
+				{
+					glVertex3f(bp[0], bp[1]+vs, bp[2]);
+					glVertex3f(bp[0], bp[1], bp[2]);
+					glVertex3f(bp[0], bp[1], bp[2]+vs);
+					glVertex3f(bp[0], bp[1]+vs, bp[2]+vs);
+
+					break;
+				}
+
+			case 1:
+				{
+					glVertex3f(bp[0]+vs, bp[1]+vs, bp[2]+vs);
+					glVertex3f(bp[0]+vs, bp[1], bp[2]+vs);
+					glVertex3f(bp[0]+vs, bp[1], bp[2]);
+					glVertex3f(bp[0]+vs, bp[1]+vs, bp[2]);
+
+					break;
+				}
+
+			case 2:
+				{
+					glVertex3f(bp[0], bp[1], bp[2]+vs);
+					glVertex3f(bp[0], bp[1], bp[2]);
+					glVertex3f(bp[0]+vs, bp[1], bp[2]);
+					glVertex3f(bp[0]+vs, bp[1], bp[2]+vs);
+
+					break;
+				}
+
+			case 3:
+				{
+					glVertex3f(bp[0], bp[1]+vs, bp[2]);
+					glVertex3f(bp[0], bp[1]+vs, bp[2]+vs);
+					glVertex3f(bp[0]+vs, bp[1]+vs, bp[2]+vs);
+					glVertex3f(bp[0]+vs, bp[1]+vs, bp[2]);
+
+					break;
+				}
+
+			case 4:
+				{
+					glVertex3f(bp[0]+vs, bp[1]+vs, bp[2]);
+					glVertex3f(bp[0]+vs, bp[1], bp[2]);
+					glVertex3f(bp[0], bp[1], bp[2]);
+					glVertex3f(bp[0], bp[1]+vs, bp[2]);
+
+					break;
+				}
+
+			case 5:
+				{
+					glVertex3f(bp[0], bp[1]+vs, bp[2]+vs);
+					glVertex3f(bp[0], bp[1], bp[2]+vs);
+					glVertex3f(bp[0]+vs, bp[1], bp[2]+vs);
+					glVertex3f(bp[0]+vs, bp[1]+vs, bp[2]+vs);
+
+					break;
+				}
+
+			default:
+				break;
+			}
+
+			glEnd();
+		}
 	}
 };

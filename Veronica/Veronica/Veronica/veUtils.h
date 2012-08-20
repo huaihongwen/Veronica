@@ -286,7 +286,6 @@ namespace vee {
 		 */
 		static bool unProject(int wx, int wy, float wz, float* result) {
 
-			/*
 			// Render system
 			RenderSystem& rs = RenderSystem::getSingleton();
 
@@ -356,7 +355,6 @@ namespace vee {
 			result[0] = world[0];
 			result[1] = world[1];
 			result[2] = world[2];
-			*/
 
 			return true;
 		}

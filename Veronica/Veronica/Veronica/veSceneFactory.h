@@ -11,12 +11,10 @@
 #include "veRay.h"
 #include "veChunkSerializer.h"
 
-
 // Editor
 // Factory history
 #include "veFactoryHistory.h"
 
-#include <vector>
 
 namespace vee {
 
@@ -36,7 +34,6 @@ namespace vee {
 
 		// Select
 		SFM_SELECT
-
 	} SceneFactoryMode;
 
 
@@ -50,11 +47,18 @@ namespace vee {
 		~SceneFactory();
 
 
+	protected:
+		/**
+		 * Clean
+		 */
+		void _clean();
+
+
 	public:
 		/**
 		 * Init
 		 */
-		void init();
+		void init(Chunk* c, Mesh* m, FactoryHistory* h);
 
 		/**
 		 * Destroy
@@ -78,17 +82,23 @@ namespace vee {
 		 */
 		bool _onColorPanelSelect(float* c);
 
-		/**
-		 * On texture panel select
-		 */
-		bool _onTexturePanelSelect(VoxelType t);
-
 
 	public:
+		/**
+		 * Mouse left button down
+		 */
+		void mouseLDown(int x, int y);
+
 		/**
 		 * Mouse left button up
 		 */
 		void mouseLUp(int x, int y);
+
+		/**
+		 * Mouse move
+		 */
+		void mouseMove(int x, int y);
+
 
 		/**
 		 * Key pressed
@@ -98,25 +108,26 @@ namespace vee {
 
 	protected:
 		/**
-		 * Edit voxel
+		 * Intersection test
 		 */
-		void _editVoxel(int* iInfo);
-
-		/**
-		 * Target voxel info
-		 */
-		void _targetVoxelInfo(int* iInfo, int* tInfo);
+		bool _intersectionTest(int x, int y, int* result);
 
 
 		/**
-		 * Refresh meshes
+		 * Process operation volume on chunk copy
 		 */
-		void _refreshMeshes(int i, int j, int k);
+		void _processOperationVolume();
+
 
 		/**
-		 * Refresh chunk mesh
+		 * Apply OperationSnapshot
 		 */
-		void _refreshChunkMesh(uint i);
+		void _applyOpSs(Chunk* c, OperationSnapshot* opSs);
+
+		/**
+		 * Take OperationSnapshot
+		 */
+		OperationSnapshot* _takeOpSs(Chunk* c, OperationSnapshot* refOpSs);
 
 
 		/**
@@ -129,54 +140,68 @@ namespace vee {
 		 */
 		void _redo();
 
-		/**
-		 * Restore
-		 */
-		OperationSnapshot* _restore(OperationSnapshot* oldOS);
-
 
 	protected:
+		// Input data
 		// Chunk
-		Chunk mChunk;
-		
+		Chunk* _mChunk;
+
+		// Chunk mesh
+		Mesh* _mMesh;
 
 		// Factory history
-		FactoryHistory mHistory;
+		FactoryHistory* _mHistory;
+
+
+		// Edit related data
+		// Current OperationSnapshot
+		OperationSnapshot* _mOpSsCur;
+
+		// Chunk copy
+		Chunk* _mChunkCopy;
+
+
+		// Params
+		// Scene factory mode
+		SceneFactoryMode _mMode;
+
+		// Current voxel color
+		uchar _mVoxelColorCur[3];
+
+		// Current voxel type
+		VoxelType _mVoxelTypeCur;
+
+
+		// Intersection flag
+		bool _mIstFlag;
+
+		// Operation flag
+		bool _mOpFlag;
+
+
+		// Intersection data
+		// Format: chunk space i, j, k, faceIndex
+		// Intersection "from"
+		int _mIstFrom[4];
+
+		// Intersection "to"
+		int _mIstTo[4];
+
+		// Current intersection
+		int _mIstCur[4];
 
 
 		// Events
-		// Texture panel event handler id
-		int mTexturePanelEventHandlerId;
-
 		// Color panel event handler id
-		int mColorPanelEventHandlerId;
-
-
-		// Edit related logic
-		// Scene factory mode
-		SceneFactoryMode mMode;
-
-
-		// Current voxel color
-		uchar mCurVoxelColor[3];
-
-		// Current voxel type
-		VoxelType mCurVoxelType;
-
-
-
-		// Meshes
-		// TODO: Better scene meshes management.
-		// Chunk serializer
-		ChunkSerializer mChunkSerializer;
-
-		// Chunk mesh
-		Mesh* mMesh;
+		int _mColorPanelEventHandlerId;
 
 
 	public:
 		// Pointer to editor
 		Editor* mParent;
+
+		// Chunk serializer
+		ChunkSerializer mSerializer;
 	};
 };
 
