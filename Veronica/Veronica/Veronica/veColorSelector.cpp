@@ -17,14 +17,12 @@ namespace vee {
 		veRect rect = veRect(mRect.x + 5, mRect.y + 5, 130, 130);
 		_mColorRect.setRect(rect);
 		_mColorRect.setBackgroundColor(255, 0, 0);
-		_mColorRect.init();
 
 		// Set the color bar's position, width and height
 		rect.x = rect.x + rect.w + 10;
 		rect.w = 20;
 		_mColorBar.setRect(rect);
 		_mColorBar.setBackgroundColor(32, 32, 32);
-		_mColorBar.init();
 
 		// Set the color palette's position, width and height
 		rect.x = mRect.x;
@@ -33,6 +31,13 @@ namespace vee {
 		rect.h = 35;
 		_mColorPalette.setRect(rect);
 		_mColorPalette.setBackgroundColor(0, 0, 255);
+
+		// Currently color rect has dependency on selected color of color bar
+		_mColorBar.init();
+
+		_mColorRect.setBaseColor(_mColorBar.getSelectedColor());
+		_mColorRect.init();
+
 		_mColorPalette.init();
 	}
 
@@ -56,6 +61,12 @@ namespace vee {
 
 		_mColorRect.mouseLDown(x, y);
 		_mColorBar.mouseLDown(x, y);
+
+		// TODO: this is a quick implementation to sync up color rect and
+		// color bar, we should control this by event later
+		_mColorRect.setBaseColor(_mColorBar.getSelectedColor());
+		_mColorRect.setColorRectTextureData();
+
 		_mColorPalette.mouseLDown(x, y);
 
 		return false;

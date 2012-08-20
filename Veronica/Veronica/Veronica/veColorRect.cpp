@@ -12,13 +12,34 @@ namespace vee {
 	veColorRect::~veColorRect() {}
 
 	void veColorRect::init() {
+		setColorRectTextureData();
+	}
 
-		_mBaseColor.set(0, 100, 255);
+	// Sets the base color of the color rect
+	void veColorRect::setBaseColor(veColor& color) {
+		_mBaseColor.set(color[0], color[1], color[2], color[3]);
+	}
 
-		veTextureManager& tm = veTextureManager::getSingleton();
+	void veColorRect::calculateSelectedColor(float xOffset, float yOffset, float range) {
+		
+		// Interpolate horizontally from white to base color
+		float percent = xOffset / range;
+		float rDiff = (255.0f - (float)_mBaseColor[0]) * percent;
+		float gDiff = (255.0f - (float)_mBaseColor[1]) * percent;
+		float bDiff = (255.0f - (float)_mBaseColor[2]) * percent;
 
-		// Ask texture manager to create and manage a new texture
-		mTexture = tm.createTexture("colorrect");
+		_mSelectedColor.set((uchar)(255.0f - rDiff),
+			(uchar)(255.0f - gDiff),
+			(uchar)(255.0f - bDiff));
+
+		// Interpolate vertically from result above to black
+		percent = yOffset / range;
+		_mSelectedColor.set((uchar)((1.0f - percent) * (float)_mSelectedColor[0]),
+			(uchar)((1.0f - percent) * (float)_mSelectedColor[1]),
+			(uchar)((1.0f - percent) * (float)_mSelectedColor[2]));
+	}
+
+	void veColorRect::setColorRectTextureData() {
 
 		int texSize = 128;
 
@@ -40,31 +61,27 @@ namespace vee {
 				texData[idx] = _mSelectedColor[0];
 				texData[idx + 1] = _mSelectedColor[1];
 				texData[idx + 2] = _mSelectedColor[2];
+
+				if ((idx + 2) == texSize * texSize * 3 - 1) {
+					printf("%d %d %d\n", texData[idx], texData[idx + 1], texData[idx + 2]);
+				}
 			}
 		}
 
-		mTexture->init((uint)texSize, (uint)texSize, GL_RGB8, GL_RGB, GL_UNSIGNED_BYTE, texData);
+		printf("SetColorRectTex for base color %d %d %d \n", _mBaseColor[0], _mBaseColor[1], _mBaseColor[2]);
+
+		if (!mTexture) {
+			veTextureManager& tm = veTextureManager::getSingleton();
+			// Ask texture manager to create and manage a new texture
+			mTexture = tm.createTexture("colorrect");
+
+			mTexture->init((uint)texSize, (uint)texSize, GL_RGB8, GL_RGB, GL_UNSIGNED_BYTE, texData);
+		}
+		else {
+			mTexture->reload((uint)texSize, (uint)texSize, GL_RGB8, GL_RGB, GL_UNSIGNED_BYTE, texData);
+		}
 
 		delete [] texData;
-	}
-
-	void veColorRect::calculateSelectedColor(float xOffset, float yOffset, float range) {
-		
-		// Interpolate horizontally from white to base color
-		float percent = xOffset / range;
-		float rDiff = (255.0f - (float)_mBaseColor[0]) * percent;
-		float gDiff = (255.0f - (float)_mBaseColor[1]) * percent;
-		float bDiff = (255.0f - (float)_mBaseColor[2]) * percent;
-
-		_mSelectedColor.set((uchar)(255.0f - rDiff),
-			(uchar)(255.0f - gDiff),
-			(uchar)(255.0f - bDiff));
-
-		// Interpolate vertically from result above to black
-		percent = yOffset / range;
-		_mSelectedColor.set((uchar)((1.0f - percent) * (float)_mSelectedColor[0]),
-			(uchar)((1.0f - percent) * (float)_mSelectedColor[1]),
-			(uchar)((1.0f - percent) * (float)_mSelectedColor[2]));
 	}
 
 	// Constructor
@@ -233,6 +250,10 @@ namespace vee {
 		return hitTest;
 	}
 
+	veColor& veColorBar::getSelectedColor() {
+		return _mSelectedColor;
+	}
+
 	// Calculates the current selected color
 	void veColorBar::calculateSelectedColor(float yOffset, float yRange) {
 
@@ -276,6 +297,6 @@ namespace vee {
 			_mSelectedColor.set(255, 255 - valueChange, 0);
 		}
 
-		printf("Color bar's current color is %d %d %d \n", _mSelectedColor[0], _mSelectedColor[1], _mSelectedColor[2]);
+		//printf("Color bar's current color is %d %d %d \n", _mSelectedColor[0], _mSelectedColor[1], _mSelectedColor[2]);
 	}
 };

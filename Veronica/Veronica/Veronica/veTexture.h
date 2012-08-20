@@ -33,7 +33,7 @@ namespace vee {
 		}
 
 	public:
-		// Initialize texture
+		// Initializes texture
 		/* @param width {uint} width of the texture
 		 * @param height {uint} height of the texture
 		 * @param internalFormat {GLint} internal format of the texture
@@ -68,6 +68,18 @@ namespace vee {
 
 			// Bind to default
 			glBindTexture(GL_TEXTURE_2D, 0);
+		}
+
+		// Reloads the texture data for the current texture
+		void reload(uint width, uint height,
+			GLint internalFormat, GLenum format, GLenum pixelType, uchar* data=NULL) {
+
+			// Bind it again before upload new texture data
+			glBindTexture(GL_TEXTURE_2D, mId);
+
+			// Data, in our engine empty data is enough
+			glTexImage2D(GL_TEXTURE_2D, mMiplevel, internalFormat, mWidth, mHeight, 0,
+				format, pixelType, data);
 		}
 
 		// Load texture data from TGA img

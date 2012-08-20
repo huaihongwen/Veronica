@@ -125,7 +125,7 @@ namespace vee {
 	 */
 	bool veUIComponent::mouseLUp(int x, int y) {
 
-		printf("Mouse up at %d %d \n", x, y);
+		//printf("Mouse up at %d %d \n", x, y);
 
 		if (!Utils::pointInRect(vePoint(x, y), mRect)) {
 			return false;

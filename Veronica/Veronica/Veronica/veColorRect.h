@@ -25,6 +25,9 @@ namespace vee {
 		// @return
 		void init();
 
+		// Sets the base color of the color rect
+		void setBaseColor(veColor& color);
+
 		// Calculates the current selected color for the color rect base
 		// on the offset of x and y coordinates and the range of the selection
 		// @params
@@ -34,10 +37,19 @@ namespace vee {
 		// @returns
 		void calculateSelectedColor(float xOffset, float yOffset, float range);
 
+		// Calculates and sets the texture data for the color rect.
+		// Creates and init mTexture if it doesnt exist, reload texture's data
+		// otherwise
+		// @params
+		// @return
+		void setColorRectTextureData();
+
 	protected:
 		veColor _mBaseColor;			// The current base color of this color rect
 		veColor _mSelectedColor;		// The current selected color
 	};
+
+
 
 	// A color bar class, renders all intepolated colors
 	class veColorBar : public veUIComponent {
@@ -63,6 +75,9 @@ namespace vee {
 		// x, y (int)		Mouse pos when mouse down
 		// @return			Returns true if its inside UI rect, false otherwise
 		bool mouseLDown(int x, int y);
+
+		// Get the selected color
+		veColor& getSelectedColor();
 
 		// Calculates the current selected color for the color bar base
 		// on the offset of y coordinate and the y range of the selection
