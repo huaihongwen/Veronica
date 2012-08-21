@@ -34,6 +34,8 @@ namespace vee {
 
 		/**
 		 * Render
+		 * This function assumes the ortho projection and viewport are
+		 * already setup.
 		 */
 		virtual void render();
 
@@ -50,6 +52,12 @@ namespace vee {
 
 
 	public:
+		// Get the UI's rect
+		// @params
+		// @return
+		// (veRect&)			// Returns the rect's reference
+		veRect& getRect();
+
 		/**
 		 * Set rect
 		 */
@@ -81,7 +89,7 @@ namespace vee {
 		int mBorderWidth;
 
 		// Rect contains the start pos, width and height of this UI
-		veRect mRect;
+		veRect _mRect;
 
 		// Background color
 		uchar mBgColor[3];

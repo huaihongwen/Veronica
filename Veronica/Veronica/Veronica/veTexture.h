@@ -70,16 +70,28 @@ namespace vee {
 			glBindTexture(GL_TEXTURE_2D, 0);
 		}
 
-		// Reloads the texture data for the current texture
-		void reload(uint width, uint height,
-			GLint internalFormat, GLenum format, GLenum pixelType, uchar* data=NULL) {
+		// Reloads sub-image of the texture data for the current texture
+		// @params
+		// xOffset, yOffset (int)			x and y offset of the subimage
+		// width, height (int)				Width and height of the new texture data
+		// format (GLenum)					Pixel data format
+		// pixelType (GLenum)				Data type of the pixel data
+		// data (uchar*)					Pointer to the data
+		// @return
+		void reUpload(int xOffset, int yOffset, int width, int height, GLenum format, GLenum pixelType, uchar* data=NULL) {
 
 			// Bind it again before upload new texture data
 			glBindTexture(GL_TEXTURE_2D, mId);
 
-			// Data, in our engine empty data is enough
-			glTexImage2D(GL_TEXTURE_2D, mMiplevel, internalFormat, mWidth, mHeight, 0,
+			// Re-upload texture data
+			//glTexImage2D(GL_TEXTURE_2D, mMiplevel, internalFormat, mWidth, mHeight, 0,
+			//	format, pixelType, data);
+
+			glTexSubImage2D(GL_TEXTURE_2D, mMiplevel, xOffset, yOffset, mWidth, mHeight,
 				format, pixelType, data);
+
+			// Bind to default
+			glBindTexture(GL_TEXTURE_2D, 0);
 		}
 
 		// Load texture data from TGA img
@@ -149,7 +161,7 @@ namespace vee {
 		uint mHeight;
 
 		// Texture miplevel
-		uint mMiplevel;
+		int mMiplevel;
 
 		// Texture id
 		GLuint mId;

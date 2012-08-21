@@ -42,9 +42,9 @@ namespace vee {
 
 
 		// Inner width
-		int iw = mRect.w - hpm * 2;
+		int iw = _mRect.w - hpm * 2;
 		// Inner height
-		int ih = mRect.h - vpm * 2;
+		int ih = _mRect.h - vpm * 2;
 
 
 		// Check inner space
@@ -117,8 +117,8 @@ namespace vee {
 
 				// Rect
 				b->setRect(veRect(
-					mRect.x + hpm + hLeft/2 + hbm + j*abw,
-					mRect.y + vpm + vLeft/2 + vbm + i*abh,
+					_mRect.x + hpm + hLeft/2 + hbm + j*abw,
+					_mRect.y + vpm + vLeft/2 + vbm + i*abh,
 					bw,
 					bh));
 

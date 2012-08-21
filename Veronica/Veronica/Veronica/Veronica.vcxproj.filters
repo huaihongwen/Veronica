@@ -168,6 +168,9 @@
     <ClCompile Include="veColorPalette.cpp">
       <Filter>editor\ui\colorselector</Filter>
     </ClCompile>
+    <ClCompile Include="veColorBar.cpp">
+      <Filter>editor\ui\colorselector</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="veMath.h">
@@ -306,6 +309,9 @@
       <Filter>editor</Filter>
     </ClInclude>
     <ClInclude Include="veColorPalette.h">
+      <Filter>editor\ui\colorselector</Filter>
+    </ClInclude>
+    <ClInclude Include="veColorBar.h">
       <Filter>editor\ui\colorselector</Filter>
     </ClInclude>
   </ItemGroup>

@@ -2,19 +2,15 @@
 
 namespace vee {
 	
-	// Constructor
 	veColorSelector::veColorSelector() {}
-
-	// Destructor
 	veColorSelector::~veColorSelector() {}
 
-	// Initializes the color selector UI
 	void veColorSelector::init() {
 		
 		_mSelectedColor.init();
 
 		// Set the color rect base on the color selector's position, width and height
-		veRect rect = veRect(mRect.x + 5, mRect.y + 5, 130, 130);
+		veRect rect = veRect(_mRect.x + 5, _mRect.y + 5, 130, 130);
 		_mColorRect.setRect(rect);
 		_mColorRect.setBackgroundColor(255, 0, 0);
 
@@ -25,9 +21,9 @@ namespace vee {
 		_mColorBar.setBackgroundColor(32, 32, 32);
 
 		// Set the color palette's position, width and height
-		rect.x = mRect.x;
+		rect.x = _mRect.x;
 		rect.y = rect.y + rect.h + 5;
-		rect.w = mRect.w;
+		rect.w = _mRect.w;
 		rect.h = 35;
 		_mColorPalette.setRect(rect);
 		_mColorPalette.setBackgroundColor(0, 0, 255);
@@ -39,9 +35,11 @@ namespace vee {
 		_mColorRect.init();
 
 		_mColorPalette.init();
+
+		// Initially set selected color to the color rect's selected color
+		_mSelectedColor = _mColorRect.getSelectedColor();
 	}
 
-	// Renders the color selector UI
 	void veColorSelector::render() {
 		
 		veUIComponent::render();
@@ -56,19 +54,39 @@ namespace vee {
 		_mColorPalette.render();
 	}
 
-	// Handles mouse left button down
 	bool veColorSelector::mouseLDown(int x, int y) {
 
-		_mColorRect.mouseLDown(x, y);
-		_mColorBar.mouseLDown(x, y);
+		bool rectHitTest = _mColorRect.mouseLDown(x, y);
+		bool barHitTest = _mColorBar.mouseLDown(x, y);
 
-		// TODO: this is a quick implementation to sync up color rect and
-		// color bar, we should control this by event later
-		_mColorRect.setBaseColor(_mColorBar.getSelectedColor());
-		_mColorRect.setColorRectTextureData();
+		if (barHitTest) {
+			// TODO: this is a quick implementation to sync up color rect and
+			// color bar, we should control this by event later
+			_mColorRect.setBaseColor(_mColorBar.getSelectedColor());
+			_mColorRect.setColorRectTextureData();
 
-		_mColorPalette.mouseLDown(x, y);
+			float xoffset = _mColorRect.getXOffset();
+			float yoffset = _mColorRect.getYOffset();
+			veRect rect = _mColorRect.getRect();
+			_mColorRect.calculateSelectedColor(xoffset, yoffset, (float)rect.h);
+			
+			veColor color = _mColorRect.getSelectedColor();
+		}
 
-		return false;
+		if (rectHitTest || barHitTest) {
+			// TODO: do this by event later???
+			// Sync up selector and color rect
+			_mSelectedColor = _mColorRect.getSelectedColor();
+
+			printf("Color rect's current color is %d %d %d \n", _mSelectedColor[0], _mSelectedColor[1], _mSelectedColor[2]);
+		}
+
+		bool paletteHitTest = _mColorPalette.mouseLDown(x, y);
+
+		return (rectHitTest || barHitTest || paletteHitTest);
+	}
+
+	veColor& veColorSelector::getSelectedColor() {
+		return _mSelectedColor;
 	}
 };

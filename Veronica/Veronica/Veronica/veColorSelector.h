@@ -10,46 +10,51 @@
 #include "veUIComponent.h"
 #include "veColor.h"
 #include "veColorRect.h"
+#include "veColorBar.h"
 #include "veColorPalette.h"
 
 namespace vee {
 
-	// A basic color selector class includes 3 parts:
-	//	color rect
-	//	customizable color collection
-	//	RGB sliders (TODO)
+	// A basic color selector class includes serveral parts:
+	// color rect
+	// color bar
+	// customizable color collection (TODO)
+	// RGB sliders (TODO)
 	class veColorSelector : public veUIComponent {
 
 	public:
-		// Constructor
 		veColorSelector();
-		// Destructor
 		~veColorSelector();
 
 	public:
 		// Initializes the color selector
-		// @params
-		// @return
 		void init();
 
 		// Renders the color selector, each part seperately
-		// @params
-		// @return
 		void render();
 
 		// Handles mouse left button down for all its sub-panels
-		// @params
-		// x, y (int)		Mouse position when left button releases
-		// @return
-		// (bool)			Returns true if any of its sub-panels is selected
+		// @param x the x position when left button gets pressed
+		// @param y the x position when left button gets pressed
+		// @return true if any of its sub-panels is selected
 		bool mouseLDown(int x, int y);
 
-	protected:
-		veColor _mSelectedColor;		// The current selected color
+		// Gets the selected color
+		// @return the reference to the selected color
+		veColor& getSelectedColor();
 
-		veColorRect _mColorRect;		// The color rect in this selector
-		veColorBar _mColorBar;			// The color selection bar
-		veColorPalette _mColorPalette;	// The customizable colors collection
+	protected:
+		// The current selected color
+		veColor _mSelectedColor;
+
+		// The color rect in this selector
+		veColorRect _mColorRect;
+
+		// The color selection bar
+		veColorBar _mColorBar;
+
+		// The customizable colors collection
+		veColorPalette _mColorPalette;
 	};
 };
 

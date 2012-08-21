@@ -19,6 +19,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="veColorBar.cpp" />
     <ClCompile Include="veColorPalette.cpp" />
     <ClCompile Include="veColorRect.cpp" />
     <ClCompile Include="veConsole.cpp" />
@@ -57,6 +58,7 @@
   <ItemGroup>
     <ClInclude Include="veBoundingBox.h" />
     <ClInclude Include="veColor.h" />
+    <ClInclude Include="veColorBar.h" />
     <ClInclude Include="veColorPalette.h" />
     <ClInclude Include="veColorRect.h" />
     <ClInclude Include="veConsole.h" />

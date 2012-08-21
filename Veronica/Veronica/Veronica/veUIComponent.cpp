@@ -7,7 +7,6 @@
 
 namespace vee {
 
-	//---------------------------------------------------------------
 	veUIComponent::veUIComponent() {
 
 		// All UIs are not selected initially
@@ -32,37 +31,21 @@ namespace vee {
 		mTexture = NULL;
 	}
 
-	//---------------------------------------------------------------
 	veUIComponent::~veUIComponent() {
 		// TODO: delete texture using texture manager
 	}
 
-
-	//---------------------------------------------------------------
-	/**
-	 * Init
-	 */
 	void veUIComponent::init() {}
 
-	//---------------------------------------------------------------
-	/**
-	 * Destroy
-	 */
 	void veUIComponent::destroy() {}
 
-	//---------------------------------------------------------------
-	/**
-	 * Render
-	 * This function assumes the ortho projection and viewport are
-	 * already setup.
-	 */
 	void veUIComponent::render() {
 
 		// Get the coordinates of the UI's top left and bottom right pixel pos
-		float x0 = float(mRect.x);
-		float y0 = float(mRect.y);
-		float x1 = x0 + mRect.w;
-		float y1 = y0 + mRect.h;
+		float x0 = float(_mRect.x);
+		float y0 = float(_mRect.y);
+		float x1 = x0 + _mRect.w;
+		float y1 = y0 + _mRect.h;
 
 		// Render system
 		RenderSystem& rs = RenderSystem::getSingleton();
@@ -127,7 +110,7 @@ namespace vee {
 
 		//printf("Mouse up at %d %d \n", x, y);
 
-		if (!Utils::pointInRect(vePoint(x, y), mRect)) {
+		if (!Utils::pointInRect(vePoint(x, y), _mRect)) {
 			return false;
 		}
 
@@ -140,7 +123,7 @@ namespace vee {
 	 */
 	bool veUIComponent::mouseLDown(int x, int y) {
 
-		if (!Utils::pointInRect(vePoint(x, y), mRect)) {
+		if (!Utils::pointInRect(vePoint(x, y), _mRect)) {
 
 			if (mIsSelected) {
 				mIsSelected = false;
@@ -156,13 +139,15 @@ namespace vee {
 		return true;
 	}
 
+	veRect& veUIComponent::getRect() {
+		return _mRect;
+	}
 
-	//---------------------------------------------------------------
 	/**
 	 * Set rect
 	 */
 	void veUIComponent::setRect(veRect& r) {
-		mRect = r;
+		_mRect = r;
 	}
 
 	//---------------------------------------------------------------

@@ -16,9 +16,7 @@ namespace vee {
 	class veColorPalette : public veUIComponent {
 
 	public:
-		// Constructor
 		veColorPalette();
-		// Destructor
 		~veColorPalette();
 	};
 };
