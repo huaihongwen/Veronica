@@ -169,7 +169,30 @@ namespace vee {
 		/**
 		 * Init
 		 */
+		void init(Chunk* c);
+
+		/**
+		 * Init
+		 */
 		void init(int sx, int sy, int sz, int px=0, int py=0, int pz=0);
+
+		/**
+		 * Init
+		 */
+		void init(char* fileName);
+
+
+		/**
+		 * Destroy
+		 */
+		void destroy();
+
+
+		/**
+		 * Save to file
+		 */
+		void saveToFile(char* fileName);
+
 
 		/**
 		 * Get voxel

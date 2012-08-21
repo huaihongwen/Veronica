@@ -6,6 +6,9 @@ namespace vee {
 	Editor::Editor() {
 
 		// Engine
+		// File system
+		mFileSystem = NULL;
+
 		// Rendering system
 		mRenderSystem = NULL;
 		// Renderer
@@ -21,20 +24,33 @@ namespace vee {
 		mUIWindow = NULL;
 		// Edit view
 		mUIEditView = NULL;
+
 		// Color selection
 		mColorSelector = NULL;
 		// Texture panel
 		//mUITexturePanel = NULL;
-
 
 		// Editor
 		// Scene factory
 		mSceneFactory = NULL;
 
 
+		// Edit data
+		// Chunk
+		mChunk = NULL;
+		// Chunk mesh
+		mMesh = NULL;
+		// Factory history
+		mHistory = NULL;
+
+
 		// Input
 		// Mouse left button area
 		mMouseLArea = UI_WINDOW;
+
+		// Mouse position
+		mMousePos.x = 0;
+		mMousePos.y = 0;
 	}
 
 	//---------------------------------------------------------------
@@ -59,12 +75,24 @@ namespace vee {
 		_initUI();
 
 
+		// Edit data
+		// Chunk
+		mChunk = new Chunk();
+		mChunk->init(16, 16, 16, 0, 0, 0);
+		// Chunk mesh
+		mMesh = new Mesh();
+		mMesh->init(16*16*16*36);
+		// Chunk history
+		mHistory = new FactoryHistory();
+
+
 		// Editor
 		// Scene factory
 		mSceneFactory = new SceneFactory();
 		// Set parent pointer
 		mSceneFactory->mParent = this;
-		mSceneFactory->init();
+		// Init scene factory
+		mSceneFactory->init(mChunk, mMesh, mHistory);
 	}
 
 	//---------------------------------------------------------------
@@ -73,6 +101,21 @@ namespace vee {
 	 */
 	void Editor::destroy() {
 		
+		// Edit data
+		// Chunk
+		if (mChunk) {
+			delete mChunk;
+		}
+		// Chunk mesh
+		if (mMesh) {
+			delete mMesh;
+		}
+		// Chunk history
+		if (mHistory) {
+			delete mHistory;
+		}
+
+
 		// Editor
 		// Scene factory
 		if (mSceneFactory) {
@@ -127,6 +170,9 @@ namespace vee {
 		// Timer
 		mTimer.init();
 
+		// File system
+		mFileSystem = new veFileSystem();
+
 		// GLSL manager
 		mGLSLManager = new GLSLManager();
 
@@ -169,6 +215,11 @@ namespace vee {
 		// Delete texture manager
 		if (mTextureManager) {
 			delete mTextureManager;
+		}
+
+		// File system
+		if (mFileSystem) {
+			delete mFileSystem;
 		}
 	}
 
@@ -294,6 +345,14 @@ namespace vee {
 
 		// UI
 		_mouseLDownUI(x, y);
+
+
+		// Clicked UI_EDITVIEW
+		if (mMouseLArea == UI_EDITVIEW) {
+
+			// Scene factory mouseLDown
+			mSceneFactory->mouseLDown(x, y);
+		}
 	}
 
 	//---------------------------------------------------------------
@@ -304,42 +363,49 @@ namespace vee {
 		_mouseLUpUI(x, y);
 
 
+		// Clicked UI_EDITVIEW
 		if (mMouseLArea == UI_EDITVIEW) {
+
 			// Scene factory mouseLUp
 			mSceneFactory->mouseLUp(x, y);
 		}
+
 
 		// Reset mouse left button area
 		mMouseLArea = UI_WINDOW;
 	}
 
 	//---------------------------------------------------------------
-	// Mouse move
-	void Editor::mouseMove() {
-
-		// New position
-		POINT newPos;
-
-		// Get new position
-		GetCursorPos(&newPos);
-
+	/**
+	 * Mouse move
+	 * @x {int} x coordinate after moved.
+	 * @y {int} y coordinate after moved.
+	 */
+	void Editor::mouseMove(int x, int y) {
 
 		// Delta
-		float dx, dy;
-		dx = (float)(newPos.x - mMousePos.x);
-		dy = (float)(newPos.y - mMousePos.y);
+		int dx, dy;
+
+		dx = x - mMousePos.x;
+		dy = y - mMousePos.y;
 
 
 		// Save new position
-		mMousePos = newPos;
+		mMousePos.x = x;
+		mMousePos.y = y;
 
 
-		// Rotate camera
+		// Clicked edit view
 		if (mMouseLArea == UI_EDITVIEW && !mKeys[16]) {
-			mRenderer->getCamera().onCameraRotate(dy, -dx);
-			
+
+			// Rotate camera
+			mRenderer->getCamera().onCameraRotate((float)dy, (float)(-dx));
+
 			return;
 		}
+
+		// Scene factory mouse move
+		mSceneFactory->mouseMove(mMousePos.x, mMousePos.y);
 	}
 
 
@@ -398,7 +464,63 @@ namespace vee {
 	// Key pressed
 	void Editor::keyPressed(WPARAM key) {
 
+		// File system
+		veFileSystem& fs = veFileSystem::getSingleton();
+
+		// File name buffer
+		char fileName[256];
+
+
 		// Scene factory key pressed
 		mSceneFactory->keyPressed(key);
+
+
+		// TODO: Better architect
+		switch (key) {
+
+		case '9':
+			{
+				// Open file dialog
+				if (fs.openFileDialog(fileName)) {
+
+					// TODO: File name validation
+
+					// Destroy chunk
+					mChunk->destroy();
+					// Destroy mesh
+					mMesh->destroy();
+					// Destroy history
+					mHistory->destroy();
+
+					// Init chunk from file
+					mChunk->init(fileName);
+					// Init mesh
+					mMesh->init(mChunk->mVolume.mSize[0]*mChunk->mVolume.mSize[1]*mChunk->mVolume.mSize[2]*36);
+
+					// Destroy scene factory
+					mSceneFactory->destroy();
+
+					// Init scene factory
+					mSceneFactory->init(mChunk, mMesh, mHistory);
+				}
+			}
+			break;
+
+		case '0':
+			{
+				// Save file dialog
+				if (fs.saveFileDialog(fileName)) {
+
+					// TODO: File name validation
+
+					// Save chunk
+					mChunk->saveToFile(fileName);
+				}
+			}
+			break;
+
+		default:
+			break;
+		}
 	}
 };

@@ -92,6 +92,9 @@ int initGL(GLvoid) {
 	gEditor = new Editor();
 	gEditor->init();
 
+	// File system need window handler
+	gEditor->mFileSystem->mHWnd = hWnd;
+
 	// Terrain editor
 	//gTerrainEditor = new TerrainEditor();
 	//gTerrainEditor->init();
@@ -413,7 +416,7 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 			if (!HIWORD(wParam)) {
 				active = TRUE;	
 			} else {
-				active=FALSE;						
+				active=FALSE;
 			}
 			return 0;
 		}
@@ -471,8 +474,13 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	// Mouse move
 	case WM_MOUSEMOVE:
 		{
+			// Get screen mouse position
+			GetCursorPos(&mousePos);
+			// Get client mouse position
+			ScreenToClient(hWnd, &mousePos);
+
 			// Editor mouse move
-			gEditor->mouseMove();
+			gEditor->mouseMove(mousePos.x, mousePos.y);
 
 			return 0;
 		}

@@ -29,13 +29,13 @@ namespace vee {
 		/**
 		 * Chunk serializer
 		 */
-		Mesh* serialize(Chunk* chunk);
+		void serialize(Chunk* chunk, Mesh* m);
 
 	protected:
 		/**
 		 * Calculate chunk vertex number
 		 */
-		int _vertNum(Chunk* chunk);
+		//int _vertNum(Chunk* chunk);
 
 		/**
 		 * Serialize voxel face

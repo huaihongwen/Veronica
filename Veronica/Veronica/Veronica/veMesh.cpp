@@ -3,37 +3,74 @@
 namespace vee {
 
 	//---------------------------------------------------------------
-	Mesh::Mesh(int vertNum) {
+	Mesh::Mesh() {
 
-		// Vertex number
-		mVertNum = vertNum;
-
-		// Current geometry number
-		mCurGeometryNum = 0;
-
-		// Current lighting number
-		mCurLightingNum = 0;
-
-
-		if (!vertNum) {
-
-			// Empty data
-			mData = NULL;
-		} else {
-
-			// Allocate memory
-			mData = (uchar*)malloc(sizeof(Vertex) * vertNum);
-		}
+		// Vertex data
+		_mData = NULL;
 	}
 
 	//---------------------------------------------------------------
 	Mesh::~Mesh() {
 
-		if (mData) {
+		// Destroy
+		destroy();
+	}
 
-			// Free memory
-			free(mData);
+
+	//---------------------------------------------------------------
+	/**
+	 * Init
+	 * @num {int} max vertex number.
+	 */
+	void Mesh::init(int num) {
+
+		// Max vertex number
+		_mVertNumMax = num;
+
+		// Current vertex number
+		_mVertNumCur = 0;
+
+
+		// Current geometry index
+		_mGeoIdx = 0;
+
+		// Current lighting index
+		_mLightingIdx = 0;
+
+
+		// Allocate data
+		_mData = (uchar*)malloc(sizeof(Vertex) * _mVertNumMax);
+	}
+
+	//---------------------------------------------------------------
+	/**
+	 * Destroy
+	 */
+	void Mesh::destroy() {
+
+		if (_mData) {
+
+			// Free data
+			free(_mData);
 		}
+	}
+
+
+	//---------------------------------------------------------------
+	/**
+	 * Reset
+	 */
+	void Mesh::reset() {
+
+		// Current vertex number
+		_mVertNumCur = 0;
+
+
+		// Current geometry index
+		_mGeoIdx = 0;;
+
+		// Current lighting index
+		_mLightingIdx = 0;
 	}
 
 
@@ -45,9 +82,14 @@ namespace vee {
 	void Mesh::pushVertexGeometry(Vertex* v) {
 
 		// Copy data
-		memcpy(mData + mCurGeometryNum*sizeof(Vertex), v, sizeof(Vertex));
+		memcpy(_mData + _mGeoIdx * sizeof(Vertex), v, sizeof(Vertex));
 
-		mCurGeometryNum++;
+		// Current geometry index
+		_mGeoIdx++;
+
+
+		// Current vertex number
+		_mVertNumCur++;
 	}
 
 	//---------------------------------------------------------------
@@ -57,10 +99,11 @@ namespace vee {
 	 */
 	void Mesh::pushVertexLighting(float ao) {
 
-		uchar* p = mData + mCurLightingNum*sizeof(Vertex);
+		uchar* p = _mData + _mLightingIdx * sizeof(Vertex);
 		((Vertex*)p)->mAO = ao;
 
-		mCurLightingNum++;
+		// Current lighting index
+		_mLightingIdx++;
 	}
 
 
@@ -69,32 +112,32 @@ namespace vee {
 	 * Get data
 	 */
 	uchar* Mesh::getData() {
-		return mData;
+		return _mData;
 	}
-
 
 	//---------------------------------------------------------------
 	/**
 	 * Get vertex number
 	 */
 	int Mesh::getVertNum() {
-		return mVertNum;
+		return _mVertNumCur;
 	}
+
 
 	//---------------------------------------------------------------
 	/**
-	 * Set translate
+	 * Set transform
 	 */
 	void Mesh::setTransform(float x, float y, float z) {
 
-		mTransform = Transform::getTranslationMatrix(Vector3(x, y, z));
+		_mTransform = Transform::getTranslationMatrix(Vector3(x, y, z));
 	}
 
 	//---------------------------------------------------------------
 	/**
-	 * Get transform matrix
+	 * Get transform
 	 */
 	Transform Mesh::getTransform() {
-		return mTransform;
+		return _mTransform;
 	}
 };

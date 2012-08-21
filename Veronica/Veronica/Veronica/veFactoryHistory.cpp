@@ -12,6 +12,25 @@ namespace vee {
 	//---------------------------------------------------------------
 	FactoryHistory::~FactoryHistory() {
 
+		// Destroy
+		destroy();
+	}
+
+
+	//---------------------------------------------------------------
+	/**
+	 * Init
+	 */
+	void FactoryHistory::init() {
+
+	}
+
+	//---------------------------------------------------------------
+	/**
+	 * Destroy
+	 */
+	void FactoryHistory::destroy() {
+
 		// Clear undo stack
 		clearUndo();
 

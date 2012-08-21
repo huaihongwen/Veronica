@@ -73,6 +73,9 @@ namespace vee {
 		// Render background stage
 		void _renderStage();
 
+		// Render indicator
+		void _renderIndicator();
+
 
 	protected:
 		// Viewport
@@ -92,6 +95,13 @@ namespace vee {
 
 		// Test mesh
 		Mesh* mTestMesh;
+
+
+		// Indicator visible flag
+		bool mIndicatorVisible;
+
+		// Indicator position
+		int mIndicatorPos[4];
 	};
 };
 
