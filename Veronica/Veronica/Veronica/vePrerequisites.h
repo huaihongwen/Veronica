@@ -135,9 +135,6 @@ namespace vee {
 	// Model factory
 	class ModelFactory;
 
-	// Color panel
-	class veUIColorPanel;
-
 	// Editor
 	class Editor;
 };
