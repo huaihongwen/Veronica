@@ -61,9 +61,6 @@
     <Filter Include="editor\ui\colorselector">
       <UniqueIdentifier>{7cc75189-c2f2-478d-a138-3e914cfd394c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="vee\filesystem">
-      <UniqueIdentifier>{c988e34a-841c-427d-bb17-b75339fd5f7f}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -175,7 +172,7 @@
       <Filter>editor\ui\colorselector</Filter>
     </ClCompile>
     <ClCompile Include="veFileSystem.cpp">
-      <Filter>vee\filesystem</Filter>
+      <Filter>engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -296,12 +293,6 @@
     <ClInclude Include="veScene.h">
       <Filter>engine\voxel\Deprecated</Filter>
     </ClInclude>
-    <ClInclude Include="veGeometry.h">
-      <Filter>engine\geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="veColor.h">
-      <Filter>engine\others</Filter>
-    </ClInclude>
     <ClInclude Include="veColorSelector.h">
       <Filter>editor\ui\colorselector</Filter>
     </ClInclude>
@@ -321,7 +312,7 @@
       <Filter>editor\ui\colorselector</Filter>
     </ClInclude>
     <ClInclude Include="veFileSystem.h">
-      <Filter>vee\filesystem</Filter>
+      <Filter>engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
