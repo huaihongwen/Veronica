@@ -1,0 +1,14 @@
+uniform sampler2D tex;
+
+varying vec4 diffuse;
+varying float vao;
+varying vec2 texcoord;
+
+void main() {
+	
+	//vec3 tColor = texture2D(tex, texcoord);
+	vec3 color = diffuse;
+
+	float percent = 0.55;
+	gl_FragColor = vec4(color * percent * vao + color * (1.0-percent), 0.5);
+}
